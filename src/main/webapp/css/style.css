@@ -1,5 +1,5 @@
 body {
-    background-image: url("../image/bank_home.jpg");
+    /*background-image: url("../image/bank_home.jpg");*/
     background-size: cover;
     display: flex;
     min-height: 100vh;
@@ -18,7 +18,24 @@ input {
     text-align: center;
     border-bottom-color: black !important;
 }
+input.searchbox {
+    background-color:
+                    transparent;
+    border: none;
+    margin: 0;
+    margin-top: 0px;
+    padding: 0;
+    color:rgba(0,0,0,.87);
+    word-wrap: break-word;
+    outline: none;
+    display: flex;
+    flex: 100%;
+    tap-highlight-color: transparent;
+    margin-top: -37px;
+    height: 34px;
+    font-size: 16px;
 
+}
 label {
     color: black !important;
 }
@@ -65,10 +82,15 @@ img {
     z-index: -1;
 }
 
-.chips {
+.chips , .chips:hover , .chips{
     background-color: rgb(255, 255, 255);
     border-radius: 50px;
+    box-shadow: 0 1px 6px 0
+                rgba(32,33,36,0.28);
+    border-color:rgba(223,225,229,0);
 }
+
+
 
 .main_master {
     margin-top: 3vh;
@@ -78,7 +100,7 @@ img {
     height: 60px;
 }
 
-.btn-floating {
+.btn-signin {
     position: absolute;
     margin: 5vh 1.5vw;
     left: 0;

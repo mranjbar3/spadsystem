@@ -6056,9 +6056,14 @@ body.keyboard-focused .dropdown-content li:focus {
 }
 
 .chips.focus {
-    border-bottom: 1px solid #26a69a;
+    /*border-bottom: 1px solid #26a69a;
     -webkit-box-shadow: 0 1px 0 0 #26a69a;
-    box-shadow: 0 1px 0 0 #26a69a
+    box-shadow: 0 1px 0 0 #26a69a*/
+                background-color: rgb(255, 255, 255);
+    border-radius: 50px;
+    box-shadow: 0 1px 6px 0
+                rgba(32,33,36,0.28);
+    border-color:rgba(223,225,229,0);
 }
 
 .chips:hover {
