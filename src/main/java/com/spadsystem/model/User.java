@@ -1,9 +1,25 @@
 package com.spadsystem.model;
 
 public class User {
-    private String user_id, password, first_name = "", last_name = "", position = "", master_id = "16288831", state = "",
-            preTel, city = "", address = "", telephone = "0", internalTel1 = "0", internalTel2 = "0", fax = "0", preIntTel = "0",
-            mobile = "", type = "user", image;
+    private String user_id, password, gender = "مرد", first_name = "", last_name = "", position = "", master_id = "16288831",
+            state = "", preTel, city = "", address = "", service_table = "", telephone = "0", internalTel1 = "0",
+            internalTel2 = "0", fax = "0", preIntTel = "0", mobile = "", type = "user", image;
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getService_table() {
+        return service_table;
+    }
+
+    public void setService_table(String service_table) {
+        this.service_table = service_table;
+    }
 
     public String getType() {
         return type;

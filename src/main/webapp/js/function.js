@@ -161,43 +161,43 @@ $(document).ready(function () {
             });
         }
     });
-    $("#add_user_btn").click(function () {
-        if (localStorage.type === "admin")
-            localStorage.id = $("#user_id")[0].value;
-        data = {
-            'user_id': localStorage.id,
-            'password': localStorage.type === "admin" ? localStorage.id : $("#password")[0].value,
-            'first_name': $("#first_name")[0].value,
-            'last_name': $("#last_name")[0].value,
-            'position': $("#position")[0].value,
-            'master_id': $("#master_id")[0].value !== '' ? $("#master_id")[0].value : '16288831',
-            'state': $("#state")[0].value,
-            'city': $("#city")[0].value,
-            'address': $("#address")[0].value,
-            'telephone': $("#telephone")[0].value === '' ? '0' : $("#telephone")[0].value,
-            'internalTel1': $("#internalTel1")[0].value === '' ? '0' : $("#internalTel1")[0].value,
-            'internalTel2': $("#internalTel2")[0].value === '' ? '0' : $("#internalTel2")[0].value,
-            'preIntTel': $("#preIntTel")[0].value === '' ? '0' : $("#preIntTel")[0].value,
-            'fax': $("#fax")[0].value === '' ? '0' : $("#fax")[0].value,
-        };
-        if (localStorage.type === "user" && $("#image_view")[0].value !== '')
-            uploadFile(data.user_id);
-        $.ajax({
-            url: ("/spadsystem/rest/add_user"),
-            type: "post",
-            contentType: "application/json; charset=UTF-8",
-            data: JSON.stringify(data),
-            success: function (response) {
-                if (response)
-                    showToast('اطلاعات کاربری با موفقیت ثبت شد.', 'green rounded');
-                else
-                    showToast('ثبت اطلاعات با خظا مواجه شده است.', 'red rounded');
-            },
-            error: function () {
-                showToast('سرور با مشکل مواجه شده است. لطفا بعدا امتحان نمایید.', 'red rounded');
-            }
-        });
-    });
+    // $("#add_user_btn").click(function () {
+    //     if (localStorage.type === "admin")
+    //         localStorage.id = $("#user_id")[0].value;
+    //     data = {
+    //         'user_id': localStorage.id,
+    //         'password': localStorage.type === "admin" ? localStorage.id : $("#password")[0].value,
+    //         'first_name': $("#first_name")[0].value,
+    //         'last_name': $("#last_name")[0].value,
+    //         'position': $("#position")[0].value,
+    //         'master_id': $("#master_id")[0].value !== '' ? $("#master_id")[0].value : '16288831',
+    //         'state': $("#state")[0].value,
+    //         'city': $("#city")[0].value,
+    //         'address': $("#address")[0].value,
+    //         'telephone': $("#telephone")[0].value === '' ? '0' : $("#telephone")[0].value,
+    //         'internalTel1': $("#internalTel1")[0].value === '' ? '0' : $("#internalTel1")[0].value,
+    //         'internalTel2': $("#internalTel2")[0].value === '' ? '0' : $("#internalTel2")[0].value,
+    //         'preIntTel': $("#preIntTel")[0].value === '' ? '0' : $("#preIntTel")[0].value,
+    //         'fax': $("#fax")[0].value === '' ? '0' : $("#fax")[0].value,
+    //     };
+    //     if (localStorage.type === "user" && $("#image_view")[0].value !== '')
+    //         uploadFile(data.user_id);
+    //     $.ajax({
+    //         url: ("/spadsystem/rest/add_user"),
+    //         type: "post",
+    //         contentType: "application/json; charset=UTF-8",
+    //         data: JSON.stringify(data),
+    //         success: function (response) {
+    //             if (response)
+    //                 showToast('اطلاعات کاربری با موفقیت ثبت شد.', 'green rounded');
+    //             else
+    //                 showToast('ثبت اطلاعات با خظا مواجه شده است.', 'red rounded');
+    //         },
+    //         error: function () {
+    //             showToast('سرور با مشکل مواجه شده است. لطفا بعدا امتحان نمایید.', 'red rounded');
+    //         }
+    //     });
+    // });
 });
 
 function hideAll() {
@@ -227,30 +227,30 @@ function checkInput() {
             else {
                 var str = "";
                 $.each(response, function (i, result) {
-                    str += "<div class='col s3'>"+
-                        "< div class='card' >"+
-                            "<div class='card-image waves-effect waves-block waves-light'>"+
-                        " <img class='activator'  src=\"" +(result.image === null ? "/spadsystem/image/avatar.jpg" : result.image.substring(result.image.indexOf('/temp'))) +"\">"+
-                        "</div>"+
-                                "<div class='card-content'>"+
-                        "<span class='card-title activator grey-text text-darken-4'>" + result.first_name + " " + result.last_name + " - استان:" + (result.state === "" ? "نامشخص" : (result.state+ " - شهر: " + result.city === "" ? "نامشخص" : result.city))+" - میز خدمت: "+result.service_table+"<i class='material-icons right'>more_vert</i></span>"+
-                                "</div>"+
-                                "<div class='card-reveal'>"+
-                                    "<span class='card-title grey-text text-darken-4'><i class='material-icons right'>close</i></span>"+
-                                    "<h4>" + result.first_name + " " + result.last_name + "</h4>"+
-                                    "<p class='cardtitle'><i class='fa fa-circle'></i><b>شناسه کاربری: </b>"+result.user_id+"</p>"+
-                                    "<p class='cardtitle'><i class='fa fa-circle'></i><b>سمت سازمانی: </b>"+result.position+"</p>"+
-                                    "<p class='cardtitle'><i class='fa fa-circle'></i><b>محل خدمت(استان): </b>"+result.state+"</p>"+
-                                    "<p class='cardtitle'><i class='fa fa-circle'></i><b>محل خدمت:(شهر): </b>"+result.city+"</p>"+
-                                    "<p class='cardtitle'><i class='fa fa-circle'></i><b>نشانی محل خدمت: </b>"+result.address+"</p>"+
-                                    "<p class='cardtitle'><i class='fa fa-circle'></i><b>میز خدمت: </b>"+result.service_table+"</p>"+
-                                    "<p class='cardtitle'><i class='fa fa-circle'></i><b>شماره ثابت: </b>"+result.telephone+"</p>"+
-                                    "<p class='cardtitle'><i class='fa fa-circle'></i><b>شماره داخلی: </b>" + result.internalTel1+"</p>"+
-                                    "<p class='cardtitle'><i class='fa fa-circle'></i><b>شماره داخلی 2: </b>" + result.internalTel2 +"</p>"+
-                                    "<p class='cardtitle'><i class='fa fa-circle'></i><b>پیش شماره: </b>" + result.preIntTel+"</p>"+
-                                    "<p class='cardtitle'><i class='fa fa-circle'></i><b>شماره دورنگار: </b>"+result.fax+"</p>"+
-                                "</div>"+
-                            "</div>"+
+                    str += "<div class='col s3'>" +
+                        "<div class='card'>" +
+                        "<div class='card-image waves-effect waves-block waves-light'>" +
+                        "<img class='activator'  src=\"" + (result.image === null ? "/spadsystem/image/avatar.jpg" : result.image.substring(result.image.indexOf('/temp'))) + "\">" +
+                        "</div>" +
+                        "<div class='card-content'>" +
+                        "<span class='card-title activator grey-text text-darken-4'>" + result.first_name + " " + result.last_name + " - استان:" + (result.state === "" ? "نامشخص" : (result.state + " - شهر: " + result.city === "" ? "نامشخص" : result.city)) + " - میز خدمت: " + result.service_table + "<i class='material-icons right'>more_vert</i></span>" +
+                        "</div>" +
+                        "<div class='card-reveal'>" +
+                        "<span class='card-title grey-text text-darken-4'><i class='material-icons right'>close</i></span>" +
+                        "<h4>" + result.first_name + " " + result.last_name + "</h4>" +
+                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>شناسه کاربری: </b>" + result.user_id + "</p>" +
+                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>سمت سازمانی: </b>" + result.position + "</p>" +
+                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>محل خدمت(استان): </b>" + result.state + "</p>" +
+                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>محل خدمت:(شهر): </b>" + result.city + "</p>" +
+                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>نشانی محل خدمت: </b>" + result.address + "</p>" +
+                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>میز خدمت: </b>" + result.service_table + "</p>" +
+                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>شماره ثابت: </b>" + result.telephone + "</p>" +
+                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>شماره داخلی: </b>" + result.internalTel1 + "</p>" +
+                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>شماره داخلی 2: </b>" + result.internalTel2 + "</p>" +
+                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>پیش شماره: </b>" + result.preIntTel + "</p>" +
+                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>شماره دورنگار: </b>" + result.fax + "</p>" +
+                        "</div>" +
+                        "</div>" +
                         "</div >";
 
 

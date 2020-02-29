@@ -53,11 +53,12 @@ public class JDBC {
                     preparedStatement.setString(1, user.getUser_id());
                     preparedStatement.setString(2, user.getPassword() == null ? user.getUser_id() : user.getPassword());
                     preparedStatement.executeUpdate();
-                    sql = "INSERT INTO user_data VALUES (?,?,?,'')";
+                    sql = "INSERT INTO user_data VALUES (?,?,?,'',?)";
                     preparedStatement = connection.prepareStatement(sql);
                     preparedStatement.setString(1, user.getUser_id());
                     preparedStatement.setString(2, user.getFirst_name());
                     preparedStatement.setString(3, user.getLast_name());
+                    preparedStatement.setString(4, user.getGender());
                     preparedStatement.executeUpdate();
                     sql = "INSERT INTO position VALUES (?,?,?)";
                     preparedStatement = connection.prepareStatement(sql);
@@ -65,12 +66,13 @@ public class JDBC {
                     preparedStatement.setString(2, user.getMaster_id());
                     preparedStatement.setString(3, user.getPosition());
                     preparedStatement.executeUpdate();
-                    sql = "INSERT INTO address VALUES (?,?,?,?,'')";
+                    sql = "INSERT INTO address VALUES (?,?,?,?,'',?)";
                     preparedStatement = connection.prepareStatement(sql);
                     preparedStatement.setString(1, user.getUser_id());
                     preparedStatement.setString(2, user.getState());
                     preparedStatement.setString(3, user.getCity());
                     preparedStatement.setString(4, user.getAddress());
+                    preparedStatement.setString(5, user.getService_table());
                     preparedStatement.executeUpdate();
                     sql = "INSERT  INTO telephone VALUES (?,?,?,?,?,?,?)";
                     preparedStatement = connection.prepareStatement(sql);
@@ -103,11 +105,12 @@ public class JDBC {
                     preparedStatement.setString(2, user.getUser_id());
                     preparedStatement.executeUpdate();
                 }
-                sql = "UPDATE user_data SET first_name=?, last_name=? WHERE id=?";
+                sql = "UPDATE user_data SET first_name=?, last_name=?, gender=? WHERE id=?";
                 preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setString(3, user.getUser_id());
+                preparedStatement.setString(4, user.getUser_id());
                 preparedStatement.setString(1, user.getFirst_name());
                 preparedStatement.setString(2, user.getLast_name());
+                preparedStatement.setString(3, user.getGender());
                 preparedStatement.executeUpdate();
                 sql = "UPDATE position SET master_id=?, position=? WHERE id=?";
                 preparedStatement = connection.prepareStatement(sql);
@@ -115,12 +118,13 @@ public class JDBC {
                 preparedStatement.setString(1, user.getMaster_id());
                 preparedStatement.setString(2, user.getPosition());
                 preparedStatement.executeUpdate();
-                sql = "UPDATE address SET state=?, city=?, address=? WHERE id=?";
+                sql = "UPDATE address SET state=?, city=?, address=?, service_table=? WHERE id=?";
                 preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setString(4, user.getUser_id());
+                preparedStatement.setString(5, user.getUser_id());
                 preparedStatement.setString(1, user.getState());
                 preparedStatement.setString(2, user.getCity());
                 preparedStatement.setString(3, user.getAddress());
+                preparedStatement.setString(4, user.getService_table());
                 preparedStatement.executeUpdate();
                 sql = "UPDATE telephone SET tel=?,mobile=?,intTel1=?,intTel2=?,fax=?,preIntTel=? WHERE id=?";
                 preparedStatement = connection.prepareStatement(sql);
@@ -177,7 +181,7 @@ public class JDBC {
             User user;
             try {
                 String sql = "SELECT first_name,last_name,tel,mobile,intTel1,intTel2,fax,preIntTel,position,state,city," +
-                        "address,ud.id FROM user_data AS ud JOIN user ON ud.id = user.id JOIN telephone AS tel " +
+                        "address,ud.id,gender,service_table FROM user_data AS ud JOIN user ON ud.id = user.id JOIN telephone AS tel " +
                         "ON tel.id = ud.id JOIN position AS pos ON pos.id = ud.id JOIN address AS ad ON ad.id = ud.id " +
                         "WHERE " + (dat == null ? "1" : " (ud.first_name LIKE ? OR " +
                         "ud.last_name LIKE ?)") + (pos == null ? "" : " AND position LIKE ?") + (state == null ? "" :
@@ -221,6 +225,8 @@ public class JDBC {
                     }
                     user.setCity(resultSet.getString(11));
                     user.setAddress(resultSet.getString(12));
+                    user.setGender(resultSet.getString(14));
+                    user.setService_table(resultSet.getString(15));
                     list.add(user);
                 }
             } catch (SQLException e) {
@@ -315,11 +321,12 @@ public class JDBC {
     }
 
     public User getUser(User user) throws SQLException {
-        String sql = "SELECT first_name,last_name FROM user_data WHERE id=" + user.getUser_id();
+        String sql = "SELECT first_name,last_name,gender FROM user_data WHERE id=" + user.getUser_id();
         ResultSet resultSet = connection.prepareStatement(sql).executeQuery();
         if (resultSet.next()) {
             user.setFirst_name(resultSet.getString(1));
             user.setLast_name(resultSet.getString(2));
+            user.setGender(resultSet.getString(3));
         }
         sql = "SELECT * FROM telephone WHERE id=" + user.getUser_id();
         resultSet = connection.prepareStatement(sql).executeQuery();
@@ -343,6 +350,7 @@ public class JDBC {
             user.setState(resultSet.getString(2));
             user.setCity(resultSet.getString(3));
             user.setAddress(resultSet.getString(4));
+            user.setService_table(resultSet.getString(6));
         }
         sql = "SELECT * FROM image WHERE id=" + user.getUser_id();
         resultSet = connection.prepareStatement(sql).executeQuery();
