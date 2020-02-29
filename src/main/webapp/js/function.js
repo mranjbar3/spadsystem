@@ -74,7 +74,7 @@ $(document).ready(function () {
     localStorage.id = new URLSearchParams(window.location.search).get('id');
     if (localStorage.type === "user") {
         $('.chips').chips({
-            placeholder: 'یک عبارت بنویس و بزن روی اینتر',
+            //placeholder: 'یک عبارت بنویس و بزن روی اینتر',
             onChipDelete: function () {
                 checkInput();
             }
@@ -227,31 +227,57 @@ function checkInput() {
             else {
                 var str = "";
                 $.each(response, function (i, result) {
-                    str += "<div class='card row'><div class='col s1'><img class=\"materialboxed\" " +
-                        "data-caption=\"" + result.first_name + " " + result.last_name + "\" src=\"" +
-                        (result.image == null ? "/spadsystem/image/avatar.jpg" : result.image.substring(result.image.indexOf('/temp'))) +
-                        "\" style='margin: 10px auto;" +
-                        "max-height: 100px;width: auto;'></div><div class='col s2' " +
-                        "style='text-align: right;'>" + result.first_name + " " + result.last_name +
-                        "</div><div class='col s2' " +
-                        "style='text-align: right;'>سمت:<br>" + result.position;
-                    if (result.state !== "")
-                        str += "</div><div class='col s2' " +
-                            "style='text-align: right;'>موقعیت مکانی:<br> استان " + result.state
-                            + " شهر " + (result.city === "" ? "نامشخص" : result.city);
-                    str += "</div><div class='col s2' " +
-                        "style='text-align: right;'>محل خدمت:<br>" + result.address + "</div>";
-                    if (result.telephone !== "0")
-                        str += "<div class='col s2' " +
-                            "style='text-align: right;'>به شماره تماس: " + (result.state === "" ? "" : result.preTel) + result.telephone + "</div>";
-                    if (result.internalTel1 !== "0")
-                        str += "<div class='col s2' " +
-                            "style='text-align: right;'>شماره داخلی: " + result.internalTel1 + (result.internalTel2 === "0" ? "" : " و " +
-                                result.internalTel2 + "به پیش شماره " + (result.state === "" ? "" : result.preTel) + result.preIntTel) + "</div>";
-                    str += "</div></div>";
+                    str += "<div class='col s3'>"+
+                        "< div class='card' >"+
+                            "<div class='card-image waves-effect waves-block waves-light'>"+
+                        " <img class='activator'  src=\"" +(result.image === null ? "/spadsystem/image/avatar.jpg" : result.image.substring(result.image.indexOf('/temp'))) +"\">"+
+                        "</div>"+
+                                "<div class='card-content'>"+
+                        "<span class='card-title activator grey-text text-darken-4'>" + result.first_name + " " + result.last_name + " - استان:" + (result.state === "" ? "نامشخص" : (result.state+ " - شهر: " + result.city === "" ? "نامشخص" : result.city))+" - میز خدمت: "+result.service_table+"<i class='material-icons right'>more_vert</i></span>"+
+                                "</div>"+
+                                "<div class='card-reveal'>"+
+                                    "<span class='card-title grey-text text-darken-4'><i class='material-icons right'>close</i></span>"+
+                                    "<h4>" + result.first_name + " " + result.last_name + "</h4>"+
+                                    "<p class='cardtitle'><i class='fa fa-circle'></i><b>شناسه کاربری: </b>"+result.user_id+"</p>"+
+                                    "<p class='cardtitle'><i class='fa fa-circle'></i><b>سمت سازمانی: </b>"+result.position+"</p>"+
+                                    "<p class='cardtitle'><i class='fa fa-circle'></i><b>محل خدمت(استان): </b>"+result.state+"</p>"+
+                                    "<p class='cardtitle'><i class='fa fa-circle'></i><b>محل خدمت:(شهر): </b>"+result.city+"</p>"+
+                                    "<p class='cardtitle'><i class='fa fa-circle'></i><b>نشانی محل خدمت: </b>"+result.address+"</p>"+
+                                    "<p class='cardtitle'><i class='fa fa-circle'></i><b>میز خدمت: </b>"+result.service_table+"</p>"+
+                                    "<p class='cardtitle'><i class='fa fa-circle'></i><b>شماره ثابت: </b>"+result.telephone+"</p>"+
+                                    "<p class='cardtitle'><i class='fa fa-circle'></i><b>شماره داخلی: </b>" + result.internalTel1+"</p>"+
+                                    "<p class='cardtitle'><i class='fa fa-circle'></i><b>شماره داخلی 2: </b>" + result.internalTel2 +"</p>"+
+                                    "<p class='cardtitle'><i class='fa fa-circle'></i><b>پیش شماره: </b>" + result.preIntTel+"</p>"+
+                                    "<p class='cardtitle'><i class='fa fa-circle'></i><b>شماره دورنگار: </b>"+result.fax+"</p>"+
+                                "</div>"+
+                            "</div>"+
+                        "</div >";
+
+
+                    //str += "<div class='card row'><div class='col s1'><img class=\"materialboxed\" " +
+                    //    "data-caption=\"" + result.first_name + " " + result.last_name + "\" src=\"" +
+                    //    (result.image == null ? "/spadsystem/image/avatar.jpg" : result.image.substring(result.image.indexOf('/temp'))) +
+                    //    "\" style='margin: 10px auto;" +
+                    //    "max-height: 100px;width: auto;'></div><div class='col s2' " +
+                    //    "style='text-align: right;'>" + result.first_name + " " + result.last_name +
+                    //    "</div><div class='col s2' " +
+                    //    "style='text-align: right;'>سمت:<br>" + result.position;
+                    //if (result.state !== "")
+                    //    str += "</div><div class='col s2' " +
+                    //        "style='text-align: right;'>موقعیت مکانی:<br> استان " + result.state + " شهر " + (result.city === "" ? "نامشخص" : result.city);
+                    //str += "</div><div class='col s2' " +
+                    //    "style='text-align: right;'>محل خدمت:<br>" + result.address + "</div>";
+                    //if (result.telephone !== "0")
+                    //    str += "<div class='col s2' " +
+                    //        "style='text-align: right;'>به شماره تماس: " + (result.state === "" ? "" : result.preTel) + result.telephone + "</div>";
+                    //if (result.internalTel1 !== "0")
+                    //    str += "<div class='col s2' " +
+                    //        "style='text-align: right;'>شماره داخلی: " + result.internalTel1 + (result.internalTel2 === "0" ? "" : " و " +
+                    //            result.internalTel2 + "به پیش شماره " + (result.state === "" ? "" : result.preTel) + result.preIntTel) + "</div>";
+                    //str += "</div></div>";
                 });
                 $("#results").html(str);
-                $('.materialboxed').materialbox();
+                //$('.materialboxed').materialbox();
             }
         },
         error: function (response) {

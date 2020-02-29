@@ -1,11 +1,12 @@
 {
   "ExpandedNodes": [
     "",
-    "\\.idea",
     "\\src",
     "\\src\\main",
-    "\\src\\main\\webapp"
+    "\\src\\main\\webapp",
+    "\\src\\main\\webapp\\administrator",
+    "\\src\\main\\webapp\\css"
   ],
-  "SelectedNode": "\\src",
+  "SelectedNode": "\\src\\main\\webapp\\css\\style.css",
   "PreviewInSolutionExplorer": false
 }

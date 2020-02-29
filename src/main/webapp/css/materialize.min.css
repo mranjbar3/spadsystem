@@ -2159,7 +2159,8 @@ footer,
 header,
 nav,
 section {
-    display: block
+    display: block;
+    z-index: 9999;
 }
 
 h1 {
@@ -2758,31 +2759,39 @@ ul.staggered-list li {
 }
 
 .page-footer {
-    /* padding-top: 20px; */
-    color: #fff;
-    background-color: #ee6e73
+    background: #f2f2f2;
+    line-height: 40px;
+    min-width: 980px;
+    border-top: 1px solid #e4e4e4;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    height: 35px;
+    
 }
 
-.page-footer .footer-copyright {
-    overflow: hidden;
-    min-height: 50px;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
-    -webkit-box-pack: justify;
-    -webkit-justify-content: space-between;
-    -ms-flex-pack: justify;
-    justify-content: space-between;
-    padding: 10px 0px;
-    color: rgba(255, 255, 255, 0.8);
-    background-color: rgba(51, 51, 51, 0.08)
-}
-
+    .page-footer .footer-copyright {
+        overflow: hidden;
+        min-height: 50px;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        
+        -webkit-box-pack: justify;
+        -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        padding: 6px 0px;
+        color: #5f6368;
+        font: normal 13px vazir;
+        /*background-color: rgba(51, 51, 51, 0.08)*/
+    }
+        .page-footer .footer-copyright a {
+            color: #5f6368;
+            font: normal 13px vazir;
+            padding: 0 5px
+        }
 table,
 th,
 td {
@@ -6008,7 +6017,7 @@ body.keyboard-focused .dropdown-content li:focus {
 }
 
 .chip {
-    display: inline-block;
+    display: flex;
     height: 32px;
     font-size: 13px;
     font-weight: 500;
@@ -6017,8 +6026,7 @@ body.keyboard-focused .dropdown-content li:focus {
     padding: 0 12px;
     border-radius: 16px;
     background-color: #e4e4e4;
-    margin-bottom: 5px;
-    margin-right: 5px
+    margin: 5px;
 }
 
 .chip:focus {
@@ -6040,9 +6048,11 @@ body.keyboard-focused .dropdown-content li:focus {
     float: right;
     font-size: 16px;
     line-height: 32px;
-    padding-left: 8px
+    padding-right: 8px;
 }
-
+    .chip:focus .close {
+        color: #ffffff;
+    }
 .chips {
     border: none;
     border-bottom: 1px solid #9e9e9e;

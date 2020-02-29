@@ -1,5 +1,5 @@
 body {
-    /*background-image: url("../image/bank_home.jpg");*/
+    background: url("../image/bank_home.jpg")no-repeat center center;
     background-size: cover;
     display: flex;
     min-height: 100vh;
@@ -19,8 +19,7 @@ input {
     border-bottom-color: black !important;
 }
 input.searchbox {
-    background-color:
-                    transparent;
+    background-color:transparent;
     border: none;
     margin: 0;
     margin-top: 0px;
@@ -34,27 +33,15 @@ input.searchbox {
     margin-top: -37px;
     height: 34px;
     font-size: 16px;
-
+    font: normal 25px Vazir;
 }
 label {
     color: black !important;
 }
 
 button {
-    font-family: 'B Nazanin';
+    font-family: 'B Vazir';
     font-size: xx-large;
-}
-
-@font-face {
-    font-family: 'B Nazanin';
-    src: local('B Nazanin'),
-    local('BNazanin'),
-    url('font/BNazanin/BNazanin.woff2') format('woff2'),
-    url('font/BNazanin/BNazanin.woff') format('woff'),
-    url('font/BNazanin/BNazanin.ttf') format('truetype');
-    font-weight: 400;
-    font-stretch: normal;
-    /*font-style: normal;*/
 }
 
 img {
@@ -81,29 +68,42 @@ img {
     right: 0px;
     z-index: -1;
 }
-
-.chips , .chips:hover , .chips{
-    background-color: rgb(255, 255, 255);
-    border-radius: 50px;
-    box-shadow: 0 1px 6px 0
-                rgba(32,33,36,0.28);
-    border-color:rgba(223,225,229,0);
+.chips {
+    background:#fff;
+    display: flex;
+    border: 1px solid#dfe1e5;
+    box-shadow: none;
+    border-radius: 24px;
+    z-index: 3;
+    height: 44px;
+    margin: 0 auto;
+    width: 582px;
 }
+.chips:hover {
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 1px 6px 0 rgba(32,33,36,0.28);
+    border-color:rgba(223,225,229,0);
 
-
+}
 
 .main_master {
     margin-top: 3vh;
 }
 
 #search_bar {
-    height: 60px;
+    height: 44px;
+    text-align: right;
 }
 
 .btn-signin {
     position: absolute;
     margin: 5vh 1.5vw;
     left: 0;
+    background: #5094ed;
+    -moz-box-shadow: 0 1px 2px 0 rgba(66,133,244,0.3),0 1px 3px 1px rgba(66,133,244,0.15);
+    box-shadow: 0 1px 2px 0rgba(66,133,244,0.3),0 1px 3px 1px rgba(66,133,244,0.15);
+    font: normal 19px Vazir;
+    
 }
 
 .btn span {
@@ -120,3 +120,69 @@ img {
 .input-field label {
     right: -10px;
 }
+
+.card1 {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    margin: auto;
+    text-align: center;
+    font-family: arial;
+    margin:5px;
+    position: relative;
+    margin: .5rem 0 1rem 0;
+    background-color:#fff;
+    -webkit-transition: -webkit-box-shadow .25s;
+    transition: -webkit-box-shadow .25s;
+    transition: box-shadow .25s;
+    transition: box-shadow .25s, -webkit-box-shadow .25s;
+    border-radius: 15px;
+}
+.card img {
+    border-top-left-radius: 5px ;
+    border-top-right-radius: 5px ;
+}
+.card h4 {
+    font: normal 18px Vazir;
+    padding: 2px 0;
+    margin: 2px auto;
+    text-align: center;
+    color: #fff;
+    background: #f29325;
+    border-radius: 5px;
+}
+.card p {
+    font: normal 13px Vazir;
+    margin: 2px 0;
+    padding: 2px 0;
+    color: #000000;
+}
+.cardtitle {
+    color: grey;
+    font-size: 18px;
+}
+    .cardtitle i {
+        padding: 2px 3px;
+        color: #f29325;
+    }
+button.cardtitlebutton {
+    border: none;
+    outline: 0;
+    display: inline-block;
+    padding: 8px;
+    color: white;
+    background-color: #f29325;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+}
+
+.card1 > a {
+    text-decoration: none;
+    font-size: 22px;
+    color: black;
+}
+
+    button.cardtitlebutton:hover, a.cardtitlelink:hover {
+        opacity: 0.7;
+    }
