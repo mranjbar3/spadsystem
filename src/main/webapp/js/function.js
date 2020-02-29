@@ -161,6 +161,9 @@ $(document).ready(function () {
             });
         }
     });
+    $('.btn-signin').click(function () {
+
+    });
     // $("#add_user_btn").click(function () {
     //     if (localStorage.type === "admin")
     //         localStorage.id = $("#user_id")[0].value;

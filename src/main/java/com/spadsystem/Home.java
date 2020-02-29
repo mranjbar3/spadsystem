@@ -34,11 +34,11 @@ public class Home {
         try {
             if (new JDBC().checkUser(user)) {
                 if (user.getType() != null)
-                    return Response.seeOther(URI.create("/spadsystem/admin.html")).build();
+                    return Response.seeOther(URI.create("/spadsystem/administrator")).build();
                 else
-                    return Response.seeOther(URI.create("/spadsystem/main.html?id=" + id)).build();
+                    return Response.seeOther(URI.create("/spadsystem/test.html?id=" + id)).build();
             } else
-                return Response.seeOther(URI.create("/spadsystem/index.jsp?text=auth")).build();
+                return Response.seeOther(URI.create("/spadsystem/administrator/login.html?text=auth")).build();
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }

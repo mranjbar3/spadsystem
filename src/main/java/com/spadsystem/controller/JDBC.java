@@ -181,7 +181,7 @@ public class JDBC {
             User user;
             try {
                 String sql = "SELECT first_name,last_name,tel,mobile,intTel1,intTel2,fax,preIntTel,position,state,city," +
-                        "address,ud.id,gender,service_table FROM user_data AS ud JOIN user ON ud.id = user.id JOIN telephone AS tel " +
+                        "address,ud.id,gender,service_table,type FROM user_data AS ud JOIN user ON ud.id = user.id JOIN telephone AS tel " +
                         "ON tel.id = ud.id JOIN position AS pos ON pos.id = ud.id JOIN address AS ad ON ad.id = ud.id " +
                         "WHERE " + (dat == null ? "1" : " (ud.first_name LIKE ? OR " +
                         "ud.last_name LIKE ?)") + (pos == null ? "" : " AND position LIKE ?") + (state == null ? "" :
@@ -227,6 +227,7 @@ public class JDBC {
                     user.setAddress(resultSet.getString(12));
                     user.setGender(resultSet.getString(14));
                     user.setService_table(resultSet.getString(15));
+                    user.setType(resultSet.getString(16));
                     list.add(user);
                 }
             } catch (SQLException e) {
