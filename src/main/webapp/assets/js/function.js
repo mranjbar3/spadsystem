@@ -17,13 +17,13 @@ $.ajax({
         });
         let str = "<option value='0'>انتخاب</option>";
         $.each(master_state, function (i, state) {
-            str += '<option value="' + (i + 1) + '">' + state + '</option>';
+            str += '<option value="' + state + '">' + state + '</option>';
         })
         $('#state').html(str);
         $('#state').change(function () {
             str = "<option value='0'>انتخاب</option>";
-            $.each(master_city[$('#state')[0].value], function (i, city) {
-                str += '<option value="' + (i + 1) + '">' + city + '</option>';
+            $.each(master_city[master_state.indexOf($("#state")[0].value) + 1], function (i, city) {
+                str += '<option value="' + city + '">' + city + '</option>';
             })
             $('#city').html(str);
         });
@@ -59,10 +59,11 @@ $.ajax({
                         $('#radio_female')[0].checked = true;
                     $("#first_name")[0].value = user0.first_name;
                     $("#last_name")[0].value = user0.last_name;
+                    $("#national_code")[0].value = user0.national_code;
                     $("#position")[0].value = user0.position;
                     $("#master_id")[0].value = user0.master_id;
-                    $("#state")[0].value = user0.state;
-                    $("#city")[0].value = user0.city;
+                    $("#state").val(user0.state).change();
+                    $("#city").val(user0.city).change();
                     $("#address")[0].value = user0.address;
                     $("#TableService")[0].value = user0.service_table;
                     $("#telephone")[0].value = user0.telephone;
@@ -72,21 +73,7 @@ $.ajax({
                     $("#fax")[0].value = user0.fax;
                 }
             });
-            $('#user_cnt').html(Object.keys(user).length);
-            let m_cnt = 1, t_cnt = 0, it_cnt = 0;
-            $.each(user, function (i, user0) {
-                if (user0.type === "admin")
-                    m_cnt++;
-                if (user0.telephone.length > 1)
-                    t_cnt++;
-                if (user0.internalTel1.length > 1)
-                    it_cnt++;
-                if (user0.internalTel2.length > 1)
-                    it_cnt++;
-            })
-            $('#master_cnt').html(m_cnt);
-            $('#tel_cnt').html(t_cnt);
-            $('#int_tel_cnt').html(it_cnt);
+            pageCnt();
         }
     },
     error: function () {
@@ -123,6 +110,7 @@ $(document).ready(function () {
             'password': $("#user_id")[0].value,
             'first_name': $("#first_name")[0].value,
             'last_name': $("#last_name")[0].value,
+            'national_code': $("#national_code")[0].value,
             'position': $("#position")[0].value,
             'master_id': $("#master_id")[0].value !== '' ? $("#master_id")[0].value : '16288831',
             'state': $("#state")[0].value,
@@ -135,8 +123,8 @@ $(document).ready(function () {
             'preIntTel': $("#preIntTel")[0].value === '' ? '0' : $("#preIntTel")[0].value,
             'fax': $("#fax")[0].value === '' ? '0' : $("#fax")[0].value,
         };
-        // if (localStorage.type === "user" && $("#image_view")[0].value !== '')
-        //     uploadFile(data.user_id);
+        if ($("#image_view")[0].value !== '')
+            uploadFile(data.user_id);
         $.ajax({
             url: ("/spadsystem/rest/add_user"),
             type: "post",
@@ -159,32 +147,14 @@ $(document).ready(function () {
 
 function addUser(data) {
     user[data.user_id] = data;
-    users.push(data.user_id);
+    if (users.indexOf(data.user_id) === -1)
+        users.push(data.user_id);
     autocomplete(document.getElementById("user_id"), users);
-    $('#user_cnt').html(Number($('#user_cnt').html()) + 1);
-    // if (data.type === "admin")
-    //     $('#master_cnt').html(Number($('#master_cnt').html()) + 1);
-    if (data.telephone.length > 1)
-        $('#tel_cnt').html(Number($('#tel_cnt').html()) + 1);
-    if (data.internalTel1.length > 1)
-        if (data.internalTel2.length > 1)
-            $('#int_tel_cnt').html(Number($('#int_tel_cnt').html()) + 2);
-        else
-            $('#int_tel_cnt').html(Number($('#int_tel_cnt').html()) + 1);
+    pageCnt();
 }
 
 function removeUser(id) {
-    $('#user_cnt').html(Number($('#user_cnt').html()) - 1);
-    let data = user[$("#user_id")[0].value];
-    // if (data.type === "admin")
-    //     $('#master_cnt').html(Number($('#master_cnt').html()) - 1);
-    if (data.telephone.length > 1)
-        $('#tel_cnt').html(Number($('#tel_cnt').html()) - 1);
-    if (data.internalTel1.length > 1)
-        if (data.internalTel2.length > 1)
-            $('#int_tel_cnt').html(Number($('#int_tel_cnt').html()) - 2);
-        else
-            $('#int_tel_cnt').html(Number($('#int_tel_cnt').html()) - 1);
+    pageCnt();
     delete user[$("#user_id")[0].value];
     users = jQuery.grep(users, function (value) {
         return value !== id;
@@ -192,13 +162,33 @@ function removeUser(id) {
     autocomplete(document.getElementById("user_id"), users);
 }
 
+function pageCnt() {
+    $('#user_cnt').html(Object.keys(user).length);
+    let m_cnt = 1, t_cnt = 0, it_cnt = 0;
+    $.each(user, function (i, user0) {
+        if (user0.type === "admin")
+            m_cnt++;
+        if (user0.telephone.length > 1)
+            t_cnt++;
+        if (user0.internalTel1.length > 1)
+            it_cnt++;
+        if (user0.internalTel2.length > 1)
+            it_cnt++;
+    })
+    $('#master_cnt').html(m_cnt);
+    $('#tel_cnt').html(t_cnt);
+    $('#int_tel_cnt').html(it_cnt);
+}
+
 function clearAddUserItems(type) {
     $('#radio_male')[0].checked = true;
     if (!type)
         $("#user_id")[0].value = "";
-    // $("#image_view")[0].value = "";
+    $("#image_view")[0].value = "";
+    $(".badge").html("");
     $("#first_name")[0].value = "";
     $("#last_name")[0].value = "";
+    $("#national_code")[0].value = "";
     $("#position")[0].value = "";
     $("#master_id")[0].value = "";
     try {
@@ -220,7 +210,7 @@ function clearAddUserItems(type) {
 
 function uploadFile(id) {
     var formData = new FormData();
-    formData.append("file", $('#image')[0].files[0]);
+    formData.append("file", $('#image_view')[0].files[0]);
     formData.append("id", id);
 
     $.ajax({
@@ -233,7 +223,7 @@ function uploadFile(id) {
             if (response === "Error")
                 alert("بارگذاری تصویر با خطا مواجه شد.");
         },
-        error: function () {
+        error: function (response) {
             alert("سرور با مشکل مواجه شده است. لطفا بعدا تلاش نمایید.");
         }
     });

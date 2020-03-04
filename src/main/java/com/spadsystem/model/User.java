@@ -3,7 +3,15 @@ package com.spadsystem.model;
 public class User {
     private String user_id, password, gender = "مرد", first_name = "", last_name = "", position = "", master_id = "16288831",
             state = "", preTel, city = "", address = "", service_table = "", telephone = "0", internalTel1 = "0",
-            internalTel2 = "0", fax = "0", preIntTel = "0", mobile = "", type = "user", image;
+            internalTel2 = "0", fax = "0", preIntTel = "0", mobile = "", type = "user", national_code = "", image;
+
+    public String getNational_code() {
+        return national_code;
+    }
+
+    public void setNational_code(String national_code) {
+        this.national_code = national_code;
+    }
 
     public String getGender() {
         return gender;

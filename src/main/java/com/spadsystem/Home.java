@@ -33,10 +33,10 @@ public class Home {
         user.setPassword(password);
         try {
             if (new JDBC().checkUser(user)) {
-                if (user.getType() != null)
+                if (user.getType() != null && user.getType().equals("admin"))
                     return Response.seeOther(URI.create("/spadsystem/admin.html")).build();
                 else
-                    return Response.seeOther(URI.create("/spadsystem/test.html?id=" + id)).build();
+                    return Response.seeOther(URI.create("/spadsystem/?id=" + id)).build();
             } else
                 return Response.seeOther(URI.create("/spadsystem/login.html?text=auth")).build();
         } catch (ClassNotFoundException | SQLException e) {
@@ -87,12 +87,12 @@ public class Home {
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public String uploadImage(@FormDataParam("file") InputStream uploadedInputStream,
-                              @FormDataParam("file") FormDataContentDisposition fileDetails,
-                              @FormDataParam("id") String id) {
+    public JSONObject uploadImage(@FormDataParam("file") InputStream uploadedInputStream,
+                                  @FormDataParam("file") FormDataContentDisposition fileDetails,
+                                  @FormDataParam("id") String id) {
         String uploadedFileLocation = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath().substring(0,
                 this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath().indexOf("WEB-INF")) +
-                "temp/img_" + id + fileDetails.getFileName().substring(fileDetails.getFileName().lastIndexOf("."));
+                "temp/img_" + id + ".png";//fileDetails.getFileName().substring(fileDetails.getFileName().lastIndexOf("."));
         // save it
         try {
             OutputStream out = new FileOutputStream(new File(uploadedFileLocation));
@@ -106,11 +106,11 @@ public class Home {
 //                    new File(url).toPath(), StandardCopyOption.REPLACE_EXISTING);
             out.flush();
             out.close();
-            return "File uploaded to : " + uploadedFileLocation;
+            return new JSONObject("{\"File uploaded to\" : \"" + uploadedFileLocation + "\"}");
         } catch (IOException | SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return "Error";
+        return new JSONObject("detail:Error");
     }
 
     @Path("/search")
