@@ -240,30 +240,26 @@ function checkInput() {
                 $.each(response, function (i, result) {
                     str += "<div class='search_res col m2 s3'>" +
                         "<div class='card'>" +
-                        "<span class='card-title grey-text text-darken-4' onclick='closeDiv(" + i + ")' style='cursor: pointer;'><i class='material-icons right'>close</i></span>" +
+                        "<span class='card-title grey-text text-darken-4' onclick='closeDiv(" + i + ")' style='cursor: pointer;'><i class='material-icons right' style='#2c3e50'>close</i></span>" +
                         "<br><div class='card-image waves-effect waves-block waves-light'>" +
-                        "<img class='activator'  src=\"" + (result.image === null ? "/spadsystem/assets/image/avatar.jpg" : '/spadsystem' + result.image.substring(result.image.indexOf('/temp'))) + "\">" +
+                        "<img class='activator'  src=" + (result.image === null ? (result.gender === 'مرد' ? "/spadsystem/assets/image/man.png" : "/spadsystem/assets/image/woman.png") : result.image.substring(result.image.indexOf('temp'))) + ">" +
                         "</div>" +
                         "<div class='card-content'>" +
-                        "<span class='card-title activator grey-text text-darken-4'>" +
-                        result.first_name + " " + result.last_name + " - استان: " + (result.state === "" ? "نامشخص" : result.state) +
-                        (result.city === "" ? "نامشخص" : " - شهر: " + result.city) +
-                        " - میز خدمت: " + (result.service_table == null ? "نامشخص" : result.service_table) +
-                        "<i class='material-icons right'>more_vert</i></span>" +
+                        "<span class='card-title activator grey-text text-darken-4'><i class='fa fa-user'></i><b> نام و نام خانوادگی: </b>" + result.first_name + " " + result.last_name + "<br/><i class='fa fa-map'></i><b> استان: </b>" + (result.state === "" ? "نامشخص" : (result.state + " <br/><i class='fa fa-mapipin'></i> <b>شهر: </b>" + result.city === "" ? "نامشخص" : result.city)) + " <br/><i class='fa fa-flag'></i><b> میز خدمت: </b>" + (result.service_table === null ? '' : result.service_table) + "<br/><i class='fa fa-tty'></i><b> تلفن ثابت:</b> " + (result.telephone === null ? '' : result.telephone) + "</span>" +
                         "</div>" +
                         "<div class='card-reveal'>" +
-                        "<span class='card-title grey-text text-darken-4'><i class='material-icons right'>close</i></span>" +
+                        "<span class='card-title grey-text text-darken-4'><i class='material-icons right' style='color:#ffffff'>close</i></span>" +
                         "<h4>" + result.first_name + " " + result.last_name + "</h4>" +
-                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>سمت سازمانی: </b>" + result.position + "</p>" +
-                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>محل خدمت(استان): </b>" + result.state + "</p>" +
-                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>محل خدمت:(شهر): </b>" + result.city + "</p>" +
-                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>نشانی محل خدمت: </b>" + result.address + "</p>" +
-                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>میز خدمت: </b>" + result.service_table + "</p>" +
-                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>شماره ثابت: </b>" + result.telephone + "</p>" +
-                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>شماره داخلی: </b>" + result.internalTel1 + "</p>" +
-                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>شماره داخلی 2: </b>" + result.internalTel2 + "</p>" +
-                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>پیش شماره: </b>" + result.preIntTel + "</p>" +
-                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>شماره دورنگار: </b>" + result.fax + "</p>" +
+                        "<p class='cardtitle'><i class='fa fa-list'></i><b>سمت سازمانی: </b>" + (result.position === null ? '' : result.position) + "</p>" +
+                        "<p class='cardtitle'><i class='fa fa-map'></i><b>محل خدمت(استان): </b>" + (result.state === null ? '' : result.state) + "</p>" +
+                        "<p class='cardtitle'><i class='fa fa-road'></i><b>محل خدمت:(شهر): </b>" + (result.city === null ? '' : result.city) + "</p>" +
+                        "<p class='cardtitle'><i class='fa fa-map-pin'></i><b>نشانی محل خدمت: </b>" + (result.address === null ? '' : result.address) + "</p>" +
+                        "<p class='cardtitle'><i class='fa fa-flag'></i><b>میز خدمت: </b>" + (result.service_table === null ? '' : result.service_table) + "</p>" +
+                        "<p class='cardtitle'><i class='fa fa-tty'></i><b>شماره ثابت: </b>" + (result.telephone === null ? '' : result.telephone) + "</p>" +
+                        "<p class='cardtitle'><i class='fa fa-phone'></i><b>شماره داخلی 1: </b>" + (result.internalTel1 === null ? '' : result.internalTel1) + "</p>" +
+                        "<p class='cardtitle'><i class='fa fa-phone'></i><b>شماره داخلی 2: </b>" + (result.internalTel2 === null ? '' : result.internalTel2) + "</p>" +
+                        "<p class='cardtitle'><i class='fa fa-list-ol'></i><b>پیش شماره: </b>" + (result.preIntTel === null ? '' : result.preIntTel) + "</p>" +
+                        "<p class='cardtitle'><i class='fa fa-fax'></i><b>شماره دورنگار: </b>" + (result.fax === null ? '' : result.fax) + "</p>" +
                         "</div>" +
                         "</div>" +
                         "</div >";

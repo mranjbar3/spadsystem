@@ -7,6 +7,8 @@ body {
     direction: rtl;
     font-family: 'B Nazanin';
     font-size: x-large;
+    background-attachment: fixed;
+    
 }
 
 main {
@@ -164,7 +166,7 @@ img {
 .card p {
     font: normal 13px Vazir;
     margin: 2px 0;
-    padding: 5px 0;
+    padding: 9px 0;
     color: #000000;
     border-bottom: 1px solid rgba(160,160,160,0.2);
 }
@@ -174,10 +176,10 @@ img {
     font-size: 18px;
 }
 
-.cardtitle i {
-    padding: 2px 3px;
-    color: #f29325;
-}
+    .cardtitle i {
+        padding: 2px 3px 2px 8px;
+        color: #2c3e50;
+    }
 
 button.cardtitlebutton {
     border: none;
@@ -200,4 +202,13 @@ button.cardtitlebutton {
 
 button.cardtitlebutton:hover, a.cardtitlelink:hover {
     opacity: 0.7;
+}
+
+.logo-main {
+    bottom: 0;
+    right: 0;
+    position: fixed;
+    width: 150px;
+    height: auto;
+    z-index: 99999
 }

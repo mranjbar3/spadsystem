@@ -1283,6 +1283,9 @@
 .fa-subscript:before {
     content: "\f12c"
 }
+.fa-chair:before {
+    content: "\f6c0"
+}
 
 .fa-eraser:before {
     content: "\f12d"

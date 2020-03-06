@@ -2519,7 +2519,7 @@ i.right {
     float: right;
     margin-left: 15px;
     margin-top:7px;
-    color: #ffffff;
+    /*color: #ffffff;*/
 }
 
 i.tiny {
@@ -2761,7 +2761,8 @@ ul.staggered-list li {
 }
 
 .page-footer {
-    background: #f2f2f2;
+    /*background: #f2f2f2;*/
+    background: #525252;
     line-height: 40px;
     min-width: 980px;
     border-top: 1px solid #e4e4e4;
@@ -2785,8 +2786,10 @@ ul.staggered-list li {
         -ms-flex-pack: justify;
         justify-content: space-between;
         padding: 6px 0px;
-        color: #5f6368;
+        /*color: #5f6368;*/
+        color: #ffffff;
         font: normal 13px vazir;
+        direction: ltr;
         /*background-color: rgba(51, 51, 51, 0.08)*/
     }
         .page-footer .footer-copyright a {
@@ -4769,14 +4772,18 @@ small {
     -webkit-transition: -webkit-box-shadow .25s;
     transition: -webkit-box-shadow .25s;
     transition: box-shadow .25s;
-    transition: box-shadow .25s, -webkit-box-shadow .25s;
+    transition: box-shadow .25s,
+    -webkit-box-shadow .25s;
     border-radius: 12px;
     opacity: 0.8;
     text-align: center;
+    border: 3px solid #f29325;
 }
-.card:hover {
-    opacity: 1;
-}
+    .card:hover {
+        opacity: 1;
+        transform: scale(1.04);
+        z-index: 9999;
+    }
 
 .card .card-title {
     font-size: 24px;
@@ -4942,10 +4949,13 @@ small {
     margin-bottom: 8px;
     text-align: right;
     margin-right: 5px;
+    max-height: 120px;
+    overflow: hidden
 }
 
 .card .card-content .card-title i {
-    line-height: 32px
+    line-height: 32px;
+    padding: 0 4px;
 }
 
 .card .card-action {
