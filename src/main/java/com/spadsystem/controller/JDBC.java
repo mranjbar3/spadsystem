@@ -53,12 +53,13 @@ public class JDBC {
                     preparedStatement.setString(1, user.getUser_id());
                     preparedStatement.setString(2, user.getPassword() == null ? user.getUser_id() : user.getPassword());
                     preparedStatement.executeUpdate();
-                    sql = "INSERT INTO user_data VALUES (?,?,?,'',?)";
+                    sql = "INSERT INTO user_data VALUES (?,?,?,'',?,?)";
                     preparedStatement = connection.prepareStatement(sql);
                     preparedStatement.setString(1, user.getUser_id());
                     preparedStatement.setString(2, user.getFirst_name());
                     preparedStatement.setString(3, user.getLast_name());
                     preparedStatement.setString(4, user.getGender());
+                    preparedStatement.setString(5, user.getNational_code());
                     preparedStatement.executeUpdate();
                     sql = "INSERT INTO position VALUES (?,?,?)";
                     preparedStatement = connection.prepareStatement(sql);
@@ -105,12 +106,13 @@ public class JDBC {
                     preparedStatement.setString(2, user.getUser_id());
                     preparedStatement.executeUpdate();
                 }
-                sql = "UPDATE user_data SET first_name=?, last_name=?, gender=? WHERE id=?";
+                sql = "UPDATE user_data SET first_name=?, last_name=?, gender=?, national_code=? WHERE id=?";
                 preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setString(4, user.getUser_id());
+                preparedStatement.setString(5, user.getUser_id());
                 preparedStatement.setString(1, user.getFirst_name());
                 preparedStatement.setString(2, user.getLast_name());
                 preparedStatement.setString(3, user.getGender());
+                preparedStatement.setString(4, user.getNational_code());
                 preparedStatement.executeUpdate();
                 sql = "UPDATE position SET master_id=?, position=? WHERE id=?";
                 preparedStatement = connection.prepareStatement(sql);
@@ -181,7 +183,7 @@ public class JDBC {
             User user;
             try {
                 String sql = "SELECT first_name,last_name,tel,mobile,intTel1,intTel2,fax,preIntTel,position,state,city," +
-                        "address,ud.id,gender,service_table,type FROM user_data AS ud JOIN user ON ud.id = user.id JOIN telephone AS tel " +
+                        "address,ud.id,gender,service_table,type,national_code FROM user_data AS ud JOIN user ON ud.id = user.id JOIN telephone AS tel " +
                         "ON tel.id = ud.id JOIN position AS pos ON pos.id = ud.id JOIN address AS ad ON ad.id = ud.id " +
                         "WHERE " + (dat == null ? "1" : " (ud.first_name LIKE ? OR " +
                         "ud.last_name LIKE ?)") + (pos == null ? "" : " AND position LIKE ?") + (state == null ? "" :
@@ -228,6 +230,7 @@ public class JDBC {
                     user.setGender(resultSet.getString(14));
                     user.setService_table(resultSet.getString(15));
                     user.setType(resultSet.getString(16));
+                    user.setNational_code(resultSet.getString(17));
                     list.add(user);
                 }
             } catch (SQLException e) {
@@ -240,11 +243,24 @@ public class JDBC {
 
     public boolean saveImage(String id, String uploadedFileLocation) {
         try {
-            String sql = "INSERT INTO image VALUES (?,?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            String sql;
+            PreparedStatement preparedStatement;
+            sql = "Select * from image where id=?";
+            preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, id);
-            preparedStatement.setString(2, uploadedFileLocation);
-            preparedStatement.executeUpdate();
+            if (preparedStatement.executeQuery().next()) {
+                sql = "UPDATE image set location=? WHERE id=?";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(2, id);
+                preparedStatement.setString(1, uploadedFileLocation);
+                preparedStatement.executeUpdate();
+            } else {
+                sql = "INSERT INTO image VALUES (?,?)";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, id);
+                preparedStatement.setString(2, uploadedFileLocation);
+                preparedStatement.executeUpdate();
+            }
             preparedStatement.close();
             return true;
         } catch (SQLException e) {

@@ -72,6 +72,16 @@ if (localStorage.type === "admin")
     });
 $(document).ready(function () {
     localStorage.id = new URLSearchParams(window.location.search).get('id');
+    $('.btn-signin').click(function () {
+        $(window).attr('location', 'login.html')
+    });
+    if (localStorage.id.length > 4) {
+        $('.btn-signin').html("خروج");
+        $('.btn-signin').off();
+        $('.btn-signin').click(function () {
+            window.location.search = "";
+        })
+    }
     if (localStorage.type === "user") {
         $('.chips').chips({
             //placeholder: 'یک عبارت بنویس و بزن روی اینتر',
@@ -84,45 +94,46 @@ $(document).ready(function () {
             var keyCode = (event.keyCode ? event.keyCode : event.which);
             if (keyCode === 13) checkInput();
         });
-        $(".btn-floating").off();
-        $(".btn-floating").click(function () {
-            hideAll();
-            $("#add_user").show();
-        });
+        // $(".btn-floating").off();
+        // $(".btn-floating").off();
+        // $(".btn-floating").click(function () {
+        //     hideAll();
+        //     $("#add_user").show();
+        // });
         user["user_id"] = localStorage.id;
-        $.ajax({
-            url: "/spadsystem/rest/get_user",
-            type: "post",
-            contentType: "application/json; charset=UTF-8",
-            data: JSON.stringify(user),
-            success: function (response) {
-                if (response === null)
-                    showToast("پایگاه داده مشکل پیدا کرده است.", "red rounded");
-                else {
-                    $("#user_id")[0].value = response.user_id;
-                    $("#password")[0].value = response.password;
-                    $("#image_view")[0].value = response.image;
-                    $("#first_name")[0].value = response.first_name;
-                    $("#last_name")[0].value = response.last_name;
-                    $("#position")[0].value = response.position;
-                    $("#master_id")[0].value = response.master_id;
-                    $("#state")[0].value = response.state;
-                    $("#city")[0].value = response.city;
-                    $("#address")[0].value = response.address;
-                    $("#telephone")[0].value = response.telephone;
-                    $("#internalTel1")[0].value = response.internalTel1;
-                    $("#internalTel2")[0].value = response.internalTel2;
-                    $("#preIntTel")[0].value = response.preIntTel;
-                    $("#fax")[0].value = response.fax;
-                    if (response.image != null)
-                        $(".btn-floating img").eq(0).attr("src", '/spadsystem' +
-                            response.image.substring(response.image.indexOf('/temp')));
-                }
-            },
-            error: function (response) {
-                showToast("سرور با مشکل مواجه شده است. لطفا بعدا تلاش نمایید.", 'red rounded');
-            }
-        });
+        // $.ajax({
+        //     url: "/spadsystem/rest/get_user",
+        //     type: "post",
+        //     contentType: "application/json; charset=UTF-8",
+        //     data: JSON.stringify(user),
+        //     success: function (response) {
+        //         if (response === null)
+        //             showToast("پایگاه داده مشکل پیدا کرده است.", "red rounded");
+        //         else {
+        //             $("#user_id")[0].value = response.user_id;
+        //             $("#password")[0].value = response.password;
+        //             $("#image_view")[0].value = response.image;
+        //             $("#first_name")[0].value = response.first_name;
+        //             $("#last_name")[0].value = response.last_name;
+        //             $("#position")[0].value = response.position;
+        //             $("#master_id")[0].value = response.master_id;
+        //             $("#state")[0].value = response.state;
+        //             $("#city")[0].value = response.city;
+        //             $("#address")[0].value = response.address;
+        //             $("#telephone")[0].value = response.telephone;
+        //             $("#internalTel1")[0].value = response.internalTel1;
+        //             $("#internalTel2")[0].value = response.internalTel2;
+        //             $("#preIntTel")[0].value = response.preIntTel;
+        //             $("#fax")[0].value = response.fax;
+        //             if (response.image != null)
+        //                 $(".btn-floating img").eq(0).attr("src", '/spadsystem' +
+        //                     response.image.substring(response.image.indexOf('/temp')));
+        //         }
+        //     },
+        //     error: function (response) {
+        //         showToast("سرور با مشکل مواجه شده است. لطفا بعدا تلاش نمایید.", 'red rounded');
+        //     }
+        // });
     } else {
         $("#add_user").show();
         $("#new_user").click(function () {
@@ -160,9 +171,6 @@ $(document).ready(function () {
                 }
             });
         }
-    });
-    $('.btn-signin').click(function () {
-
     });
     // $("#add_user_btn").click(function () {
     //     if (localStorage.type === "admin")
@@ -228,33 +236,60 @@ function checkInput() {
             if (response === null)
                 showToast("پایگاه داده مشکل پیدا کرده است.", "red rounded");
             else {
-                var str = "";
+                let str = "";
                 $.each(response, function (i, result) {
-                    str += "<div class='col s2'>" +
+                    str += "<div class='search_res col m2 s3'>" +
                         "<div class='card'>" +
-                        "<div class='card-image waves-effect waves-block waves-light'>" +
-                        "<img class='activator'  src=" + (result.image === null ? (result.gender === 'مرد' ? "/spadsystem/assets/image/man.png" : "/spadsystem/assets/image/woman.png") : result.image.substring(result.image.indexOf('temp'))) + ">" +
+                        "<span class='card-title grey-text text-darken-4' onclick='closeDiv(" + i + ")' style='cursor: pointer;'><i class='material-icons right'>close</i></span>" +
+                        "<br><div class='card-image waves-effect waves-block waves-light'>" +
+                        "<img class='activator'  src=\"" + (result.image === null ? "/spadsystem/assets/image/avatar.jpg" : '/spadsystem' + result.image.substring(result.image.indexOf('/temp'))) + "\">" +
                         "</div>" +
                         "<div class='card-content'>" +
-                        "<span class='card-title activator grey-text text-darken-4'><b>نام و نام خانوادگی: </b>" + result.first_name + " " + result.last_name + "<br/><b> استان: </b>" + (result.state === "" ? "نامشخص" : (result.state + " <br/> <b>شهر: </b>" + result.city === "" ? "نامشخص" : result.city)) + " <br/><b> میز خدمت: </b>" + (result.service_table === null ? '' : result.service_table) + "<br/><b> تلفن ثابت:</b> " + (result.telephone === null ? '' : result.telephone)+"</span>" +
+                        "<span class='card-title activator grey-text text-darken-4'>" +
+                        result.first_name + " " + result.last_name + " - استان: " + (result.state === "" ? "نامشخص" : result.state) +
+                        (result.city === "" ? "نامشخص" : " - شهر: " + result.city) +
+                        " - میز خدمت: " + (result.service_table == null ? "نامشخص" : result.service_table) +
+                        "<i class='material-icons right'>more_vert</i></span>" +
                         "</div>" +
                         "<div class='card-reveal'>" +
                         "<span class='card-title grey-text text-darken-4'><i class='material-icons right'>close</i></span>" +
                         "<h4>" + result.first_name + " " + result.last_name + "</h4>" +
-                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>سمت سازمانی: </b>" +(result.position === null ? '' : result.position) + "</p>" +
-                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>محل خدمت(استان): </b>" + (result.state === null ? '' : result.state) + "</p>" +
-                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>محل خدمت:(شهر): </b>" + (result.city === null ? '' : result.city) +"</p>" +
-                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>نشانی محل خدمت: </b>" + (result.address === null ? '' : result.address) + "</p>" +
-                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>میز خدمت: </b>" + (result.service_table === null ? '' : result.service_table) + "</p>" +
-                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>شماره ثابت: </b>" + (result.telephone === null ? '' : result.telephone) + "</p>" +
-                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>شماره داخلی 1: </b>" + (result.internalTel1 === null ? '' : result.internalTel1) + "</p>" +
-                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>شماره داخلی 2: </b>" + (result.internalTel2 === null ? '' : result.internalTel2) + "</p>" +
-                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>پیش شماره: </b>" + (result.preIntTel === null ? '' : result.preIntTel)+ "</p>" +
-                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>شماره دورنگار: </b>" + (result.fax === null ? '' : result.fax) + "</p>" +
+                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>سمت سازمانی: </b>" + result.position + "</p>" +
+                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>محل خدمت(استان): </b>" + result.state + "</p>" +
+                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>محل خدمت:(شهر): </b>" + result.city + "</p>" +
+                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>نشانی محل خدمت: </b>" + result.address + "</p>" +
+                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>میز خدمت: </b>" + result.service_table + "</p>" +
+                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>شماره ثابت: </b>" + result.telephone + "</p>" +
+                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>شماره داخلی: </b>" + result.internalTel1 + "</p>" +
+                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>شماره داخلی 2: </b>" + result.internalTel2 + "</p>" +
+                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>پیش شماره: </b>" + result.preIntTel + "</p>" +
+                        "<p class='cardtitle'><i class='fa fa-circle'></i><b>شماره دورنگار: </b>" + result.fax + "</p>" +
                         "</div>" +
                         "</div>" +
                         "</div >";
-                    
+
+
+                    //str += "<div class='card row'><div class='col s1'><img class=\"materialboxed\" " +
+                    //    "data-caption=\"" + result.first_name + " " + result.last_name + "\" src=\"" +
+                    //    (result.image == null ? "/spadsystem/image/avatar.jpg" : result.image.substring(result.image.indexOf('/temp'))) +
+                    //    "\" style='margin: 10px auto;" +
+                    //    "max-height: 100px;width: auto;'></div><div class='col s2' " +
+                    //    "style='text-align: right;'>" + result.first_name + " " + result.last_name +
+                    //    "</div><div class='col s2' " +
+                    //    "style='text-align: right;'>سمت:<br>" + result.position;
+                    //if (result.state !== "")
+                    //    str += "</div><div class='col s2' " +
+                    //        "style='text-align: right;'>موقعیت مکانی:<br> استان " + result.state + " شهر " + (result.city === "" ? "نامشخص" : result.city);
+                    //str += "</div><div class='col s2' " +
+                    //    "style='text-align: right;'>محل خدمت:<br>" + result.address + "</div>";
+                    //if (result.telephone !== "0")
+                    //    str += "<div class='col s2' " +
+                    //        "style='text-align: right;'>به شماره تماس: " + (result.state === "" ? "" : result.preTel) + result.telephone + "</div>";
+                    //if (result.internalTel1 !== "0")
+                    //    str += "<div class='col s2' " +
+                    //        "style='text-align: right;'>شماره داخلی: " + result.internalTel1 + (result.internalTel2 === "0" ? "" : " و " +
+                    //            result.internalTel2 + "به پیش شماره " + (result.state === "" ? "" : result.preTel) + result.preIntTel) + "</div>";
+                    //str += "</div></div>";
                 });
                 $("#results").html(str);
                 //$('.materialboxed').materialbox();
@@ -266,11 +301,15 @@ function checkInput() {
     });
 }
 
-function showMain() {
-    $(".btn-floating").show();
-    $(".section").show();
-    $(".container").show();
+function closeDiv(id) {
+    $('.search_res').eq(id).hide();
 }
+
+// function showMain() {
+//     $(".btn-floating").show();
+//     $(".section").show();
+//     $(".container").show();
+// }
 
 function showToast(str, classes) {
     M.toast({html: str, classes: classes});

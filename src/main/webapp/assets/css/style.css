@@ -1,5 +1,5 @@
 body {
-    background: url("../image/bank_home.jpg")no-repeat center center;
+    background: url("../image/bank_home.jpg") no-repeat center center;
     background-size: cover;
     display: flex;
     min-height: 100vh;
@@ -18,13 +18,14 @@ input {
     text-align: center;
     border-bottom-color: black !important;
 }
+
 input.searchbox {
-    background-color:transparent;
+    background-color: transparent;
     border: none;
     margin: 0;
     margin-top: 0px;
     padding: 0;
-    color:rgba(0,0,0,.87);
+    color: rgba(0, 0, 0, .87);
     word-wrap: break-word;
     outline: none;
     display: flex;
@@ -35,6 +36,7 @@ input.searchbox {
     font-size: 16px;
     font: normal 25px Vazir;
 }
+
 label {
     color: black !important;
 }
@@ -47,6 +49,10 @@ button {
 img {
     height: 100%;
     width: 100%;
+}
+
+.activator {
+    height: 214px;
 }
 
 .blur-background {
@@ -68,10 +74,11 @@ img {
     right: 0px;
     z-index: -1;
 }
+
 .chips {
-    background:#fff;
+    background: #fff;
     display: flex;
-    border: 1px solid#dfe1e5;
+    border: 1px solid #dfe1e5;
     box-shadow: none;
     border-radius: 24px;
     z-index: 3;
@@ -79,10 +86,11 @@ img {
     margin: 0 auto;
     width: 582px;
 }
+
 .chips:hover {
     background-color: rgb(255, 255, 255);
-    box-shadow: 0 1px 6px 0 rgba(32,33,36,0.28);
-    border-color:rgba(223,225,229,0);
+    box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28);
+    border-color: rgba(223, 225, 229, 0);
 
 }
 
@@ -100,10 +108,10 @@ img {
     margin: 5vh 1.5vw;
     left: 0;
     background: #5094ed;
-    -moz-box-shadow: 0 1px 2px 0 rgba(66,133,244,0.3),0 1px 3px 1px rgba(66,133,244,0.15);
-    box-shadow: 0 1px 2px 0rgba(66,133,244,0.3),0 1px 3px 1px rgba(66,133,244,0.15);
+    -moz-box-shadow: 0 1px 2px 0 rgba(66, 133, 244, 0.3), 0 1px 3px 1px rgba(66, 133, 244, 0.15);
+    box-shadow: 0 1px 2px 0 rgba(66, 133, 244, 0.3), 0 1px 3px 1px rgba(66, 133, 244, 0.15);
     font: normal 19px Vazir;
-    
+
 }
 
 .btn span {
@@ -127,20 +135,22 @@ img {
     margin: auto;
     text-align: center;
     font-family: arial;
-    margin:5px;
+    margin: 5px;
     position: relative;
     margin: .5rem 0 1rem 0;
-    background-color:#fff;
+    background-color: #fff;
     -webkit-transition: -webkit-box-shadow .25s;
     transition: -webkit-box-shadow .25s;
     transition: box-shadow .25s;
     transition: box-shadow .25s, -webkit-box-shadow .25s;
     border-radius: 15px;
 }
+
 .card img {
-    border-top-left-radius: 5px ;
-    border-top-right-radius: 5px ;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
+
 .card h4 {
     font: normal 18px Vazir;
     padding: 2px 0;
@@ -150,6 +160,7 @@ img {
     background: #f29325;
     border-radius: 5px;
 }
+
 .card p {
     font: normal 13px Vazir;
     margin: 2px 0;
@@ -157,14 +168,17 @@ img {
     color: #000000;
     border-bottom: 1px solid rgba(160,160,160,0.2);
 }
+
 .cardtitle {
     color: grey;
     font-size: 18px;
 }
-    .cardtitle i {
-        padding: 2px 3px;
-        color: #f29325;
-    }
+
+.cardtitle i {
+    padding: 2px 3px;
+    color: #f29325;
+}
+
 button.cardtitlebutton {
     border: none;
     outline: 0;
@@ -184,6 +198,6 @@ button.cardtitlebutton {
     color: black;
 }
 
-    button.cardtitlebutton:hover, a.cardtitlelink:hover {
-        opacity: 0.7;
-    }
+button.cardtitlebutton:hover, a.cardtitlelink:hover {
+    opacity: 0.7;
+}
