@@ -2517,7 +2517,9 @@ i.left {
 
 i.right {
     float: right;
-    margin-left: 15px
+    margin-left: 15px;
+    margin-top:7px;
+    color: #ffffff;
 }
 
 i.tiny {
@@ -4768,14 +4770,21 @@ small {
     transition: -webkit-box-shadow .25s;
     transition: box-shadow .25s;
     transition: box-shadow .25s, -webkit-box-shadow .25s;
-    border-radius: 2px
+    border-radius: 12px;
+    opacity: 0.8;
+    text-align: center;
+}
+.card:hover {
+    opacity: 1;
 }
 
 .card .card-title {
     font-size: 24px;
     font-weight: 300
 }
-
+    .card span.card-title {
+        font: normal 13px vazir;
+    }
 .card .card-title.activator {
     cursor: pointer
 }
@@ -4892,18 +4901,21 @@ small {
 }
 
 .card .card-image {
-    position: relative
+    position: relative;
+    border-bottom: 1px solid rgba(160,160,160,0.2);
 }
 
 .card .card-image img {
-    display: block;
+    /*display: block;*/
     border-radius: 2px 2px 0 0;
     position: relative;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
-    width: 100%
+    width: auto;
+    height: 300px;
+    text-align: center;
 }
 
 .card .card-image .card-title {
@@ -4916,7 +4928,7 @@ small {
 }
 
 .card .card-content {
-    padding: 24px;
+    padding: 2px;
     border-radius: 0 0 2px 2px
 }
 
@@ -4926,8 +4938,10 @@ small {
 
 .card .card-content .card-title {
     display: block;
-    line-height: 32px;
-    margin-bottom: 8px
+    line-height: 26px;
+    margin-bottom: 8px;
+    text-align: right;
+    margin-right: 5px;
 }
 
 .card .card-content .card-title i {
@@ -4958,7 +4972,7 @@ small {
 }
 
 .card .card-reveal {
-    padding: 24px;
+    padding: 5px;
     position: absolute;
     background-color: #fff;
     width: 100%;
@@ -4967,7 +4981,8 @@ small {
     top: 100%;
     height: 100%;
     z-index: 3;
-    display: none
+    display: none;
+    text-align: right;
 }
 
 .card .card-reveal .card-title {

@@ -1,12 +1,12 @@
 {
   "ExpandedNodes": [
     "",
-    "\\src",
     "\\src\\main",
-    "\\src\\main\\webapp",
-    "\\src\\main\\webapp\\administrator",
-    "\\src\\main\\webapp\\css"
+    "\\src\\main\\java\\com\\spadsystem",
+    "\\src\\main\\java\\com\\spadsystem\\controller",
+    "\\src\\main\\java\\com\\spadsystem\\model",
+    "\\src\\main\\webapp\\assets"
   ],
-  "SelectedNode": "\\src\\main\\webapp\\css\\style.css",
+  "SelectedNode": "\\src",
   "PreviewInSolutionExplorer": false
 }
