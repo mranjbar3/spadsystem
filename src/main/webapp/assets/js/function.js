@@ -47,11 +47,11 @@ $.ajax({
             $.each(response, function (i, result) {
                 user[result.user_id] = result;
                 users.push(result.user_id);
-                if (result.position != null && positions.indexOf(result.position) === -1)
+                if (result.position != null && !positions.includes(result.position))
                     positions.push(result.position);
-                if (result.address != null && positions.indexOf(result.address) === -1)
+                if (result.address !== null && !addresses.includes(result.address))
                     addresses.push(result.address);
-                if (result.service_table != null && positions.indexOf(result.service_table) === -1)
+                if (result.service_table != null && !service_tables.includes(result.service_table))
                     service_tables.push(result.service_table);
             });
             $("#user_id").eq(0).on('keyup keydown change click', function () {
@@ -198,11 +198,11 @@ function pageCnt(input) {
 
 function updateAutoCompletes(input) {
     if (typeof input === "object") {
-        if (input.position != null && positions.indexOf(input.position) === -1)
+        if (input.position != null && !positions.includes(input.position))
             positions.push(input.position != null ? input.position : "");
-        if (input.address != null && positions.indexOf(input.address) === -1)
+        if (input.address != null && !addresses.includes(input.address))
             addresses.push(input.address != null ? input.address : "");
-        if (input.service_table != null && positions.indexOf(input.service_table) === -1)
+        if (input.service_table != null && !service_tables.includes(input.service_table))
             service_tables.push(input.service_table != null ? input.service_table : "");
     }
     autocomplete(document.getElementById("user_id"), users);
