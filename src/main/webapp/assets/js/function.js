@@ -78,6 +78,7 @@ $.ajax({
                     $("#preIntTel")[0].value = user0.preIntTel;
                     $("#fax")[0].value = user0.fax;
                     $("#mobile")[0].value = user0.mobile;
+                    $("#fullAddress")[0].value = user0.fullAddress;
                     document.getElementById('admin').checked = user0.type != null ? user0.type : false;
                 }
             });
@@ -131,6 +132,7 @@ $(document).ready(function () {
             'preIntTel': $("#preIntTel")[0].value === '' ? '0' : $("#preIntTel")[0].value,
             'fax': $("#fax")[0].value === '' ? '0' : $("#fax")[0].value,
             'mobile': $("#mobile")[0].value === '' ? '0' : $("#mobile")[0].value,
+            'fullAddress': $("#fullAddress")[0].value,
             'type': document.getElementById('admin').checked,
         };
         if ($("#image_view")[0].value !== '')
@@ -236,6 +238,7 @@ function clearAddUserItems(type) {
     $("#preIntTel")[0].value = "";
     $("#fax")[0].value = "";
     $("#mobile")[0].value = "";
+    $("#fullAddress")[0].value = "";
     document.getElementById("admin").checked = false;
 }
 

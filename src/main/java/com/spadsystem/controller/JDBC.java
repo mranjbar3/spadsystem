@@ -67,13 +67,14 @@ public class JDBC {
                     preparedStatement.setString(2, user.getMaster_id());
                     preparedStatement.setString(3, user.getPosition());
                     preparedStatement.executeUpdate();
-                    sql = "INSERT INTO address VALUES (?,?,?,?,'',?)";
+                    sql = "INSERT INTO address VALUES (?,?,?,?,'',?,?)";
                     preparedStatement = connection.prepareStatement(sql);
                     preparedStatement.setString(1, user.getUser_id());
                     preparedStatement.setString(2, user.getState());
                     preparedStatement.setString(3, user.getCity());
                     preparedStatement.setString(4, user.getAddress());
                     preparedStatement.setString(5, user.getService_table());
+                    preparedStatement.setString(6, user.getFullAddress());
                     preparedStatement.executeUpdate();
                     sql = "INSERT  INTO telephone VALUES (?,?,?,?,?,?,?)";
                     preparedStatement = connection.prepareStatement(sql);
@@ -121,13 +122,14 @@ public class JDBC {
                 preparedStatement.setString(1, user.getMaster_id());
                 preparedStatement.setString(2, user.getPosition());
                 preparedStatement.executeUpdate();
-                sql = "UPDATE address SET state=?, city=?, address=?, service_table=? WHERE id=?";
+                sql = "UPDATE address SET state=?, city=?, address=?, service_table=?, fullAddress=? WHERE id=?";
                 preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setString(5, user.getUser_id());
+                preparedStatement.setString(6, user.getUser_id());
                 preparedStatement.setString(1, user.getState());
                 preparedStatement.setString(2, user.getCity());
                 preparedStatement.setString(3, user.getAddress());
                 preparedStatement.setString(4, user.getService_table());
+                preparedStatement.setString(5, user.getFullAddress());
                 preparedStatement.executeUpdate();
                 sql = "UPDATE telephone SET tel=?,mobile=?,intTel1=?,intTel2=?,fax=?,preIntTel=? WHERE id=?";
                 preparedStatement = connection.prepareStatement(sql);
@@ -184,7 +186,7 @@ public class JDBC {
             User user;
             try {
                 String sql = "SELECT first_name,last_name,tel,mobile,intTel1,intTel2,fax,preIntTel,position,state,city," +
-                        "address,ud.id,gender,service_table,type,national_code FROM user_data AS ud JOIN user ON ud.id = user.id JOIN telephone AS tel " +
+                        "address,ud.id,gender,service_table,type,national_code,fullAddress FROM user_data AS ud JOIN user ON ud.id = user.id JOIN telephone AS tel " +
                         "ON tel.id = ud.id JOIN position AS pos ON pos.id = ud.id JOIN address AS ad ON ad.id = ud.id " +
                         "WHERE " + (dat == null ? "1" : " (ud.first_name LIKE ? OR " +
                         "ud.last_name LIKE ?)") + (pos == null ? "" : " AND position LIKE ?") + (state == null ? "" :
@@ -232,6 +234,7 @@ public class JDBC {
                     user.setService_table(resultSet.getString(15));
                     user.setType(resultSet.getString(16));
                     user.setNational_code(resultSet.getString(17));
+                    user.setFullAddress(resultSet.getString(18));
                     list.add(user);
                 }
             } catch (SQLException e) {
@@ -369,6 +372,7 @@ public class JDBC {
             user.setCity(resultSet.getString(3));
             user.setAddress(resultSet.getString(4));
             user.setService_table(resultSet.getString(6));
+            user.setFullAddress(resultSet.getString(6));
         }
         sql = "SELECT * FROM image WHERE id=" + user.getUser_id();
         resultSet = connection.prepareStatement(sql).executeQuery();
