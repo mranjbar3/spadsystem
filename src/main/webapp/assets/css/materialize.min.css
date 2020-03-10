@@ -6053,6 +6053,7 @@ body.keyboard-focused .dropdown-content li:focus {
     border-radius: 16px;
     background-color: #e4e4e4;
     margin: 5px;
+    min-width: max-content;
 }
 
 .chip:focus {
