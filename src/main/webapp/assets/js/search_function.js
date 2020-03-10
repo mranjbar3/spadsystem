@@ -163,7 +163,7 @@ function checkInput() {
                 $('#results').html('');
                 if (response.length > 0) {
                     search_response = response;
-                    showSearchResult(response, 0, 10);
+                    showSearchResult(response, 0, 12);
                 }
             }
         },
@@ -177,7 +177,7 @@ function showSearchResult(results, start, cnt) {
     let str = $("#results").html();
     for (let i = start; i < Math.min(start + cnt, results.length); i++) {
         const result = results[i];
-        str += "<div class='search_res col m2 s3'>" +
+        str += "<div class='search_res col m6 s12 l2'>" +
             "<div class='card'>" +
             "<span class='card-title grey-text text-darken-4' onclick='closeDiv(" + i + ")' style='cursor: pointer;'><i class='material-icons right' style='#2c3e50'>close</i></span>" +
             "<br><div class='card-image waves-effect waves-block waves-light'>" +
