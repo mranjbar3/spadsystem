@@ -100,10 +100,11 @@ public class JDBC {
                 String sql;
                 PreparedStatement preparedStatement;
                 if (user.getPassword() != null && user.getPassword().length() > 5) {
-                    sql = "UPDATE user SET password=? WHERE id=?";
+                    sql = "UPDATE user SET password=?, type=? WHERE id=?";
                     preparedStatement = connection.prepareStatement(sql);
                     preparedStatement.setString(1, user.getPassword());
-                    preparedStatement.setString(2, user.getUser_id());
+                    preparedStatement.setString(2, user.getType());
+                    preparedStatement.setString(3, user.getUser_id());
                     preparedStatement.executeUpdate();
                 }
                 sql = "UPDATE user_data SET first_name=?, last_name=?, gender=?, national_code=? WHERE id=?";

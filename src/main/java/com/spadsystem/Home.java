@@ -33,7 +33,7 @@ public class Home {
         user.setPassword(password);
         try {
             if (new JDBC().checkUser(user)) {
-                if (user.getType() != null && user.getType().equals("admin"))
+                if (user.getType() != null && user.getType().equals("true"))
                     return Response.seeOther(URI.create("/spadsystem/admin.html")).build();
                 else
                     return Response.seeOther(URI.create("/spadsystem/?id=" + id)).build();

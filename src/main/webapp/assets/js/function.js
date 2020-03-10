@@ -42,7 +42,7 @@ $.ajax({
     data: JSON.stringify({data: "all"}),
     success: function (response) {
         if (response === null)
-            showToast("دریافت داده از سرور با خطا مواجه شد. \nلطفا صفحه مرورگر را refresh کنید.",'red rounded');
+            showToast("دریافت داده از سرور با خطا مواجه شد. \nلطفا صفحه مرورگر را refresh کنید.", 'red rounded');
         else {
             $.each(response, function (i, result) {
                 user[result.user_id] = result;
@@ -78,14 +78,14 @@ $.ajax({
                     $("#preIntTel")[0].value = user0.preIntTel;
                     $("#fax")[0].value = user0.fax;
                     $("#mobile")[0].value = user0.mobile;
-                    document.getElementById('admin').checked = user0.type;
+                    document.getElementById('admin').checked = user0.type != null ? user0.type : false;
                 }
             });
             pageCnt(12);
         }
     },
     error: function () {
-        showToast("دریافت داده از سرور با خطا مواجه شد. \nلطفا صفحه مرورگر را refresh کنید.",'red rounded');
+        showToast("دریافت داده از سرور با خطا مواجه شد. \nلطفا صفحه مرورگر را refresh کنید.", 'red rounded');
     }
 });
 $(document).ready(function () {
@@ -102,12 +102,12 @@ $(document).ready(function () {
                 if (response) {
                     removeUser($("#user_id")[0].value);
                     clearAddUserItems();
-                    showToast('اطلاعات کاربری با موفقیت حذف شد.','green rounded');
+                    showToast('اطلاعات کاربری با موفقیت حذف شد.', 'green rounded');
                 } else
-                    showToast('حذف اطلاعات با خظا مواجه شده است.','red rounded');
+                    showToast('حذف اطلاعات با خظا مواجه شده است.', 'red rounded');
             },
             error: function () {
-                showToast('حذف اطلاعات با خظا مواجه شده است.','red rounded');
+                showToast('حذف اطلاعات با خظا مواجه شده است.', 'red rounded');
             }
         });
     });
@@ -143,13 +143,13 @@ $(document).ready(function () {
             success: function (response) {
                 if (response) {
                     addUser(data);
-                    showToast('اطلاعات کاربری با موفقیت ثبت شد.','green rounded');
+                    showToast('اطلاعات کاربری با موفقیت ثبت شد.', 'green rounded');
                     clearAddUserItems();
                 } else
-                    showToast('ثبت اطلاعات با خظا مواجه شده است.','red rounded');
+                    showToast('ثبت اطلاعات با خظا مواجه شده است.', 'red rounded');
             },
             error: function () {
-                showToast('ثبت اطلاعات با خظا مواجه شده است.','red rounded');
+                showToast('ثبت اطلاعات با خظا مواجه شده است.', 'red rounded');
             }
         });
     });
@@ -179,7 +179,7 @@ function pageCnt(input) {
     $('#user_cnt').html(Object.keys(user).length);
     let m_cnt = 1, t_cnt = 0, it_cnt = 0;
     $.each(user, function (i, user0) {
-        if (user0.type === "admin")
+        if (user0.type === "true")
             m_cnt++;
         if (user0.telephone.length > 1)
             t_cnt++;
@@ -235,6 +235,8 @@ function clearAddUserItems(type) {
     $("#internalTel2")[0].value = "";
     $("#preIntTel")[0].value = "";
     $("#fax")[0].value = "";
+    $("#mobile")[0].value = "";
+    document.getElementById("admin").checked = false;
 }
 
 function uploadFile(id) {
@@ -250,10 +252,10 @@ function uploadFile(id) {
         contentType: false,
         success: function (response) {
             if (response === "Error")
-                showToast("بارگذاری تصویر با خطا مواجه شد.",'red rounded');
+                showToast("بارگذاری تصویر با خطا مواجه شد.", 'red rounded');
         },
         error: function () {
-            showToast("بارگذاری تصویر با خطا مواجه شد.",'red rounded');
+            showToast("بارگذاری تصویر با خطا مواجه شد.", 'red rounded');
         }
     });
 }
@@ -363,5 +365,5 @@ function autocomplete(inp, arr) {
         closeAllLists(e.target);
     });
 
-    
+
 }
