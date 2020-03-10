@@ -1,4 +1,4 @@
-var search_chips, master_state = [], state = {}, master_city = {}, city = {}, all = {}, search_response;
+var search_chips, master_state = [], state = {}, master_city = {}, city = {}, all = {};
 $.ajax({
     url: "/spadsystem/rest/first_data",
     type: "GET",
@@ -259,3 +259,23 @@ function uploadFile(id) {
         }
     });
 }
+
+/*Scroll to top when arrow up clicked BEGIN*/
+$(window).scroll(function () {
+    var height = $(window).scrollTop();
+    if (height > 100) {
+        $('#back2Top').fadeIn();
+    } else {
+        $('#back2Top').fadeOut();
+    }
+});
+$(document).ready(function () {
+    $("#back2Top").click(function (event) {
+        event.preventDefault();
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+        return false;
+    });
+
+});
+/*Scroll to top when arrow up clicked END*/
+
