@@ -5,8 +5,8 @@
     "\\src\\main",
     "\\src\\main\\webapp",
     "\\src\\main\\webapp\\assets",
-    "\\src\\main\\webapp\\assets\\css"
+    "\\src\\main\\webapp\\assets\\js"
   ],
-  "SelectedNode": "\\src\\main\\webapp\\assets\\css\\style.css",
+  "SelectedNode": "\\src\\main\\webapp\\assets\\js\\search_function.js",
   "PreviewInSolutionExplorer": false
 }

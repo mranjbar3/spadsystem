@@ -184,7 +184,7 @@ function showSearchResult(results, start, cnt) {
             "<img class='activator'  src=" + (result.image === null ? (result.gender === 'مرد' ? "/spadsystem/assets/image/man.png" : "/spadsystem/assets/image/woman.png") : result.image.substring(result.image.indexOf('temp'))) + ">" +
             "</div>" +
             "<div class='card-content'>" +
-            "<span class='card-title activator grey-text text-darken-4'><i class='fa fa-user'></i><b> نام و نام خانوادگی: </b>" + result.first_name + " " + result.last_name + "<br/><i class='fa fa-map'></i><b> استان: </b>" + (result.state === "" ? "نامشخص" : (result.state + " <br/><i class='fa fa-mapipin'></i> <b>شهر: </b>" + result.city === "" ? "نامشخص" : result.city)) + " <br/><i class='fa fa-flag'></i><b> میز خدمت: </b>" + (result.service_table === null ? '' : result.service_table) + "<br/><i class='fa fa-tty'></i><b> تلفن ثابت:</b> " + (result.telephone === null ? '' : result.telephone) + "</span>" +
+            "<span class='card-title activator grey-text text-darken-4'><i class='fa fa-user'></i><b> نام و نام خانوادگی: </b>" + result.first_name + " " + result.last_name + "<br/><i class='fa fa-map'></i><b> استان: </b>" + (result.state === null ? "نامشخص" : result.state)+  " <br/><i class='fa fa-flag'></i><b> میز خدمت: </b>" + (result.service_table === null ? '' : result.service_table) + "<br/><i class='fa fa-tty'></i><b> تلفن ثابت:</b> " + (result.telephone === null ? '' : result.telephone) + "</span>" +
             "</div>" +
             "<div class='card-reveal'>" +
             "<span class='card-title grey-text text-darken-4'><i class='material-icons right' style='color:#ffffff'>close</i></span>" +
