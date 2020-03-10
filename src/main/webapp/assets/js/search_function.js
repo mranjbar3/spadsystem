@@ -238,7 +238,7 @@ function checkInput() {
             else {
                 let str = "";
                 $.each(response, function (i, result) {
-                    str += "<div class='search_res col m2 s3'>" +
+                    str += "<div class='search_res col s12 m6 l2'>" +
                         "<div class='card'>" +
                         "<span class='card-title grey-text text-darken-4' onclick='closeDiv(" + i + ")' style='cursor: pointer;'><i class='material-icons right' style='#2c3e50'>close</i></span>" +
                         "<br><div class='card-image waves-effect waves-block waves-light'>" +
@@ -349,3 +349,23 @@ function uploadFile(id) {
         }
     });
 }
+
+/*Scroll to top when arrow up clicked BEGIN*/
+$(window).scroll(function () {
+    var height = $(window).scrollTop();
+    if (height > 100) {
+        $('#back2Top').fadeIn();
+    } else {
+        $('#back2Top').fadeOut();
+    }
+});
+$(document).ready(function () {
+    $("#back2Top").click(function (event) {
+        event.preventDefault();
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+        return false;
+    });
+
+});
+/*Scroll to top when arrow up clicked END*/
+
