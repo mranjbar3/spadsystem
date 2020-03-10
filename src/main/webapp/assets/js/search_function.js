@@ -184,7 +184,11 @@ function showSearchResult(results, start, cnt) {
             "<img class='activator'  src=" + (result.image === null ? (result.gender === 'مرد' ? "/spadsystem/assets/image/man.png" : "/spadsystem/assets/image/woman.png") : result.image.substring(result.image.indexOf('temp'))) + ">" +
             "</div>" +
             "<div class='card-content'>" +
-            "<span class='card-title activator grey-text text-darken-4'><i class='fa fa-user'></i><b> نام و نام خانوادگی: </b>" + result.first_name + " " + result.last_name + "<br/><i class='fa fa-map'></i><b> استان: </b>" + (result.state === null ? "نامشخص" : result.state)+  " <br/><i class='fa fa-flag'></i><b> میز خدمت: </b>" + (result.service_table === null ? '' : result.service_table) + "<br/><i class='fa fa-tty'></i><b> تلفن ثابت:</b> " + (result.telephone === null ? '' : result.telephone) + "</span>" +
+            "<span class='card-title activator grey-text text-darken-4'><i class='fa fa-user'></i><b> نام و نام خانوادگی: </b>" +
+            result.first_name + " " + result.last_name + "<br/><i class='fa fa-map'></i><b> استان: </b>" +
+            (result.state === null ? "نامشخص" : result.state) + " <br/><i class='fa fa-flag'></i><b> میز خدمت: </b>" +
+            (result.service_table === null ? '' : result.service_table) + "<br/><i class='fa fa-tty'></i><b> تلفن ثابت:</b><span style='float: left;margin: 6px 10px;'>" +
+            (result.telephone === null ? '' : (result.preTel === null ? '' : result.preTel + '-') + result.telephone) + "</span></span>" +
             "</div>" +
             "<div class='card-reveal'>" +
             "<span class='card-title grey-text text-darken-4'><i class='material-icons right' style='color:#ffffff'>close</i></span>" +
@@ -194,7 +198,7 @@ function showSearchResult(results, start, cnt) {
             "<p class='cardtitle'><i class='fa fa-road'></i><b>محل خدمت:(شهر): </b>" + (result.city === null ? '' : result.city) + "</p>" +
             "<p class='cardtitle'><i class='fa fa-map-pin'></i><b>نشانی محل خدمت: </b>" + (result.address === null ? '' : result.address) + "</p>" +
             "<p class='cardtitle'><i class='fa fa-flag'></i><b>میز خدمت: </b>" + (result.service_table === null ? '' : result.service_table) + "</p>" +
-            "<p class='cardtitle'><i class='fa fa-tty'></i><b>شماره ثابت: </b>" + (result.telephone === null ? '' : result.telephone) + "</p>" +
+            "<p class='cardtitle'><i class='fa fa-tty'></i><b>شماره ثابت: </b><span style='float: left;margin: 6px 10px;'>" + (result.telephone === null ? '' : (result.preTel === null ? '' : result.preTel + '-') + result.telephone) + "</span></p>" +
             "<p class='cardtitle'><i class='fa fa-phone'></i><b>شماره داخلی 1: </b>" + (result.internalTel1 === null ? '' : result.internalTel1) + "</p>" +
             "<p class='cardtitle'><i class='fa fa-phone'></i><b>شماره داخلی 2: </b>" + (result.internalTel2 === null ? '' : result.internalTel2) + "</p>" +
             "<p class='cardtitle'><i class='fa fa-list-ol'></i><b>پیش شماره: </b>" + (result.preIntTel === null ? '' : result.preIntTel) + "</p>" +

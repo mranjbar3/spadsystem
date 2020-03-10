@@ -47,11 +47,11 @@ $.ajax({
             $.each(response, function (i, result) {
                 user[result.user_id] = result;
                 users.push(result.user_id);
-                if (result.position != null && positions.indexOf(result.position) === -1)
+                if (result.position != null && !positions.includes(result.position))
                     positions.push(result.position);
-                if (result.address != null && positions.indexOf(result.address) === -1)
+                if (result.address !== null && !addresses.includes(result.address))
                     addresses.push(result.address);
-                if (result.service_table != null && positions.indexOf(result.service_table) === -1)
+                if (result.service_table != null && !service_tables.includes(result.service_table))
                     service_tables.push(result.service_table);
             });
             $("#user_id").eq(0).on('keyup keydown change click', function () {
@@ -78,6 +78,7 @@ $.ajax({
                     $("#preIntTel")[0].value = user0.preIntTel;
                     $("#fax")[0].value = user0.fax;
                     $("#mobile")[0].value = user0.mobile;
+                    $("#fullAddress")[0].value = user0.fullAddress;
                     document.getElementById('admin').checked = user0.type != null ? user0.type : false;
                 }
             });
@@ -131,6 +132,7 @@ $(document).ready(function () {
             'preIntTel': $("#preIntTel")[0].value === '' ? '0' : $("#preIntTel")[0].value,
             'fax': $("#fax")[0].value === '' ? '0' : $("#fax")[0].value,
             'mobile': $("#mobile")[0].value === '' ? '0' : $("#mobile")[0].value,
+            'fullAddress': $("#fullAddress")[0].value,
             'type': document.getElementById('admin').checked,
         };
         if ($("#image_view")[0].value !== '')
@@ -196,11 +198,11 @@ function pageCnt(input) {
 
 function updateAutoCompletes(input) {
     if (typeof input === "object") {
-        if (input.position != null && positions.indexOf(input.position) === -1)
+        if (input.position != null && !positions.includes(input.position))
             positions.push(input.position != null ? input.position : "");
-        if (input.address != null && positions.indexOf(input.address) === -1)
+        if (input.address != null && !addresses.includes(input.address))
             addresses.push(input.address != null ? input.address : "");
-        if (input.service_table != null && positions.indexOf(input.service_table) === -1)
+        if (input.service_table != null && !service_tables.includes(input.service_table))
             service_tables.push(input.service_table != null ? input.service_table : "");
     }
     autocomplete(document.getElementById("user_id"), users);
@@ -236,6 +238,7 @@ function clearAddUserItems(type) {
     $("#preIntTel")[0].value = "";
     $("#fax")[0].value = "";
     $("#mobile")[0].value = "";
+    $("#fullAddress")[0].value = "";
     document.getElementById("admin").checked = false;
 }
 
