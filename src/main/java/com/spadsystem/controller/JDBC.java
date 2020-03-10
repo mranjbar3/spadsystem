@@ -404,6 +404,17 @@ public class JDBC {
         return true;
     }
 
+    public boolean sendForgottenPassword(User user) throws SQLException {
+        String sql = "select password FROM telephone AS tel JOIN user ON user.id = tel.id WHERE mobile=?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, user.getMobile());
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next())
+            return SMS.sendSms(user.getMobile(),
+                    "رمز عبور شما در سامانه اسپادسیستم " + resultSet.getString(1) + " است");
+        else
+            return false;
+    }
 //    public static void main(String[] args) {
 //        fromExcel();
 //    }

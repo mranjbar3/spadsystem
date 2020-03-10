@@ -1,4 +1,5 @@
-let master_state = [], state = {}, master_city = {}, city = {}, all = {}, users = [];
+let master_state = [], state = {}, master_city = {}, city = {}, all = {}, users = [], positions = [], addresses = [],
+    service_tables = [];
 $.ajax({
     url: "/spadsystem/rest/first_data",
     type: "GET",
@@ -41,13 +42,18 @@ $.ajax({
     data: JSON.stringify({data: "all"}),
     success: function (response) {
         if (response === null)
-            alert("پایگاه داده مشکل پیدا کرده است.");
+            showToast("دریافت داده از سرور با خطا مواجه شد. \nلطفا صفحه مرورگر را refresh کنید.",'red rounded');
         else {
             $.each(response, function (i, result) {
                 user[result.user_id] = result;
                 users.push(result.user_id);
+                if (result.position != null && positions.indexOf(result.position) === -1)
+                    positions.push(result.position);
+                if (result.address != null && positions.indexOf(result.address) === -1)
+                    addresses.push(result.address);
+                if (result.service_table != null && positions.indexOf(result.service_table) === -1)
+                    service_tables.push(result.service_table);
             });
-            autocomplete(document.getElementById("user_id"), users);
             $("#user_id").eq(0).on('keyup keydown change click', function () {
                 let user0 = user[$("#user_id")[0].value];
                 if (user0 === undefined)
@@ -71,13 +77,15 @@ $.ajax({
                     $("#internalTel2")[0].value = user0.internalTel2;
                     $("#preIntTel")[0].value = user0.preIntTel;
                     $("#fax")[0].value = user0.fax;
+                    $("#mobile")[0].value = user0.mobile;
+                    document.getElementById('admin').checked = user0.type;
                 }
             });
-            pageCnt();
+            pageCnt(12);
         }
     },
     error: function () {
-        alert("سرور با مشکل مواجه شده است. لطفا بعدا تلاش نمایید.");
+        showToast("دریافت داده از سرور با خطا مواجه شد. \nلطفا صفحه مرورگر را refresh کنید.",'red rounded');
     }
 });
 $(document).ready(function () {
@@ -94,12 +102,12 @@ $(document).ready(function () {
                 if (response) {
                     removeUser($("#user_id")[0].value);
                     clearAddUserItems();
-                    alert('اطلاعات کاربری با موفقیت حذف شد.');
+                    showToast('اطلاعات کاربری با موفقیت حذف شد.','green rounded');
                 } else
-                    alert('حذف اطلاعات با خظا مواجه شده است.');
+                    showToast('حذف اطلاعات با خظا مواجه شده است.','red rounded');
             },
             error: function () {
-                alert('سرور با مشکل مواجه شده است. لطفا بعدا امتحان نمایید.');
+                showToast('حذف اطلاعات با خظا مواجه شده است.','red rounded');
             }
         });
     });
@@ -122,6 +130,8 @@ $(document).ready(function () {
             'internalTel2': $("#internalTel2")[0].value === '' ? '0' : $("#internalTel2")[0].value,
             'preIntTel': $("#preIntTel")[0].value === '' ? '0' : $("#preIntTel")[0].value,
             'fax': $("#fax")[0].value === '' ? '0' : $("#fax")[0].value,
+            'mobile': $("#mobile")[0].value === '' ? '0' : $("#mobile")[0].value,
+            'type': document.getElementById('admin').checked,
         };
         if ($("#image_view")[0].value !== '')
             uploadFile(data.user_id);
@@ -133,36 +143,39 @@ $(document).ready(function () {
             success: function (response) {
                 if (response) {
                     addUser(data);
-                    alert('اطلاعات کاربری با موفقیت ثبت شد.');
+                    showToast('اطلاعات کاربری با موفقیت ثبت شد.','green rounded');
                     clearAddUserItems();
                 } else
-                    alert('ثبت اطلاعات با خظا مواجه شده است.');
+                    showToast('ثبت اطلاعات با خظا مواجه شده است.','red rounded');
             },
             error: function () {
-                alert('سرور با مشکل مواجه شده است. لطفا بعدا امتحان نمایید.');
+                showToast('ثبت اطلاعات با خظا مواجه شده است.','red rounded');
             }
         });
     });
 });
 
+function showToast(str, classes) {
+    M.toast({html: str, classes: classes});
+}
+
 function addUser(data) {
     user[data.user_id] = data;
-    if (users.indexOf(data.user_id) === -1)
+    if (users.indexOf(data.user_id) === -1) {
         users.push(data.user_id);
-    autocomplete(document.getElementById("user_id"), users);
-    pageCnt();
+    }
+    pageCnt(data);
 }
 
 function removeUser(id) {
-    pageCnt();
     delete user[$("#user_id")[0].value];
     users = jQuery.grep(users, function (value) {
         return value !== id;
     });
-    autocomplete(document.getElementById("user_id"), users);
+    pageCnt(id);
 }
 
-function pageCnt() {
+function pageCnt(input) {
     $('#user_cnt').html(Object.keys(user).length);
     let m_cnt = 1, t_cnt = 0, it_cnt = 0;
     $.each(user, function (i, user0) {
@@ -174,10 +187,26 @@ function pageCnt() {
             it_cnt++;
         if (user0.internalTel2.length > 1)
             it_cnt++;
-    })
+    });
     $('#master_cnt').html(m_cnt);
     $('#tel_cnt').html(t_cnt);
     $('#int_tel_cnt').html(it_cnt);
+    updateAutoCompletes(input);
+}
+
+function updateAutoCompletes(input) {
+    if (typeof input === "object") {
+        if (input.position != null && positions.indexOf(input.position) === -1)
+            positions.push(input.position != null ? input.position : "");
+        if (input.address != null && positions.indexOf(input.address) === -1)
+            addresses.push(input.address != null ? input.address : "");
+        if (input.service_table != null && positions.indexOf(input.service_table) === -1)
+            service_tables.push(input.service_table != null ? input.service_table : "");
+    }
+    autocomplete(document.getElementById("user_id"), users);
+    autocomplete(document.getElementById("position"), positions);
+    autocomplete(document.getElementById("address"), addresses);
+    autocomplete(document.getElementById("TableService"), service_tables);
 }
 
 function clearAddUserItems(type) {
@@ -221,10 +250,10 @@ function uploadFile(id) {
         contentType: false,
         success: function (response) {
             if (response === "Error")
-                alert("بارگذاری تصویر با خطا مواجه شد.");
+                showToast("بارگذاری تصویر با خطا مواجه شد.",'red rounded');
         },
-        error: function (response) {
-            alert("سرور با مشکل مواجه شده است. لطفا بعدا تلاش نمایید.");
+        error: function () {
+            showToast("بارگذاری تصویر با خطا مواجه شد.",'red rounded');
         }
     });
 }
@@ -252,7 +281,7 @@ function autocomplete(inp, arr) {
         /*for each item in the array...*/
         for (i = 0; i < arr.length; i++) {
             /*check if the item starts with the same letters as the text field value:*/
-            if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+            if (arr[i].substr(0, val.length) === val) {
                 /*create a DIV element for each matching element:*/
                 b = document.createElement("DIV");
                 b.setAttribute("style", "margin: 5px;cursor: pointer;");

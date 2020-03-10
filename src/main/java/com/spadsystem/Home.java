@@ -141,4 +141,19 @@ public class Home {
         }
         return null;
     }
+
+    @Path("/forgot")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public boolean sendForgottenPassword(String string) {
+        User user = new User();
+        user.setMobile(new JSONObject(string.replace("\"", "")).getString("mobile"));
+        try {
+            return new JDBC().sendForgottenPassword(user);
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
