@@ -3,10 +3,9 @@
     "",
     "\\src",
     "\\src\\main",
-    "\\src\\main\\webapp",
     "\\src\\main\\webapp\\assets",
     "\\src\\main\\webapp\\assets\\js"
   ],
-  "SelectedNode": "\\src\\main\\webapp\\assets\\js\\search_function.js",
+  "SelectedNode": "\\src",
   "PreviewInSolutionExplorer": false
 }
