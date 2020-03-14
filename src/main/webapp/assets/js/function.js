@@ -68,8 +68,10 @@ $.ajax({
                     $("#national_code")[0].value = user0.national_code;
                     $("#position")[0].value = user0.position;
                     $("#master_id")[0].value = user0.master_id;
-                    $("#state").val(user0.state).change();
-                    $("#city").val(user0.city).change();
+                    if (user0.state !== "")
+                        $("#state").val(user0.state).change();
+                    if (user0.city !== "")
+                        $("#city").val(user0.city).change();
                     $("#address")[0].value = user0.address;
                     $("#TableService")[0].value = user0.service_table;
                     $("#telephone")[0].value = user0.telephone;
