@@ -31,7 +31,7 @@ public class JDBC {
 //        instance = this;
     }
 
-    public JDBC getInstance() throws SQLException, ClassNotFoundException {
+    public static JDBC getInstance() throws SQLException, ClassNotFoundException {
         if (instance == null)
             instance = new JDBC();
         return instance;
@@ -274,7 +274,7 @@ public class JDBC {
     }
 
     public static void fromExcel() {
-        String excelFilePath = "/home/mahdi/Documents/persons.xlsx";
+        String excelFilePath = "/home/mahdi/Documents/westPersons.xlsx";
         try {
             long start = System.currentTimeMillis();
             FileInputStream inputStream = new FileInputStream(excelFilePath);
@@ -284,26 +284,31 @@ public class JDBC {
                 Iterator<Cell> cellIterator = nextRow.cellIterator();
                 Cell nextCell = cellIterator.next();
                 User user = new User();
+                try {
+                    user.setUser_id(String.valueOf((int) nextCell.getNumericCellValue()));
+                } catch (Exception ignored) {
+                    continue;
+                }
+                nextCell = cellIterator.next();
                 user.setFirst_name(nextCell.getStringCellValue());
                 nextCell = cellIterator.next();
                 user.setLast_name(nextCell.getStringCellValue());
                 nextCell = cellIterator.next();
-                user.setUser_id(String.valueOf((int) nextCell.getNumericCellValue()));
-                nextCell = cellIterator.next();
                 user.setAddress(nextCell.getStringCellValue());
                 nextCell = cellIterator.next();
                 user.setPosition(nextCell.getStringCellValue());
-                nextCell = cellIterator.next();
-                user.setTelephone(String.valueOf((int) nextCell.getNumericCellValue()));
-                nextCell = cellIterator.next();
-                user.setInternalTel1(String.valueOf((int) nextCell.getNumericCellValue()));
-                nextCell = cellIterator.next();
-                user.setInternalTel2(String.valueOf((int) nextCell.getNumericCellValue()));
-                nextCell = cellIterator.next();
-                user.setFax(String.valueOf((int) nextCell.getNumericCellValue()));
-                nextCell = cellIterator.next();
-                user.setPreIntTel(String.valueOf((int) nextCell.getNumericCellValue()));
-                new JDBC().addUser(user);
+//                nextCell = cellIterator.next();
+//                user.setTelephone(String.valueOf((int) nextCell.getNumericCellValue()));
+//                nextCell = cellIterator.next();
+//                user.setInternalTel1(String.valueOf((int) nextCell.getNumericCellValue()));
+//                nextCell = cellIterator.next();
+//                user.setInternalTel2(String.valueOf((int) nextCell.getNumericCellValue()));
+//                nextCell = cellIterator.next();
+//                user.setFax(String.valueOf((int) nextCell.getNumericCellValue()));
+//                nextCell = cellIterator.next();
+//                user.setPreIntTel(String.valueOf((int) nextCell.getNumericCellValue()));
+                getInstance().addUser(user);
+//                new JDBC().addUser(user);
             }
             workbook.close();
             long end = System.currentTimeMillis();
@@ -420,7 +425,8 @@ public class JDBC {
         else
             return false;
     }
-//    public static void main(String[] args) {
-//        fromExcel();
-//    }
+
+    public static void main(String[] args) {
+        fromExcel();
+    }
 }

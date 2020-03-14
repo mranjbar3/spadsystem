@@ -12,8 +12,12 @@ import javax.ws.rs.core.Response;
 import java.io.*;
 import java.net.URI;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 @Path("/")
 public class Home {
@@ -32,7 +36,7 @@ public class Home {
         user.setUser_id(id);
         user.setPassword(password);
         try {
-            if (new JDBC().checkUser(user)) {
+            if (JDBC.getInstance().checkUser(user)) {
                 if (user.getType() != null && user.getType().equals("true"))
                     return Response.seeOther(URI.create("/spadsystem/admin.html")).build();
                 else
@@ -50,7 +54,7 @@ public class Home {
     @Produces(MediaType.APPLICATION_JSON)
     public List<String> firstData() {
         try {
-            return new JDBC().getFirstData();
+            return JDBC.getInstance().getFirstData();
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
@@ -63,7 +67,7 @@ public class Home {
     @Produces(MediaType.TEXT_PLAIN)
     public boolean addUser(User user) {
         try {
-            return new JDBC().addUser(user);
+            return JDBC.getInstance().addUser(user);
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -76,7 +80,7 @@ public class Home {
     @Produces(MediaType.TEXT_PLAIN)
     public boolean deleteUser(User user) {
         try {
-            return new JDBC().deleteUser(user);
+            return JDBC.getInstance().deleteUser(user);
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -101,7 +105,7 @@ public class Home {
             while ((read = uploadedInputStream.read(bytes)) != -1) {
                 out.write(bytes, 0, read);
             }
-            new JDBC().saveImage(id, uploadedFileLocation);
+            JDBC.getInstance().saveImage(id, uploadedFileLocation);
 //            Files.copy(new File(uploadedFileLocation).toPath(),
 //                    new File(url).toPath(), StandardCopyOption.REPLACE_EXISTING);
             out.flush();
@@ -120,7 +124,7 @@ public class Home {
     public List<User> search(String data) {
         String[] datas = data.substring(9, data.length() - 2).split(",");
         try {
-            return new JDBC().searchDb(datas);
+            return JDBC.getInstance().searchDb(datas);
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
@@ -135,7 +139,7 @@ public class Home {
         User user = new User();
         user.setUser_id(new JSONObject(string).getString("user_id"));
         try {
-            return new JDBC().getUser(user);
+            return JDBC.getInstance().getUser(user);
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
@@ -150,10 +154,17 @@ public class Home {
         User user = new User();
         user.setMobile(new JSONObject(string.replace("\"", "")).getString("mobile"));
         try {
-            return new JDBC().sendForgottenPassword(user);
+            return JDBC.getInstance().sendForgottenPassword(user);
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public static void main(String[] args) {
+        Date date = new Date(1583929383000L);
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd 'T'HH:mm:ss.SSSZ");
+        format.setTimeZone(TimeZone.getTimeZone("Asia/Tehran"));
+        System.out.println(format.format(date));
     }
 }
