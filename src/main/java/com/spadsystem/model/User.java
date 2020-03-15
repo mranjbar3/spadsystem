@@ -6,11 +6,11 @@ public class User {
             internalTel2 = "0", fax = "0", preIntTel = "0", mobile = "", type = "user", national_code = "", image;
 
     public String getFullAddress() {
-        return fullAddress;
+        return setPersianText(fullAddress);
     }
 
     public void setFullAddress(String fullAddress) {
-        this.fullAddress = fullAddress;
+        this.fullAddress = setPersianText(fullAddress);
     }
 
     public String getNational_code() {
@@ -30,7 +30,7 @@ public class User {
     }
 
     public String getService_table() {
-        return service_table;
+        return setPersianText(service_table);
     }
 
     public void setService_table(String service_table) {
@@ -110,27 +110,27 @@ public class User {
     }
 
     public String getFirst_name() {
-        return first_name;
+        return setPersianText(first_name);
     }
 
     public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+        this.first_name = setPersianText(first_name);
     }
 
     public String getLast_name() {
-        return last_name;
+        return setPersianText(last_name);
     }
 
     public void setLast_name(String last_name) {
-        this.last_name = last_name;
+        this.last_name = setPersianText(last_name);
     }
 
     public String getPosition() {
-        return position;
+        return setPersianText(position);
     }
 
     public void setPosition(String position) {
-        this.position = position;
+        this.position = setPersianText(position);
     }
 
     public String getMaster_id() {
@@ -142,27 +142,27 @@ public class User {
     }
 
     public String getState() {
-        return state;
+        return setPersianText(state);
     }
 
     public void setState(String state) {
-        this.state = state;
+        this.state = setPersianText(state);
     }
 
     public String getCity() {
-        return city;
+        return setPersianText(city);
     }
 
     public void setCity(String city) {
-        this.city = city;
+        this.city = setPersianText(city);
     }
 
     public String getAddress() {
-        return address;
+        return setPersianText(address);
     }
 
     public void setAddress(String address) {
-        this.address = address;
+        this.address = setPersianText(address);
     }
 
     public String getTelephone() {
@@ -179,5 +179,17 @@ public class User {
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    public static String setPersianText(String str) {
+        if (str != null && str.length() > 0) {
+            while (str.indexOf('ي') != -1) {
+                str = str.replace('ي', 'ی');
+            }
+            while (str.indexOf('ك') != -1) {
+                str = str.replace('ك', 'ک');
+            }
+        }
+        return str;
     }
 }

@@ -37,6 +37,38 @@ public class JDBC {
         return instance;
     }
 
+    public static void clearDB() {
+        String sql;
+        sql = "Select ud.id,first_name,last_name,position,address,service_table,fullAddress from user_data AS ud " +
+                "JOIN position AS pos ON ud.id=pos.id JOIN address AS ad ON ad.id=ud.id";
+        try {
+            PreparedStatement preparedStatement = getInstance().connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                sql = "UPDATE user_data SET first_name=?, last_name=? WHERE id=?";
+                preparedStatement = getInstance().connection.prepareStatement(sql);
+                preparedStatement.setString(1, User.setPersianText(resultSet.getString(2)));
+                preparedStatement.setString(2, User.setPersianText(resultSet.getString(3)));
+                preparedStatement.setString(3, resultSet.getString(1));
+                preparedStatement.executeUpdate();
+                sql = "UPDATE position SET position=? WHERE id=?";
+                preparedStatement = getInstance().connection.prepareStatement(sql);
+                preparedStatement.setString(2, User.setPersianText(resultSet.getString(1)));
+                preparedStatement.setString(1, User.setPersianText(resultSet.getString(4)));
+                preparedStatement.executeUpdate();
+                sql = "UPDATE address SET address=?, service_table=?, fullAddress=? WHERE id=?";
+                preparedStatement = getInstance().connection.prepareStatement(sql);
+                preparedStatement.setString(4, User.setPersianText(resultSet.getString(1)));
+                preparedStatement.setString(1, User.setPersianText(resultSet.getString(5)));
+                preparedStatement.setString(2, User.setPersianText(resultSet.getString(6)));
+                preparedStatement.setString(3, User.setPersianText(resultSet.getString(7)));
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     public boolean addUser(User user) {
         if (user.getUser_id().length() > 1)
             try {
@@ -274,7 +306,7 @@ public class JDBC {
     }
 
     public static void fromExcel() {
-        String excelFilePath = "/home/mahdi/Documents/westPersons.xlsx";
+        String excelFilePath = JDBC.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "westPersons.xlsx";
         try {
             long start = System.currentTimeMillis();
             FileInputStream inputStream = new FileInputStream(excelFilePath);

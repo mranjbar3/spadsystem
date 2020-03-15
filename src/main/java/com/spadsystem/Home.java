@@ -24,6 +24,8 @@ public class Home {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String test() {
+//        JDBC.fromExcel();
+        JDBC.clearDB();
         return "server is GOOD!";
     }
 
