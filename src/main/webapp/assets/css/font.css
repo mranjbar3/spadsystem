@@ -1,0 +1,69 @@
+﻿/* fallback */
+
+@font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2') format('woff2');
+}
+
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+    color: #9AA0A6;
+}
+
+@font-face {
+    font-family: 'DastNevis';
+    src: url('../fonts/danstevis.eot'); /* IE9 Compat Modes */
+    src: url('../fonts/danstevis.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('../fonts/danstevis.woff2') format('woff2'), /* Modern Browsers */
+    url('../fonts/danstevis.woff') format('woff'), /* Modern Browsers */
+    url('../fonts/danstevis.ttf') format('truetype'), /* Safari, Android, iOS */
+    url('../fonts/danstevis.svg') format('svg'); /* Legacy iOS */
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'BYekan';
+    src: url(../fonts/Yekan.woff);
+    src: url(../fonts/Yekan.eot?#iefix) format("embedded-opentype"), url(../fonts/Yekan.woff) format("woff"), url(../fonts/Yekan.ttf) format("truetype"), url('../fonts/Yekan.svg') format('svg'); /* Legacy iOS */
+    font-weight: normal;
+    font-style: normal
+}
+
+@font-face {
+    font-family: 'Vazir';
+    src: url(../fonts/Vazir.woff);
+    src: url(../fonts/Vazir.eot?#iefix) format("embedded-opentype"), url(../fonts/Vazir.woff) format("woff"), url(../fonts/Vazir.ttf) format("truetype"); /* Legacy iOS */
+    font-weight: normal;
+    font-style: normal
+}
+
+@font-face {
+    font-family: 'Vazir-Bold';
+    src: url(../fonts/Vazir-Bold.woff);
+    src: url(../fonts/Vazir-Bold.eot?#iefix) format("embedded-opentype"), url(../fonts/Vazir-Bold.woff) format("woff"), url(../fonts/Vazir-Bold.ttf) format("truetype"); /* Legacy iOS */
+    font-weight: normal;
+    font-style: normal
+}
+
+@font-face {
+    font-family: 'Vazir-Light';
+    src: url(../fonts/Vazir-Light.woff);
+    src: url(../fonts/Vazir-Light.eot?#iefix) format("embedded-opentype"), url(../fonts/Vazir-Light.woff) format("woff"), url(../fonts/Vazir-Light.ttf) format("truetype"); /* Legacy iOS */
+    font-weight: normal;
+    font-style: normal
+}

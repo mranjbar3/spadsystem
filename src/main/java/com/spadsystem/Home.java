@@ -1,6 +1,7 @@
 package com.spadsystem;
 
 import com.spadsystem.controller.JDBC;
+import com.spadsystem.model.Mail;
 import com.spadsystem.model.User;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
@@ -12,12 +13,8 @@ import javax.ws.rs.core.Response;
 import java.io.*;
 import java.net.URI;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 @Path("/")
 public class Home {
@@ -25,7 +22,7 @@ public class Home {
     @Produces(MediaType.TEXT_PLAIN)
     public String test() {
 //        JDBC.fromExcel();
-        JDBC.clearDB();
+//        JDBC.clearDB();
         return "server is GOOD!";
     }
 
@@ -42,7 +39,7 @@ public class Home {
                 if (user.getType() != null && user.getType().equals("true"))
                     return Response.seeOther(URI.create("/spadsystem/admin.html")).build();
                 else
-                    return Response.seeOther(URI.create("/spadsystem/?id=" + id)).build();
+                    return Response.seeOther(URI.create("/spadsystem/index.jsp?id=" + id)).build();
             } else
                 return Response.seeOther(URI.create("/spadsystem/login.html?text=auth")).build();
         } catch (ClassNotFoundException | SQLException e) {
@@ -163,10 +160,42 @@ public class Home {
         return false;
     }
 
-    public static void main(String[] args) {
-        Date date = new Date(1583929383000L);
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd 'T'HH:mm:ss.SSSZ");
-        format.setTimeZone(TimeZone.getTimeZone("Asia/Tehran"));
-        System.out.println(format.format(date));
+    @Path("/send_mail")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public boolean sendMail(Mail mail) {
+        try {
+            return JDBC.getInstance().saveMail(mail);
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Path("/get_mail")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public List<Mail> getMail(Mail mail) {
+        try {
+            return JDBC.getInstance().getMail(mail.getReceiver());
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Path("/update_mail")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Mail updateMail(Mail mail) {
+        try {
+            return JDBC.getInstance().updateMail(mail);
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

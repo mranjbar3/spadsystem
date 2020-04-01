@@ -1,5 +1,7 @@
 package com.spadsystem.controller;
 
+import com.spadsystem.model.Entity;
+import com.spadsystem.model.Mail;
 import com.spadsystem.model.User;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -17,18 +19,13 @@ import java.util.List;
 public class JDBC {
     // JDBC driver name and database URL
     static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://localhost:3306/spadsystem?useUnicode=yes&characterEncoding=UTF-8&user=root&password=";
-    //  Database credentials
-    static final String USER = "root";
-    //    static final String PASS = "R@njbar1";
-    static final String PASS = "";
+    static final String DB_URL = "jdbc:mysql://localhost:3306/spadsystem?useUnicode=yes&characterEncoding=UTF-8&autoReconnect=true&user=root&password=";
     private static JDBC instance;
     private Connection connection;
 
-    public JDBC() throws ClassNotFoundException, SQLException {
+    private JDBC() throws ClassNotFoundException, SQLException {
         Class.forName(JDBC_DRIVER);
         connection = DriverManager.getConnection(DB_URL);
-//        instance = this;
     }
 
     public static JDBC getInstance() throws SQLException, ClassNotFoundException {
@@ -234,7 +231,7 @@ public class JDBC {
                 if (state != null)
                     preparedStatement.setString(i++, '%' + state + '%');
                 if (city != null)
-                    preparedStatement.setString(i++, '%' + city + '%');
+                    preparedStatement.setString(i, '%' + city + '%');
                 System.out.println(preparedStatement.toString());
                 ResultSet resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
@@ -277,7 +274,7 @@ public class JDBC {
         return null;
     }
 
-    public boolean saveImage(String id, String uploadedFileLocation) {
+    public void saveImage(String id, String uploadedFileLocation) {
         try {
             String sql;
             PreparedStatement preparedStatement;
@@ -289,19 +286,16 @@ public class JDBC {
                 preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setString(2, id);
                 preparedStatement.setString(1, uploadedFileLocation);
-                preparedStatement.executeUpdate();
             } else {
                 sql = "INSERT INTO image VALUES (?,?)";
                 preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setString(1, id);
                 preparedStatement.setString(2, uploadedFileLocation);
-                preparedStatement.executeUpdate();
             }
+            preparedStatement.executeUpdate();
             preparedStatement.close();
-            return true;
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
     }
 
@@ -461,4 +455,68 @@ public class JDBC {
     public static void main(String[] args) {
         fromExcel();
     }
+
+    public boolean saveMail(Mail mail) throws SQLException {
+        String sql = "INSERT INTO mail (sender,receiver,time,title,body) VALUES (?,?,?,?,?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, mail.getSender());
+        preparedStatement.setString(2, mail.getReceiver());
+        preparedStatement.setString(3, mail.getTime());
+        preparedStatement.setString(4, mail.getTitle());
+        preparedStatement.setString(5, mail.getBody());
+        preparedStatement.executeUpdate();
+        return true;
+    }
+
+    public List<Mail> getMail(String id) throws SQLException {
+        String sql = "select * FROM mail WHERE (receiver=? OR sender=?) AND NOT `delete`";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, id);
+        preparedStatement.setString(2, id);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        ArrayList<Mail> result = new ArrayList<Mail>();
+        while (resultSet.next()) {
+            Mail mail = new Mail();
+            mail.setPk(Long.parseLong(resultSet.getString("pk")));
+            mail.setSender(resultSet.getString("sender").equals(id) ? id : getName(resultSet.getString("sender")));
+            mail.setReceiver(resultSet.getString("receiver").equals(id) ? id : getName(resultSet.getString("receiver")));
+            mail.setTime(resultSet.getString("time"));
+            mail.setTitle(resultSet.getString("title"));
+            mail.setBody(resultSet.getString("body"));
+            mail.setSend(resultSet.getBoolean("send"));
+            mail.setRead(resultSet.getBoolean("read"));
+            mail.setStar(resultSet.getBoolean("star"));
+            mail.setTrash(resultSet.getBoolean("trash"));
+            mail.setDelete(resultSet.getBoolean("delete"));
+            result.add(mail);
+        }
+        return result;
+    }
+
+    private String getName(String id) throws SQLException {
+        String sql = "select first_name, last_name FROM user_data WHERE id=?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, id);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next())
+            return resultSet.getString(1) + " " + resultSet.getString(2);
+        return "";
+    }
+
+    public Mail updateMail(Mail mail) throws SQLException {
+        String sql = "UPDATE mail SET title=?,body=?,`read`=?,`send`=?,`star`=?,`trash`=?,`delete`=? WHERE pk=?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, mail.getTitle());
+        preparedStatement.setString(2, mail.getBody());
+        preparedStatement.setBoolean(3, mail.isRead());
+        preparedStatement.setBoolean(4, mail.isSend());
+        preparedStatement.setBoolean(5, mail.isStar());
+        preparedStatement.setBoolean(6, mail.isTrash());
+        preparedStatement.setBoolean(7, mail.isDelete());
+        preparedStatement.setLong(8, mail.getPk());
+        preparedStatement.executeUpdate();
+        return mail;
+    }
+
 }
+

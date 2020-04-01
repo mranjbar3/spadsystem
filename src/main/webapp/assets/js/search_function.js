@@ -164,6 +164,8 @@ function checkInput() {
                 if (response.length > 0) {
                     search_response = response;
                     showSearchResult(response, 0, 12);
+                }else{
+                    showToast("موردی با این عنوان یافت نشد.","green rounded");
                 }
             }
         },
