@@ -157,7 +157,7 @@ function produceMailViewString(mails, type_str) {
             (mail.sender === localStorage.id ? mail.receiver : mail.sender) + '</a></td>' +
             '<td class="hidden-xs"><a href="#" onclick="showMailDetail(' + mail.pk + ',\'' + type_str +
             '\')" class="email-msg">' + mail.title + '</a></td>' +
-            '<td style="width: 20px;"><i class="fa fa-paperclip"></i></td>' +
+            (mail.attach == null ? '' : '<td style="width: 20px;"><i class="fa fa-paperclip"></i></td>') +
             '<td class="text-right">' + mail.time + '</td></tr>';
 
         if (mail.trash) {
@@ -188,7 +188,7 @@ function showMailDetail(id) {
     $('#detail_mail_name').html(mail.sender === localStorage.id ? mail.receiver : mail.sender);
     $('#detail_mail_body').html(mail.body);
     localStorage.active_object = JSON.stringify(mail);
-    if (!mail.read) {
+    if (mail.sender !== localStorage.id && !mail.read) {
         mail.send = true;
         mail.read = true;
         updateMail(mail);
