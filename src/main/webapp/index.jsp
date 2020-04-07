@@ -71,7 +71,7 @@
                         <li class="dropdown top-menu-item-xs">
                             <a href="#" data-target="#" class="dropdown-toggle waves-effect waves-light"
                                data-toggle="dropdown" aria-expanded="true">
-                                <i class="icon-bell"></i> <span class="badge badge-xs badge-danger">3</span>
+                                <i class="icon-bell"></i> <span style="display: none;" class="badge badge-xs badge-danger"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-lg">
                                 <li class="notifi-title"><span class="label label-default pull-right">جدید 3</span>پیام
@@ -79,22 +79,10 @@
                                 </li>
                                 <li class="list-group slimscroll-noti notification-list">
                                     <!-- list item-->
-                                    <a href="javascript:void(0);" class="list-group-item">
-                                        <div class="media">
-                                            <div class="pull-left p-r-10 profile ">
-                                                <img src="assets/images/users/avatar-1.jpg" class="img-circle"/>
-                                            </div>
-                                            <div class="media-body">
-                                                <h5 class="media-heading">مصطفی رنجبر</h5>
-                                                <p class="m-0">
-                                                    <small>10 ساعت پیش</small>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
+
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0);" class="list-group-item text-left">
+                                    <a href="#" onclick="showInboxMailView()" class="list-group-item text-left">
                                         <small class="font-600">مشاهده پیام های دریافتی</small>
                                     </a>
                                 </li>
@@ -110,7 +98,8 @@
                                aria-expanded="true"><img src="assets/images/users/avatar-1.jpg" alt="user-img"
                                                          class="img-circle"> </a>
                             <ul class="dropdown-menu">
-                                <li><a href="javascript:void(0)"><i class="ti-user m-r-10 text-custom"></i> حساب کاربری</a>
+                                <li><a href="#" onclick="showProfileView()"><i class="ti-user m-r-10 text-custom"></i>
+                                    حساب کاربری</a>
                                 </li>
                                 <li class="divider"></li>
                                 <li><a href="javascript:void(0)"><i class="ti-power-off m-r-10 text-danger"></i>
@@ -202,47 +191,6 @@
         <h4 class="text-center">آخرین پیام های ارسال شده</h4>
         <div class="contact-list nicescroll">
             <ul class="list-group contacts-list">
-                <li class="list-group-item">
-                    <a href="#">
-                        <div class="avatar">
-                            <img src="assets/images/users/avatar-1.jpg" alt="">
-                        </div>
-                        <span class="name">سید امید الموسوی</span>
-                        <i class="fa fa-circle online"></i>
-                    </a>
-                    <span class="clearfix"></span>
-                </li>
-                <li class="list-group-item">
-                    <a href="#">
-                        <div class="avatar">
-                            <img src="assets/images/users/avatar-2.jpg" alt="">
-                        </div>
-                        <span class="name">محمدحسن رنجبر</span>
-                        <i class="fa fa-circle online"></i>
-                    </a>
-                    <span class="clearfix"></span>
-                </li>
-                <li class="list-group-item">
-                    <a href="#">
-                        <div class="avatar">
-                            <img src="assets/images/users/avatar-3.jpg" alt="">
-                        </div>
-                        <span class="name">مصطفی رنجبر</span>
-                        <i class="fa fa-circle online"></i>
-                    </a>
-                    <span class="clearfix"></span>
-                </li>
-                <li class="list-group-item">
-                    <a href="#">
-                        <div class="avatar">
-                            <img src="assets/images/users/avatar-4.jpg" alt="">
-                        </div>
-                        <span class="name">مهرداد غفاری</span>
-                        <i class="fa fa-circle offline"></i>
-                    </a>
-                    <span class="clearfix"></span>
-                </li>
-
             </ul>
         </div>
     </div>
@@ -266,10 +214,10 @@
 <script src="assets/js/wow.min.js"></script>
 <script src="assets/js/jquery.nicescroll.js"></script>
 <script src="assets/js/jquery.scrollTo.min.js"></script>
+<%--<script src="assets/plugins/bootstrap-filestyle/js/bootstrap-filestyle.min.js" type="text/javascript"></script>--%>
 
 <script src="assets/js/jquery.core.js"></script>
 <script src="assets/js/jquery.app.js"></script>
-<script src="assets/js/materialize.min.js"></script>
 
 <script src="assets/js/mainFunction.js"></script>
 

@@ -60,8 +60,6 @@
                                 <button type="button" class="btn btn-primary waves-effect waves-light " title="پاسخ"><i
                                         class="fa fa-reply"></i></button>
                                 <button type="button" class="btn btn-primary waves-effect waves-light "
-                                        title="پاسخ به همه"><i class="fa fa-reply-all"></i></button>
-                                <button type="button" class="btn btn-primary waves-effect waves-light "
                                         title="ارسال به"><i class="fa fa-mail-forward"></i></button>
                             </div>
 

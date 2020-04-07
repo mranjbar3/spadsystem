@@ -23,6 +23,11 @@ function showDashboardView() {
     $("#admin").show();
 }
 
+//show profile information view
+function showProfileView() {
+    hideAll();
+    $('#profile').show();
+}
 
 function mailHide() {
     $("#mail-inbox").hide();
@@ -125,22 +130,35 @@ function getEmails(id) {
 
 function showAllMail(mails) {
     produceMailViewString(mails);
-    const rightLable = $('.label-success').eq(0);
-    unread_receive_message = $('#receive_mails .unread').length;
     unread_trash_message = $('#trash_mails .unread').length;
     unread_star_message = $('#star_mails .unread').length;
-    if (unread_receive_message > 0) {
-        rightLable.show();
-        rightLable.html(unread_receive_message);
-        $('#receive_btn b').eq(0).html("(" + unread_receive_message + ")");
-    } else {
-        rightLable.hide();
-    }
+    checkReceiveMessages();
     if (unread_trash_message > 0) {
         $('#trash_btn b').eq(0).html("(" + unread_trash_message + ")");
     }
     if (unread_star_message > 0) {
         $('#star_btn b').eq(0).html("(" + unread_star_message + ")");
+    }
+    showLastSendingMail()
+}
+
+function checkReceiveMessages(cnt) {
+    const rightLabel = $('.label-success').eq(0), topLabel = $('.badge-danger').eq(0),
+        topLabelNew = $('.notifi-title .pull-right').eq(0);
+    if (cnt === undefined)
+        unread_receive_message = $('#receive_mails .unread').length;
+    if (unread_receive_message > 0) {
+        rightLabel.show();
+        rightLabel.html(unread_receive_message);
+        topLabel.show();
+        topLabel.html(unread_receive_message);
+        topLabelNew.show();
+        topLabelNew.html("جدید " + unread_receive_message);
+        $('#receive_btn b').eq(0).html("(" + unread_receive_message + ")");
+    } else {
+        rightLabel.hide();
+        topLabel.hide();
+        topLabelNew.hide();
     }
 }
 
@@ -149,11 +167,25 @@ function produceMailViewString(mails, type_str) {
         let str = '<tr id="' + mail.pk + '"';
         if (!mail.read) {
             str += ' class="unread"';
+            if (mail.sender !== localStorage.id)
+                $('.slimscroll-noti').eq(0).prepend("<a href=\"#\" onclick=\"showMailDetail(" + mail.pk + ")\" class=\"list-group-item\">" +
+                    " <div class=\"media\">" +
+                    "  <div class=\"pull-left p-r-10 profile \">" +
+                    "   <img src=\"assets/images/users/avatar-1.jpg\" class=\"img-circle\"/>" +
+                    "  </div>" +
+                    "  <div class=\"media-body\">" +
+                    "   <h5 class=\"media-heading\">" + mail.sender + "</h5>" +
+                    "   <p class=\"m-0\">" +
+                    "    <small>10 ساعت پیش</small>" +
+                    "   </p>" +
+                    "  </div>" +
+                    " </div>" +
+                    "</a>");
         }
         str += '><td class="mail-select"><div class="checkbox checkbox-primary m-r-15">' +
             '<input type="checkbox"><label></label>' +
             '</div><i onclick="mailStarChange(this)" class="fa fa-star m-r-15 text-' + (mail.star ? 'warning' : 'muted') + '"></i></td>' +
-            '<td><a href="#" onclick="showMailDetail(' + mail.pk + ',\'' + type_str + '\')" class="email-name">' +
+            '<td><a href="#" onclick="showMailDetail(' + mail.pk + ')" class="email-name">' +
             (mail.sender === localStorage.id ? mail.receiver : mail.sender) + '</a></td>' +
             '<td class="hidden-xs"><a href="#" onclick="showMailDetail(' + mail.pk + ',\'' + type_str +
             '\')" class="email-msg">' + mail.title + '</a></td>' +
@@ -202,8 +234,7 @@ function showMailDetail(id) {
             $("#trash_btn b").eq(0).html(unread_trash_message === 1 ? "" : "(" + unread_trash_message + ")");
         } else if (mail.receiver === localStorage.id) {
             unread_receive_message--;
-            $("#receive_btn b").eq(0).html(unread_receive_message === 1 ? "" : "(" + unread_receive_message + ")");
-            $('.label-success').eq(0).html(unread_receive_message);
+            checkReceiveMessages(unread_receive_message);
         }
     }
 }
@@ -233,7 +264,7 @@ function sendNewMail() {
         "sender": localStorage.id,
         "receiver": $('#new_mail_receiver').val(),
         "title": $('#new_mail_title').val(),
-        "time": new Date().toLocaleString(),
+        "time": new Date().toLocaleString("fa"),
         "body": $('#new_mail_body').val()
     });
     ajaxMasterFunction("S_Mail");
@@ -271,4 +302,26 @@ function deleteMail() {
         }
         updateMail(mail);
     }
+}
+
+function showLastSendingMail() {
+    let str = "", contacts = [];
+    $.each(all_mails, function (i, mail) {
+        if (mail.receiver !== localStorage.id) {
+            if (!contacts.includes(mail.receiver)) {
+                contacts.push(mail.receiver);
+                str += "<li class=\"list-group-item\">" +
+                    " <a href=\"#\">" +
+                    "  <div class=\"avatar\">" +
+                    "   <img src=\"assets/images/users/avatar-1.jpg\" alt=\"\">" +
+                    "  </div>" +
+                    "  <span class=\"name\">" + mail.receiver + "</span>" +
+                    // "  <i class=\"fa fa-circle online\"></i>" +
+                    " </a>" +
+                    " <span class=\"clearfix\"></span>" +
+                    "</li>";
+            }
+        }
+    })
+    $('.contacts-list').eq(0).html(str);
 }
