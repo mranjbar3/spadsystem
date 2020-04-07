@@ -71,7 +71,8 @@
                         <li class="dropdown top-menu-item-xs">
                             <a href="#" data-target="#" class="dropdown-toggle waves-effect waves-light"
                                data-toggle="dropdown" aria-expanded="true">
-                                <i class="icon-bell"></i> <span style="display: none;" class="badge badge-xs badge-danger"></span>
+                                <i class="icon-bell"></i> <span style="display: none;"
+                                                                class="badge badge-xs badge-danger"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-lg">
                                 <li class="notifi-title"><span class="label label-default pull-right">جدید 3</span>پیام
@@ -214,6 +215,7 @@
 <script src="assets/js/wow.min.js"></script>
 <script src="assets/js/jquery.nicescroll.js"></script>
 <script src="assets/js/jquery.scrollTo.min.js"></script>
+<script src="assets/js/materialize.min.js"></script>
 <%--<script src="assets/plugins/bootstrap-filestyle/js/bootstrap-filestyle.min.js" type="text/javascript"></script>--%>
 
 <script src="assets/js/jquery.core.js"></script>

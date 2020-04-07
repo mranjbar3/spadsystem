@@ -159,6 +159,7 @@ function checkReceiveMessages(cnt) {
         rightLabel.hide();
         topLabel.hide();
         topLabelNew.hide();
+        $('#receive_btn b').eq(0).html("");
     }
 }
 

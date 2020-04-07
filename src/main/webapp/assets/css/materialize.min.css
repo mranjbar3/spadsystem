@@ -2518,7 +2518,7 @@ i.left {
 i.right {
     float: right;
     margin-left: 15px;
-    margin-top:8px;
+    margin-top: 8px;
     /*color: #ffffff;*/
 }
 
@@ -2773,30 +2773,32 @@ ul.staggered-list li {
 
 }
 
-    .page-footer .footer-copyright {
-        overflow: hidden;
-        min-height: 50px;
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display: flex;
+.page-footer .footer-copyright {
+    overflow: hidden;
+    min-height: 50px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
 
-        -webkit-box-pack: justify;
-        -webkit-justify-content: space-between;
-        -ms-flex-pack: justify;
-        justify-content: space-between;
-        padding: 6px 0px;
-        /*color: #5f6368;*/
-        color: #ffffff;
-        font: normal 13px vazir;
-        direction: ltr;
-        /*background-color: rgba(51, 51, 51, 0.08)*/
-    }
-        .page-footer .footer-copyright a {
-            color: #5f6368;
-            font: normal 13px vazir;
-            padding: 0 5px
-        }
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: 6px 0px;
+    /*color: #5f6368;*/
+    color: #ffffff;
+    font: normal 13px vazir;
+    direction: ltr;
+    /*background-color: rgba(51, 51, 51, 0.08)*/
+}
+
+.page-footer .footer-copyright a {
+    color: #5f6368;
+    font: normal 13px vazir;
+    padding: 0 5px
+}
+
 table,
 th,
 td {
@@ -4780,19 +4782,22 @@ small {
     border: 3px solid #f29325;
     transition: 0.5s;
 }
-    .card:hover {
-        opacity: 1;
-        transform: scale(1.04);
-        z-index: 9999;
-    }
+
+.card:hover {
+    opacity: 1;
+    transform: scale(1.04);
+    z-index: 9999;
+}
 
 .card .card-title {
     font-size: 24px;
     font-weight: 300
 }
-    .card span.card-title {
-        font: normal 13px vazir;
-    }
+
+.card span.card-title {
+    font: normal 13px vazir;
+}
+
 .card .card-title.activator {
     cursor: pointer
 }
@@ -4910,19 +4915,19 @@ small {
 
 .card .card-image {
     position: relative;
-    border-bottom: 1px solid rgba(160,160,160,0.2);
+    border-bottom: 1px solid rgba(160, 160, 160, 0.2);
 }
 
 .card .card-image img {
-    /*display: block;*/
+    display: block;
     border-radius: 2px 2px 0 0;
     position: relative;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
-    width: auto;
-    /*height: 270px;*/
+    width: 100%;
+    height: auto;
     text-align: center;
 }
 
@@ -4950,7 +4955,7 @@ small {
     margin-bottom: 8px;
     text-align: right;
     margin-right: 5px;
-    max-height: 160px;
+    /*max-height: 160px;*/
     overflow: hidden
 }
 
@@ -6077,9 +6082,11 @@ body.keyboard-focused .dropdown-content li:focus {
     line-height: 32px;
     padding-right: 8px;
 }
-    .chip:focus .close {
-        color: #ffffff;
-    }
+
+.chip:focus .close {
+    color: #ffffff;
+}
+
 .chips {
     border: none;
     border-bottom: 1px solid #9e9e9e;
@@ -6096,11 +6103,10 @@ body.keyboard-focused .dropdown-content li:focus {
     /*border-bottom: 1px solid #26a69a;
     -webkit-box-shadow: 0 1px 0 0 #26a69a;
     box-shadow: 0 1px 0 0 #26a69a*/
-                background-color: rgb(255, 255, 255);
+    background-color: rgb(255, 255, 255);
     border-radius: 50px;
-    box-shadow: 0 1px 6px 0
-                rgba(32,33,36,0.28);
-    border-color:rgba(223,225,229,0);
+    box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28);
+    border-color: rgba(223, 225, 229, 0);
 }
 
 .chips:hover {

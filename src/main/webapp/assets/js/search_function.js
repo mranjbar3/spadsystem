@@ -200,7 +200,7 @@ function showSearchResult(results, start, cnt) {
     $(window).off();
     if (results.length > start + cnt)
         $(window).scroll(function () {
-            if ($(window).scrollTop() === $(document).height() - $(window).height() - 10) {
+            if ($(window).scrollTop() >= $(document).height() - $(window).height() - 10) {
                 showSearchResult(results, start + cnt, cnt);
             }
         });
