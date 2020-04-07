@@ -121,9 +121,8 @@ public class Home {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public List<User> search(String data) {
-        String[] datas = data.substring(9, data.length() - 2).split(",");
         try {
-            return JDBC.getInstance().searchDb(datas);
+            return JDBC.getInstance().searchDb(new JSONObject(data).getString("data").split(" "));
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }

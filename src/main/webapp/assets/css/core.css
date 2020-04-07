@@ -1,4 +1,10 @@
 
+@font-face {
+  font-family: 'Vazir';
+  font-style: normal;
+  font-weight: 400;
+  src: url('font/Vazir.woff') format('woff');
+}
 body {
   background: #ebeff2;
   font-family:Vazir,BYekan,'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;

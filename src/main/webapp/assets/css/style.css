@@ -8,7 +8,7 @@ body {
     font-family: 'B Nazanin';
     font-size: x-large;
     background-attachment: fixed;
-    
+
 }
 
 main {
@@ -85,7 +85,9 @@ img {
     border-radius: 24px;
     z-index: 3;
     height: 44px;
-    margin: 0 auto;
+    position: absolute;
+    right: 150px;
+    margin-top: 40px;
     width: 582px;
 }
 
@@ -103,6 +105,12 @@ img {
 #search_bar {
     height: 44px;
     text-align: right;
+    border-bottom: none;
+}
+
+#search_bar:focus {
+    box-shadow: none;
+    -webkit-box-shadow: none;
 }
 
 .btn-signin {
@@ -168,7 +176,7 @@ img {
     margin: 2px 0;
     padding: 7px 0;
     color: #000000;
-    border-bottom: 1px solid rgba(160,160,160,0.2);
+    border-bottom: 1px solid rgba(160, 160, 160, 0.2);
 }
 
 .cardtitle {
@@ -176,10 +184,10 @@ img {
     font-size: 18px;
 }
 
-    .cardtitle i {
-        padding: 2px 3px 2px 8px;
-        color: #2c3e50;
-    }
+.cardtitle i {
+    padding: 2px 3px 2px 8px;
+    color: #2c3e50;
+}
 
 button.cardtitlebutton {
     border: none;
@@ -223,7 +231,7 @@ button.cardtitlebutton:hover, a.cardtitlelink:hover {
     line-height: 3.2rem;
     font-size: 2.4rem;
     color: #fff;
-    background-color: rgba(0,0,0,0.7);
+    background-color: rgba(0, 0, 0, 0.7);
     text-decoration: none;
     border-radius: 3.2rem;
     text-align: center;
@@ -232,8 +240,8 @@ button.cardtitlebutton:hover, a.cardtitlelink:hover {
     transition: 0.2s;
 }
 
-    #back2Top:hover {
-        color: #fff !important;
-        background-color: #f29325;
-        text-decoration: none;
-    }
+#back2Top:hover {
+    color: #fff !important;
+    background-color: #f29325;
+    text-decoration: none;
+}

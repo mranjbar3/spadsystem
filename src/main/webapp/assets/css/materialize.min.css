@@ -2770,7 +2770,7 @@ ul.staggered-list li {
     position: fixed;
     bottom: 0;
     height: 35px;
-    
+
 }
 
     .page-footer .footer-copyright {
@@ -2780,7 +2780,7 @@ ul.staggered-list li {
         display: -webkit-flex;
         display: -ms-flexbox;
         display: flex;
-        
+
         -webkit-box-pack: justify;
         -webkit-justify-content: space-between;
         -ms-flex-pack: justify;

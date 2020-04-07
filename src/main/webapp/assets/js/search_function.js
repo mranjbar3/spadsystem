@@ -1,4 +1,4 @@
-var search_chips, master_state = [], state = {}, master_city = {}, city = {}, all = {};
+let master_state = [], state = {}, master_city = {}, city = {}, all = {}, search_response;
 $.ajax({
     url: "/spadsystem/rest/first_data",
     type: "GET",
@@ -83,15 +83,9 @@ $(document).ready(function () {
         })
     }
     if (localStorage.type === "user") {
-        $('.chips').chips({
-            //placeholder: 'یک عبارت بنویس و بزن روی اینتر',
-            onChipDelete: function () {
-                checkInput();
-            }
-        });
-        search_chips = M.Chips.getInstance($('.chips'));
         $('#search_bar').keydown(function (event) {
             var keyCode = (event.keyCode ? event.keyCode : event.which);
+            console.log(keyCode);
             if (keyCode === 13) checkInput();
         });
         user["user_id"] = localStorage.id;
@@ -143,19 +137,11 @@ function hideAll() {
 }
 
 function checkInput() {
-    $('.chips').css({"-webkit-transform": "translate(23.5rem, -23rem)"});
-    $('.main_master p').hide();
-    $(".main_master img").css('transform', 'scale(0.5) translate(95rem, -21rem)')
-    let str = '';
-    for (let i = 0; i < $('.chip').length; i++) {
-        str += $('.chip').eq(i).html().split('<i')[0] + ',';
-    }
-    var data = {data: str};
     $.ajax({
         url: "/spadsystem/rest/search",
         type: "post",
         contentType: "application/json; charset=UTF-8",
-        data: JSON.stringify(data),
+        data: JSON.stringify({data: $('#search_bar').val()}),
         success: function (response) {
             if (response === null)
                 showToast("پایگاه داده مشکل پیدا کرده است.", "red rounded");
@@ -164,8 +150,8 @@ function checkInput() {
                 if (response.length > 0) {
                     search_response = response;
                     showSearchResult(response, 0, 12);
-                }else{
-                    showToast("موردی با این عنوان یافت نشد.","green rounded");
+                } else {
+                    showToast("موردی با این عنوان یافت نشد.", "green rounded");
                 }
             }
         },
@@ -187,8 +173,9 @@ function showSearchResult(results, start, cnt) {
             "</div>" +
             "<div class='card-content'>" +
             "<span class='card-title activator grey-text text-darken-4'><i class='fa fa-user'></i><b> نام و نام خانوادگی: </b>" +
-            result.first_name + " " + result.last_name + "<br/><i class='fa fa-map'></i><b> استان: </b>" +
-            (result.state === null ? "نامشخص" : result.state) + " <br/><i class='fa fa-flag'></i><b> میز خدمت: </b>" +
+            result.first_name + " " + result.last_name + "<br/><i class='fa fa-map'></i><b> واحد سازمانی: </b>" +
+            (result.address === null ? "نامشخص" : result.address) + " <br/><i class='fa fa-hand-pointer-o'></i><b> واحد سازمانی: </b>" +
+            (result.service_unit === null ? "نامشخص" : result.service_unit) + " <br/><i class='fa fa-flag'></i><b> میز خدمت: </b>" +
             (result.service_table === null ? '' : result.service_table) + "<br/><i class='fa fa-tty'></i><b> تلفن ثابت:</b><span style='float: left;margin: 6px 10px;'>" +
             (result.telephone === null ? '' : (result.preTel === null ? '' : result.preTel + '-') + result.telephone) + "</span></span>" +
             "</div>" +
@@ -213,7 +200,7 @@ function showSearchResult(results, start, cnt) {
     $(window).off();
     if (results.length > start + cnt)
         $(window).scroll(function () {
-            if ($(window).scrollTop() === $(document).height() - $(window).height()) {
+            if ($(window).scrollTop() === $(document).height() - $(window).height() - 10) {
                 showSearchResult(results, start + cnt, cnt);
             }
         });
