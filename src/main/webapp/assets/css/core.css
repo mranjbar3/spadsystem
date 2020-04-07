@@ -1163,7 +1163,7 @@ pre {
 .nav > li > a {
   color: #ffffff !important;
   line-height: 60px;
-  padding: 0 15px;
+  padding: 3px 15px 10px 15px;
   position: relative;
 }
 .nav > li > a i {

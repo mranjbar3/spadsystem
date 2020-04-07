@@ -19,7 +19,7 @@
     <div class="col-sm-12">
         <div class="card-box" style="float: right; width: 100%;">
             <!-- Left sidebar -->
-            <div class="col-lg-2 col-md-3">
+            <div class="col-lg-3 col-md-4">
 
                 <div class="p-20">
                     <a href="#" onclick="showNewMailView()"
@@ -44,7 +44,7 @@
             </div>
             <!-- End Left sidebar -->
             <!-- Right Sidebar -->
-            <div class="col-lg-10 col-md-9">
+            <div class="col-lg-9 col-md-8">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="btn-toolbar m-t-20" role="toolbar">
