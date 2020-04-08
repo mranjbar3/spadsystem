@@ -119,7 +119,7 @@ function ajaxMasterFunction(type) {
                     showAllMail(response);
                     break;
                 case "S_Mail":
-                    if (response === null) {
+                    if (response === null || response === undefined) {
                         showToast('لطفا دوباره تلاش نمایید.', 'green rounded');
                     } else if (response.pk === null) {
                         showToast('پیام ارسال نشد. لطفا دوباره تلاش کنید.', 'green rounded');
@@ -277,28 +277,66 @@ function updateMail(mail) {
     ajaxMasterFunction("U_Mail");
 }
 
+function toPersian(text) {
+    let res = "", ch, chI = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+    for (let i = 0; i < text.length; i++) {
+        ch = text.charAt(i);
+        if (chI.includes(ch))
+            res += chI.indexOf(ch);
+        else
+            res += ch;
+    }
+    return res;
+}
+
 function sendNewMail(responseMail) {
-    ajax_url = "/spadsystem/rest/send_mail";
-    ajax_method = "POST";
-    ajax_content_type = "application/json";
-    if (responseMail) {
-        ajax_data = JSON.stringify({
-            "sender": {user_id: localStorage.id},
-            "receiver": {first_name: $('#detail_mail_name').html()},
-            "title": $('#detail_mail_title').html(),
-            "time": new Date().toLocaleString("fa"),
-            "body": $('#textarea').val()
-        });
-    } else {
-        ajax_data = JSON.stringify({
-            "sender": {user_id: localStorage.id},
-            "receiver": {user_id: $('#new_mail_receiver').val()},
-            "title": $('#new_mail_title').val(),
-            "time": new Date().toLocaleString("fa"),
-            "body": $('#new_mail_body').val()
+    const files = $('#new_mail_attach')[0].files,
+        time = new Date().toLocaleString("fa").replace("‏ ", ""),
+        file_name = localStorage.id + "-" + toPersian(time.replace('/', '-').replace('/', '-').replace('،', ','));
+    if (files.length > 0) {
+        let formData = new FormData();
+        for (let i = 0; i < files.length; i++) {
+            let name = files[i].name.split('.');
+            formData.append('file', files[i], file_name + "-" + i + "." + name[name.length - 1]);
+        }
+        $.ajax({
+            url: "/spadsystem/rest/send_file",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: 'POST',
+            success: function (data) {
+                alert(data);
+            }
         });
     }
-    ajaxMasterFunction("S_Mail");
+
+    const receiver = responseMail ? $('#detail_mail_name').html() : $('#new_mail_receiver').val();
+    if (receiver.length > 1) {
+        ajax_url = "/spadsystem/rest/send_mail";
+        ajax_method = "POST";
+        ajax_content_type = "application/json";
+        if (responseMail) {
+            ajax_data = JSON.stringify({
+                "sender": {user_id: localStorage.id},
+                "receiver": {first_name: receiver},
+                "title": $('#detail_mail_title').html(),
+                "time": time,
+                "body": $('#textarea').val()
+            });
+        } else {
+            ajax_data = JSON.stringify({
+                "sender": {user_id: localStorage.id},
+                "receiver": {user_id: receiver},
+                "title": $('#new_mail_title').val(),
+                "time": time,
+                "body": $('#new_mail_body').val(),
+                "attach": ""
+            });
+        }
+        ajaxMasterFunction("S_Mail");
+    }
 }
 
 function addSendMail(mail) {
