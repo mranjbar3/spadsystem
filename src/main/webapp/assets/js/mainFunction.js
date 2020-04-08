@@ -50,6 +50,8 @@ function showNewMailView(clean) {
         $('#new_mail_body').val("");
     } else {
         mailHide();
+        hideAll();
+        $('#mail-part').show();
         $("#mail-sent").show();
     }
 }
@@ -57,6 +59,8 @@ function showNewMailView(clean) {
 //when you want to show mail inbox, call this function.
 function showInboxMailView() {
     mailHide();
+    hideAll();
+    $('#mail-part').show();
     $("#mail-inbox").show();
     $("#receive_btn").addClass("active");
 }
@@ -64,6 +68,8 @@ function showInboxMailView() {
 //when you want to view your send mail, call this function.
 function showSendMailView() {
     mailHide();
+    hideAll();
+    $('#mail-part').show();
     $("#mail-send").show();
     $("#sent_btn").addClass("active");
 }
@@ -71,6 +77,8 @@ function showSendMailView() {
 //star mails show in this function.
 function showStarMailView() {
     mailHide();
+    hideAll();
+    $('#mail-part').show();
     $("#mail-star").show();
     $("#star_btn").addClass("active");
 }
@@ -78,6 +86,8 @@ function showStarMailView() {
 //this function show mails that in trash.
 function showTrashView() {
     mailHide();
+    hideAll();
+    $('#mail-part').show();
     $('#mail-trash').show();
     $("#trash_btn").addClass("active");
 }
@@ -85,6 +95,8 @@ function showTrashView() {
 //detail of one mail show!
 function showMailDetailView() {
     mailHide();
+    hideAll();
+    $('#mail-part').show();
     $('#mail-detail').show();
 }
 
@@ -107,8 +119,15 @@ function ajaxMasterFunction(type) {
                     showAllMail(response);
                     break;
                 case "S_Mail":
-                    showToast('پیام ارسال شد.', 'green rounded');
-                    showNewMailView(true);
+                    if (response === null) {
+                        showToast('لطفا دوباره تلاش نمایید.', 'green rounded');
+                    } else if (response.pk === null) {
+                        showToast('پیام ارسال نشد. لطفا دوباره تلاش کنید.', 'green rounded');
+                    } else {
+                        showToast('پیام ارسال شد.', 'green rounded');
+                        showNewMailView(true);
+                        addSendMail(response);
+                    }
                     break;
                 case "U_Mail":
                     break;
@@ -188,8 +207,8 @@ function produceMailViewString(mails, type_str) {
             '</div><i onclick="mailStarChange(this)" class="fa fa-star m-r-15 text-' + (mail.star ? 'warning' : 'muted') + '"></i></td>' +
             '<td><a href="#" onclick="showMailDetail(' + mail.pk + ')" class="email-name">' +
             (mail.sender === localStorage.id ? mail.receiver : mail.sender) + '</a></td>' +
-            '<td class="hidden-xs"><a href="#" onclick="showMailDetail(' + mail.pk + ',\'' + type_str +
-            '\')" class="email-msg">' + mail.title + '</a></td>' +
+            '<td class="hidden-xs"><a href="#" onclick="showMailDetail(' + mail.pk + ',)" class="email-msg">' +
+            mail.title + '</a></td>' +
             (mail.attach == null ? '' : '<td style="width: 20px;"><i class="fa fa-paperclip"></i></td>') +
             '<td class="text-right">' + mail.time + '</td></tr>';
 
@@ -271,17 +290,38 @@ function sendNewMail() {
     ajaxMasterFunction("S_Mail");
 }
 
+function addSendMail(mail) {
+    let str = '<tr id="' + mail.pk + '" class="unread">' +
+        ' <td class="mail-select">' +
+        '  <div class="checkbox checkbox-primary m-r-15">' +
+        '   <input type="checkbox">' +
+        '   <label></label>' +
+        '  </div>' +
+        '  <i onclick="mailStarChange(this)" class="fa fa-star m-r-15 text-' + (mail.star ? 'warning' : 'muted') + '"></i>' +
+        ' </td>' +
+        ' <td><a href="#" onclick="showMailDetail(' + mail.pk + ')" class="email-name">' +
+        mail.receiver + '</a></td>' +
+        '<td class="hidden-xs"><a href="#" onclick="showMailDetail(' + mail.pk + ')" class="email-msg">' +
+        mail.title + '</a></td>' +
+        (mail.attach == null ? '' : '<td style="width: 20px;"><i class="fa fa-paperclip"></i></td>') +
+        '<td class="text-right">' + mail.time + '</td></tr>';
+    $('#sent_mails').prepend(str);
+}
+
 function mailStarChange(element) {
     element = $(element);
-    const mail = all_mails.find(elm => elm.pk === element.parent().parent().attr('id'));
+    const parent = element.parent().parent(),
+        mail = all_mails.find(elm => elm.pk === Number(parent.attr('id')));
     if (element.attr('class').indexOf('text-muted') !== -1) {
         element.addClass('text-warning');
         element.removeClass('text-muted');
         mail.star = true;
+        $('#star_mails').prepend(parent.clone());
     } else {
         element.addClass('text-muted');
         element.removeClass('text-warning');
         mail.star = false;
+        $('#star_mails #' + parent.attr('id')).detach();
     }
     updateMail(mail);
 }
@@ -323,6 +363,6 @@ function showLastSendingMail() {
                     "</li>";
             }
         }
-    })
+    });
     $('.contacts-list').eq(0).html(str);
 }

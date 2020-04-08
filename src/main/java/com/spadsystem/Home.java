@@ -163,13 +163,13 @@ public class Home {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public boolean sendMail(Mail mail) {
+    public Mail sendMail(Mail mail) {
         try {
             return JDBC.getInstance().saveMail(mail);
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return null;
     }
 
     @Path("/get_mail")

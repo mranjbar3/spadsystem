@@ -450,7 +450,7 @@ public class JDBC {
         fromExcel();
     }
 
-    public boolean saveMail(Mail mail) throws SQLException {
+    public Mail saveMail(Mail mail) throws SQLException {
         String sql = "INSERT INTO mail (sender,receiver,time,title,body) VALUES (?,?,?,?,?)";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, mail.getSender());
@@ -458,8 +458,14 @@ public class JDBC {
         preparedStatement.setString(3, mail.getTime());
         preparedStatement.setString(4, mail.getTitle());
         preparedStatement.setString(5, mail.getBody());
-        preparedStatement.executeUpdate();
-        return true;
+        if (preparedStatement.executeUpdate() != -1) {
+            sql = "SELECT pk FROM mail ORDER BY pk DESC LIMIT 1";
+            preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            mail.setPk(Long.parseLong(resultSet.getString(1)));
+        }
+        return mail;
     }
 
     public List<Mail> getMail(String id) throws SQLException {
