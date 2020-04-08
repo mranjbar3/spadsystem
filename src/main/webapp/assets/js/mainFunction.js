@@ -276,17 +276,27 @@ function updateMail(mail) {
     ajaxMasterFunction("U_Mail");
 }
 
-function sendNewMail() {
+function sendNewMail(responseMail) {
     ajax_url = "/spadsystem/rest/send_mail";
     ajax_method = "POST";
     ajax_content_type = "application/json";
-    ajax_data = JSON.stringify({
-        "sender": localStorage.id,
-        "receiver": $('#new_mail_receiver').val(),
-        "title": $('#new_mail_title').val(),
-        "time": new Date().toLocaleString("fa"),
-        "body": $('#new_mail_body').val()
-    });
+    if (responseMail) {
+        ajax_data = JSON.stringify({
+            "sender": localStorage.id,
+            "receiver": $('#detail_mail_name').html(),
+            "title": $('#detail_mail_title').html(),
+            "time": new Date().toLocaleString("fa"),
+            "body": $('#textarea').val()
+        });
+    } else {
+        ajax_data = JSON.stringify({
+            "sender": localStorage.id,
+            "receiver": $('#new_mail_receiver').val(),
+            "title": $('#new_mail_title').val(),
+            "time": new Date().toLocaleString("fa"),
+            "body": $('#new_mail_body').val()
+        });
+    }
     ajaxMasterFunction("S_Mail");
 }
 
