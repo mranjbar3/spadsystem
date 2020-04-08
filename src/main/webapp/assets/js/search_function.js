@@ -173,7 +173,7 @@ function showSearchResult(results, start, cnt) {
             "</div>" +
             "<div class='card-content'>" +
             "<span class='card-title activator grey-text text-darken-4'><i class='fa fa-user'></i><b> نام و نام خانوادگی: </b>" +
-            result.first_name + " " + result.last_name + "<br/><i class='fa fa-map'></i><b> واحد سازمانی: </b>" +
+            result.first_name + " " + result.last_name + "<br/><i class='fa fa-map'></i><b> محل خدمت: </b>" +
             (result.address === null ? "نامشخص" : result.address) + " <br/><i class='fa fa-hand-pointer-o'></i><b> واحد سازمانی: </b>" +
             (result.service_unit === null ? "نامشخص" : result.service_unit) + " <br/><i class='fa fa-flag'></i><b> میز خدمت: </b>" +
             (result.service_table === null ? '' : result.service_table) + "<br/><i class='fa fa-tty'></i><b> تلفن ثابت:</b><span style='float: left;margin: 6px 10px;'>" +

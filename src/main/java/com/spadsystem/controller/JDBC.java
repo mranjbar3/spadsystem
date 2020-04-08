@@ -480,11 +480,13 @@ public class JDBC {
             mail.setPk(Long.parseLong(resultSet.getString("pk")));
             User user = new User();
             user.setUser_id(resultSet.getString("sender"));
-            user.setFirst_name(resultSet.getString("sender").equals(id) ? id : getName(resultSet.getString("sender")));
+            if (!resultSet.getString("sender").equals(id))
+                getName(resultSet.getString("sender"), user);
             mail.setSender(user);
             user = new User();
             user.setUser_id(resultSet.getString("receiver"));
-            user.setFirst_name(resultSet.getString("receiver").equals(id) ? id : getName(resultSet.getString("receiver")));
+            if (!resultSet.getString("receiver").equals(id))
+                getName(resultSet.getString("receiver"), user);
             mail.setReceiver(user);
             mail.setTime(resultSet.getString("time"));
             mail.setTitle(resultSet.getString("title"));
@@ -499,14 +501,16 @@ public class JDBC {
         return result;
     }
 
-    private String getName(String id) throws SQLException {
-        String sql = "select first_name, last_name FROM user_data WHERE id=?";
+    private void getName(String id, User user) throws SQLException {
+        String sql = "select first_name, last_name, position FROM user_data AS ud JOIN position AS pos ON pos.id=ud.id WHERE ud.id=?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, id);
         ResultSet resultSet = preparedStatement.executeQuery();
-        if (resultSet.next())
-            return resultSet.getString(1) + " " + resultSet.getString(2);
-        return "";
+        if (resultSet.next()) {
+            user.setFirst_name(resultSet.getString(1));
+            user.setLast_name(resultSet.getString(2));
+            user.setPosition(resultSet.getString(3));
+        }
     }
 
     public Mail updateMail(Mail mail) throws SQLException {

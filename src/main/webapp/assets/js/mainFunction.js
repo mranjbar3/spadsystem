@@ -194,7 +194,7 @@ function produceMailViewString(mails, type_str) {
                     "   <img src=\"assets/images/users/avatar-1.jpg\" class=\"img-circle\"/>" +
                     "  </div>" +
                     "  <div class=\"media-body\">" +
-                    "   <h5 class=\"media-heading\">" + mail.sender.user_id + "</h5>" +
+                    "   <h5 class=\"media-heading\">" + mail.sender.first_name + " " + mail.sender.last_name + "</h5>" +
                     "   <p class=\"m-0\">" +
                     "    <small>10 ساعت پیش</small>" +
                     "   </p>" +
@@ -206,7 +206,7 @@ function produceMailViewString(mails, type_str) {
             '<input type="checkbox"><label></label>' +
             '</div><i onclick="mailStarChange(this)" class="fa fa-star m-r-15 text-' + (mail.star ? 'warning' : 'muted') + '"></i></td>' +
             '<td><a href="#" onclick="showMailDetail(' + mail.pk + ')" class="email-name">' +
-            (mail.sender.user_id === localStorage.id ? mail.receiver.user_id : mail.sender.user_id) + '</a></td>' +
+            (mail.sender.user_id === localStorage.id ? (mail.receiver.first_name + ' ' + mail.receiver.last_name) : (mail.sender.first_name + ' ' + mail.sender.last_name)) + '</a></td>' +
             '<td class="hidden-xs"><a href="#" onclick="showMailDetail(' + mail.pk + ',)" class="email-msg">' +
             mail.title + '</a></td>' +
             (mail.attach == null ? '' : '<td style="width: 20px;"><i class="fa fa-paperclip"></i></td>') +
@@ -237,7 +237,8 @@ function showMailDetail(id) {
     let mail = all_mails.find(element => element.pk === id);
     $('#detail_mail_title').html(mail.title);
     $('#detail_mail_time').html(mail.time);
-    $('#detail_mail_name').html(mail.sender.user_id === localStorage.id ? mail.receiver.user_id : mail.sender.user_id);
+    $('#detail_mail_name').html(mail.sender.user_id === localStorage.id ? (mail.receiver.first_name + ' ' + mail.receiver.last_name) : (mail.sender.first_name + ' ' + mail.sender.last_name));
+    $('#detail_mail_position').html(mail.sender.user_id === localStorage.id ? mail.receiver.position : mail.sender.position);
     $('#detail_mail_body').html(mail.body);
     localStorage.active_object = JSON.stringify(mail);
     if (mail.sender.user_id !== localStorage.id && !mail.read) {
@@ -310,7 +311,7 @@ function addSendMail(mail) {
         '  <i onclick="mailStarChange(this)" class="fa fa-star m-r-15 text-' + (mail.star ? 'warning' : 'muted') + '"></i>' +
         ' </td>' +
         ' <td><a href="#" onclick="showMailDetail(' + mail.pk + ')" class="email-name">' +
-        mail.receiver.user_id + '</a></td>' +
+        mail.receiver.first_name + ' ' + mail.receiver.last_name + '</a></td>' +
         '<td class="hidden-xs"><a href="#" onclick="showMailDetail(' + mail.pk + ')" class="email-msg">' +
         mail.title + '</a></td>' +
         (mail.attach == null ? '' : '<td style="width: 20px;"><i class="fa fa-paperclip"></i></td>') +
@@ -371,7 +372,7 @@ function showLastSendingMail() {
                     "  <div class=\"avatar\">" +
                     "   <img src=\"assets/images/users/avatar-1.jpg\" alt=\"\">" +
                     "  </div>" +
-                    "  <span class=\"name\">" + mail.receiver.user_id + "</span>" +
+                    "  <span class=\"name\">" + mail.receiver.first_name + " " + mail.receiver.last_name + "</span>" +
                     // "  <i class=\"fa fa-circle online\"></i>" +
                     " </a>" +
                     " <span class=\"clearfix\"></span>" +
