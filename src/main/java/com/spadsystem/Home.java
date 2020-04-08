@@ -178,7 +178,7 @@ public class Home {
     @Consumes(MediaType.APPLICATION_JSON)
     public List<Mail> getMail(Mail mail) {
         try {
-            return JDBC.getInstance().getMail(mail.getReceiver());
+            return JDBC.getInstance().getMail(mail.getReceiver().getUser_id());
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }

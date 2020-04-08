@@ -4,8 +4,8 @@ import com.sun.org.apache.xpath.internal.operations.Bool;
 
 public class Mail implements Entity {
     private long pk;
-    private String sender;
-    private String receiver;
+    private User sender;
+    private User receiver;
     private String time;
     private String title;
     private String body;
@@ -23,19 +23,19 @@ public class Mail implements Entity {
         this.pk = pk;
     }
 
-    public String getSender() {
+    public User getSender() {
         return sender;
     }
 
-    public void setSender(String sender) {
+    public void setSender(User sender) {
         this.sender = sender;
     }
 
-    public String getReceiver() {
+    public User getReceiver() {
         return receiver;
     }
 
-    public void setReceiver(String receiver) {
+    public void setReceiver(User receiver) {
         this.receiver = receiver;
     }
 

@@ -143,7 +143,7 @@ function getEmails(id) {
     ajax_url = "/spadsystem/rest/get_mail";
     ajax_method = "POST";
     ajax_content_type = "application/json";
-    ajax_data = JSON.stringify({"receiver": id});
+    ajax_data = JSON.stringify({"receiver": {user_id: id}});
     ajaxMasterFunction("G_Mail");
 }
 
@@ -187,14 +187,14 @@ function produceMailViewString(mails, type_str) {
         let str = '<tr id="' + mail.pk + '"';
         if (!mail.read) {
             str += ' class="unread"';
-            if (mail.sender !== localStorage.id)
+            if (mail.sender.user_id !== localStorage.id)
                 $('.slimscroll-noti').eq(0).prepend("<a href=\"#\" onclick=\"showMailDetail(" + mail.pk + ")\" class=\"list-group-item\">" +
                     " <div class=\"media\">" +
                     "  <div class=\"pull-left p-r-10 profile \">" +
                     "   <img src=\"assets/images/users/avatar-1.jpg\" class=\"img-circle\"/>" +
                     "  </div>" +
                     "  <div class=\"media-body\">" +
-                    "   <h5 class=\"media-heading\">" + mail.sender + "</h5>" +
+                    "   <h5 class=\"media-heading\">" + mail.sender.user_id + "</h5>" +
                     "   <p class=\"m-0\">" +
                     "    <small>10 ساعت پیش</small>" +
                     "   </p>" +
@@ -206,7 +206,7 @@ function produceMailViewString(mails, type_str) {
             '<input type="checkbox"><label></label>' +
             '</div><i onclick="mailStarChange(this)" class="fa fa-star m-r-15 text-' + (mail.star ? 'warning' : 'muted') + '"></i></td>' +
             '<td><a href="#" onclick="showMailDetail(' + mail.pk + ')" class="email-name">' +
-            (mail.sender === localStorage.id ? mail.receiver : mail.sender) + '</a></td>' +
+            (mail.sender.user_id === localStorage.id ? mail.receiver.user_id : mail.sender.user_id) + '</a></td>' +
             '<td class="hidden-xs"><a href="#" onclick="showMailDetail(' + mail.pk + ',)" class="email-msg">' +
             mail.title + '</a></td>' +
             (mail.attach == null ? '' : '<td style="width: 20px;"><i class="fa fa-paperclip"></i></td>') +
@@ -215,9 +215,9 @@ function produceMailViewString(mails, type_str) {
         if (mail.trash) {
             $('#trash_mails').prepend(str);
         } else {
-            if (mail.receiver === localStorage.id) {
+            if (mail.receiver.user_id === localStorage.id) {
                 $('#receive_mails').prepend(str);
-            } else if (mail.sender === localStorage.id) {
+            } else if (mail.sender.user_id === localStorage.id) {
                 $('#sent_mails').prepend(str);
             }
             if (mail.star) {
@@ -237,10 +237,10 @@ function showMailDetail(id) {
     let mail = all_mails.find(element => element.pk === id);
     $('#detail_mail_title').html(mail.title);
     $('#detail_mail_time').html(mail.time);
-    $('#detail_mail_name').html(mail.sender === localStorage.id ? mail.receiver : mail.sender);
+    $('#detail_mail_name').html(mail.sender.user_id === localStorage.id ? mail.receiver.user_id : mail.sender.user_id);
     $('#detail_mail_body').html(mail.body);
     localStorage.active_object = JSON.stringify(mail);
-    if (mail.sender !== localStorage.id && !mail.read) {
+    if (mail.sender.user_id !== localStorage.id && !mail.read) {
         mail.send = true;
         mail.read = true;
         updateMail(mail);
@@ -252,7 +252,7 @@ function showMailDetail(id) {
         if (mail.trash) {
             unread_trash_message--;
             $("#trash_btn b").eq(0).html(unread_trash_message === 1 ? "" : "(" + unread_trash_message + ")");
-        } else if (mail.receiver === localStorage.id) {
+        } else if (mail.receiver.user_id === localStorage.id) {
             unread_receive_message--;
             checkReceiveMessages(unread_receive_message);
         }
@@ -282,16 +282,16 @@ function sendNewMail(responseMail) {
     ajax_content_type = "application/json";
     if (responseMail) {
         ajax_data = JSON.stringify({
-            "sender": localStorage.id,
-            "receiver": $('#detail_mail_name').html(),
+            "sender": {user_id: localStorage.id},
+            "receiver": {first_name: $('#detail_mail_name').html()},
             "title": $('#detail_mail_title').html(),
             "time": new Date().toLocaleString("fa"),
             "body": $('#textarea').val()
         });
     } else {
         ajax_data = JSON.stringify({
-            "sender": localStorage.id,
-            "receiver": $('#new_mail_receiver').val(),
+            "sender": {user_id: localStorage.id},
+            "receiver": {user_id: $('#new_mail_receiver').val()},
             "title": $('#new_mail_title').val(),
             "time": new Date().toLocaleString("fa"),
             "body": $('#new_mail_body').val()
@@ -310,7 +310,7 @@ function addSendMail(mail) {
         '  <i onclick="mailStarChange(this)" class="fa fa-star m-r-15 text-' + (mail.star ? 'warning' : 'muted') + '"></i>' +
         ' </td>' +
         ' <td><a href="#" onclick="showMailDetail(' + mail.pk + ')" class="email-name">' +
-        mail.receiver + '</a></td>' +
+        mail.receiver.user_id + '</a></td>' +
         '<td class="hidden-xs"><a href="#" onclick="showMailDetail(' + mail.pk + ')" class="email-msg">' +
         mail.title + '</a></td>' +
         (mail.attach == null ? '' : '<td style="width: 20px;"><i class="fa fa-paperclip"></i></td>') +
@@ -322,9 +322,9 @@ function mailStarChange(element) {
     element = $(element);
     const parent = element.parent().parent(),
         mail = all_mails.find(elm => elm.pk === Number(parent.attr('id')));
-    if (mail.receiver === localStorage.id) {
+    if (mail.receiver.user_id === localStorage.id) {
         element = $('#mail-inbox #' + parent.attr('id') + ' .mail-select i');
-    } else if (mail.sender === localStorage.id) {
+    } else if (mail.sender.user_id === localStorage.id) {
         element = $('#mail-send #' + parent.attr('id') + ' .mail-select i');
     }
     if (element.attr('class').indexOf('text-muted') !== -1) {
@@ -363,15 +363,15 @@ function deleteMail() {
 function showLastSendingMail() {
     let str = "", contacts = [];
     $.each(all_mails, function (i, mail) {
-        if (mail.receiver !== localStorage.id) {
-            if (!contacts.includes(mail.receiver)) {
-                contacts.push(mail.receiver);
+        if (mail.receiver.user_id !== localStorage.id) {
+            if (!contacts.includes(mail.receiver.user_id)) {
+                contacts.push(mail.receiver.user_id);
                 str += "<li class=\"list-group-item\">" +
                     " <a href=\"#\">" +
                     "  <div class=\"avatar\">" +
                     "   <img src=\"assets/images/users/avatar-1.jpg\" alt=\"\">" +
                     "  </div>" +
-                    "  <span class=\"name\">" + mail.receiver + "</span>" +
+                    "  <span class=\"name\">" + mail.receiver.user_id + "</span>" +
                     // "  <i class=\"fa fa-circle online\"></i>" +
                     " </a>" +
                     " <span class=\"clearfix\"></span>" +

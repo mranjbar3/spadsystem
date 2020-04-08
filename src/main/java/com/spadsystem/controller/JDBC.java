@@ -453,8 +453,8 @@ public class JDBC {
     public Mail saveMail(Mail mail) throws SQLException {
         String sql = "INSERT INTO mail (sender,receiver,time,title,body) VALUES (?,?,?,?,?)";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setString(1, mail.getSender());
-        preparedStatement.setString(2, mail.getReceiver());
+        preparedStatement.setString(1, mail.getSender().getUser_id());
+        preparedStatement.setString(2, mail.getReceiver().getUser_id());
         preparedStatement.setString(3, mail.getTime());
         preparedStatement.setString(4, mail.getTitle());
         preparedStatement.setString(5, mail.getBody());
@@ -478,8 +478,14 @@ public class JDBC {
         while (resultSet.next()) {
             Mail mail = new Mail();
             mail.setPk(Long.parseLong(resultSet.getString("pk")));
-            mail.setSender(resultSet.getString("sender").equals(id) ? id : getName(resultSet.getString("sender")));
-            mail.setReceiver(resultSet.getString("receiver").equals(id) ? id : getName(resultSet.getString("receiver")));
+            User user = new User();
+            user.setUser_id(resultSet.getString("sender"));
+            user.setFirst_name(resultSet.getString("sender").equals(id) ? id : getName(resultSet.getString("sender")));
+            mail.setSender(user);
+            user = new User();
+            user.setUser_id(resultSet.getString("receiver"));
+            user.setFirst_name(resultSet.getString("receiver").equals(id) ? id : getName(resultSet.getString("receiver")));
+            mail.setReceiver(user);
             mail.setTime(resultSet.getString("time"));
             mail.setTitle(resultSet.getString("title"));
             mail.setBody(resultSet.getString("body"));
