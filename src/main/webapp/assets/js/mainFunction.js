@@ -312,6 +312,11 @@ function mailStarChange(element) {
     element = $(element);
     const parent = element.parent().parent(),
         mail = all_mails.find(elm => elm.pk === Number(parent.attr('id')));
+    if (mail.receiver === localStorage.id) {
+        element = $('#mail-inbox #' + parent.attr('id') + ' .mail-select i');
+    } else if (mail.sender === localStorage.id) {
+        element = $('#mail-send #' + parent.attr('id') + ' .mail-select i');
+    }
     if (element.attr('class').indexOf('text-muted') !== -1) {
         element.addClass('text-warning');
         element.removeClass('text-muted');
