@@ -9,6 +9,7 @@ public class Mail implements Entity {
     private String time;
     private String title;
     private String body;
+    private String attach;
     private boolean send = false;
     private boolean read = false;
     private boolean star = false;
@@ -61,6 +62,14 @@ public class Mail implements Entity {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public String getAttach() {
+        return attach;
+    }
+
+    public void setAttach(String attach) {
+        this.attach = attach;
     }
 
     public boolean isSend() {

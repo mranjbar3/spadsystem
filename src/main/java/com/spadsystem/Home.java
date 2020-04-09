@@ -176,17 +176,17 @@ public class Home {
     @Produces(MediaType.TEXT_PLAIN)
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public String sendImage(@FormDataParam("file") FormDataBodyPart files) {
+        String obj = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+        OutputStream out;
+        int read;
+        byte[] bytes = new byte[1024];
         for (BodyPart part : files.getParent().getBodyParts()) {
             InputStream is = part.getEntityAs(InputStream.class);
             ContentDisposition meta = part.getContentDisposition();
 
-            String obj = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
             String uploadedFileLocation = obj.substring(0, obj.indexOf("WEB-INF")) + "temp/" + meta.getFileName();
-            System.out.println(uploadedFileLocation);
             try {
-                OutputStream out = new FileOutputStream(new File(uploadedFileLocation));
-                int read;
-                byte[] bytes = new byte[1024];
+                out = new FileOutputStream(new File(uploadedFileLocation));
                 while ((read = is.read(bytes)) != -1) {
                     out.write(bytes, 0, read);
                 }

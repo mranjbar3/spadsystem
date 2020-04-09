@@ -208,9 +208,9 @@ function produceMailViewString(mails, type_str) {
             '<td><a href="#" onclick="showMailDetail(' + mail.pk + ')" class="email-name">' +
             (mail.sender.user_id === localStorage.id ? (mail.receiver.first_name + ' ' + mail.receiver.last_name) : (mail.sender.first_name + ' ' + mail.sender.last_name)) + '</a></td>' +
             '<td class="hidden-xs"><a href="#" onclick="showMailDetail(' + mail.pk + ',)" class="email-msg">' +
-            mail.title + '</a></td>' +
-            (mail.attach == null ? '' : '<td style="width: 20px;"><i class="fa fa-paperclip"></i></td>') +
-            '<td class="text-right">' + mail.time + '</td></tr>';
+            mail.title + '</a></td><td style="width: 20px;">' +
+            (mail.attach == null ? '' : '<i class="fa fa-paperclip"></i>') +
+            '</td><td class="text-right">' + mail.time + '</td></tr>';
 
         if (mail.trash) {
             $('#trash_mails').prepend(str);
@@ -332,7 +332,7 @@ function sendNewMail(responseMail) {
                 "title": $('#new_mail_title').val(),
                 "time": time,
                 "body": $('#new_mail_body').val(),
-                "attach": ""
+                "attach": file_name
             });
         }
         ajaxMasterFunction("S_Mail");

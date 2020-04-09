@@ -1,33 +1,33 @@
-let master_state = [], state = {}, master_city = {}, city = {}, all = {}, users = [], positions = [], addresses = [],
-    service_tables = [];
+//let master_state = [], state = {}, master_city = {}, city = {};
+let all = {}, users = [], positions = [], addresses = [], service_tables = [];
 $.ajax({
     url: "/spadsystem/rest/first_data",
     type: "GET",
     success: function (response) {
         $.each(response, function (i, item) {
             if (i < 31) {
-                master_state.push(item);
-                master_city[i + 1] = [];
+                // master_state.push(item);
+                // master_city[i + 1] = [];
             } else {
                 if (item.indexOf('pos:') === -1) {
-                    master_city[item.split(',')[1]].push(item.split(',')[0]);
+                    // master_city[item.split(',')[1]].push(item.split(',')[0]);
                 } else {
                     all['سمت ' + item.replace('pos:', '')] = null;
                 }
             }
         });
-        let str = "<option value='0'>انتخاب</option>";
-        $.each(master_state, function (i, state) {
-            str += '<option value="' + state + '">' + state + '</option>';
-        })
-        $('#state').html(str);
-        $('#state').change(function () {
-            str = "<option value='0'>انتخاب</option>";
-            $.each(master_city[master_state.indexOf($("#state")[0].value) + 1], function (i, city) {
-                str += '<option value="' + city + '">' + city + '</option>';
-            })
-            $('#city').html(str);
-        });
+        // let str = "<option value='0'>انتخاب</option>";
+        // $.each(master_state, function (i, state) {
+        //     str += '<option value="' + state + '">' + state + '</option>';
+        // })
+        // $('#state').html(str);
+        // $('#state').change(function () {
+        //     str = "<option value='0'>انتخاب</option>";
+        //     $.each(master_city[master_state.indexOf($("#state")[0].value) + 1], function (i, city) {
+        //         str += '<option value="' + city + '">' + city + '</option>';
+        //     })
+        //     $('#city').html(str);
+        // });
     },
     error: function (response) {
         console.log(response);
@@ -68,10 +68,10 @@ $.ajax({
                     $("#national_code")[0].value = user0.national_code;
                     $("#position")[0].value = user0.position;
                     $("#master_id")[0].value = user0.master_id;
-                    if (user0.state !== "")
-                        $("#state").val(user0.state).change();
-                    if (user0.city !== "")
-                        $("#city").val(user0.city).change();
+                    // if (user0.state !== "")
+                    //     $("#state").val(user0.state).change();
+                    // if (user0.city !== "")
+                    //     $("#city").val(user0.city).change();
                     $("#address")[0].value = user0.address;
                     $("#TableService")[0].value = user0.service_table;
                     $("#telephone")[0].value = user0.telephone;
@@ -124,8 +124,8 @@ $(document).ready(function () {
             'national_code': $("#national_code")[0].value,
             'position': $("#position")[0].value,
             'master_id': $("#master_id")[0].value !== '' ? $("#master_id")[0].value : '16288831',
-            'state': $("#state")[0].value,
-            'city': $("#city")[0].value,
+            // 'state': $("#state")[0].value,
+            // 'city': $("#city")[0].value,
             'address': $("#address")[0].value,
             'service_table': $("#TableService")[0].value,
             'telephone': $("#telephone")[0].value === '' ? '0' : $("#telephone")[0].value,
@@ -137,7 +137,7 @@ $(document).ready(function () {
             'fullAddress': $("#fullAddress")[0].value,
             'type': document.getElementById('admin').checked,
         };
-        if ($("#image_view")[0].value !== '')
+        if ($("#image_view")[0].files[0])
             uploadFile(data.user_id);
         $.ajax({
             url: ("/spadsystem/rest/add_user"),
@@ -224,14 +224,14 @@ function clearAddUserItems(type) {
     $("#national_code")[0].value = "";
     $("#position")[0].value = "";
     $("#master_id")[0].value = "";
-    try {
-        $("#state").val(0).change();
-    } catch (e) {
-    }
-    try {
-        $("#city").val(0).change();
-    } catch (e) {
-    }
+    // try {
+    //     $("#state").val(0).change();
+    // } catch (e) {
+    // }
+    // try {
+    //     $("#city").val(0).change();
+    // } catch (e) {
+    // }
     $("#address")[0].value = "";
     $("#TableService")[0].value = "";
     $("#telephone")[0].value = "";
@@ -245,7 +245,7 @@ function clearAddUserItems(type) {
 }
 
 function uploadFile(id) {
-    var formData = new FormData();
+    let formData = new FormData();
     formData.append("file", $('#image_view')[0].files[0]);
     formData.append("id", id);
 

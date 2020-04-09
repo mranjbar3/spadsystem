@@ -451,13 +451,14 @@ public class JDBC {
     }
 
     public Mail saveMail(Mail mail) throws SQLException {
-        String sql = "INSERT INTO mail (sender,receiver,time,title,body) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO mail (sender,receiver,time,title,body,attach) VALUES (?,?,?,?,?,?)";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, mail.getSender().getUser_id());
         preparedStatement.setString(2, mail.getReceiver().getUser_id());
         preparedStatement.setString(3, mail.getTime());
         preparedStatement.setString(4, mail.getTitle());
         preparedStatement.setString(5, mail.getBody());
+        preparedStatement.setString(6, mail.getAttach());
         if (preparedStatement.executeUpdate() != -1) {
             sql = "SELECT pk FROM mail ORDER BY pk DESC LIMIT 1";
             preparedStatement = connection.prepareStatement(sql);
@@ -496,6 +497,7 @@ public class JDBC {
             mail.setStar(resultSet.getBoolean("star"));
             mail.setTrash(resultSet.getBoolean("trash"));
             mail.setDelete(resultSet.getBoolean("delete"));
+            mail.setAttach(resultSet.getString("attach"));
             result.add(mail);
         }
         return result;
@@ -527,6 +529,5 @@ public class JDBC {
         preparedStatement.executeUpdate();
         return mail;
     }
-
 }
 
