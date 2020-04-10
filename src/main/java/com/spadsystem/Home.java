@@ -13,10 +13,13 @@ import java.io.*;
 import java.net.URI;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Path("/")
 public class Home {
+    private String dir = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String test() {
@@ -92,9 +95,7 @@ public class Home {
     public JSONObject uploadImage(@FormDataParam("file") InputStream uploadedInputStream,
                                   @FormDataParam("file") FormDataContentDisposition fileDetails,
                                   @FormDataParam("id") String id) {
-        String uploadedFileLocation = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath().substring(0,
-                this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath().indexOf("WEB-INF")) +
-                "temp/img_" + id + ".png";//fileDetails.getFileName().substring(fileDetails.getFileName().lastIndexOf("."));
+        String uploadedFileLocation = dir.substring(0, dir.indexOf("WEB-INF")) + "temp/img_" + id + ".png";
         // save it
         try {
             OutputStream out = new FileOutputStream(new File(uploadedFileLocation));
@@ -211,6 +212,7 @@ public class Home {
         }
         return null;
     }
+
 
     @Path("/update_mail")
     @POST

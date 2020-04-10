@@ -240,6 +240,8 @@ function showMailDetail(id) {
     $('#detail_mail_name').html(mail.sender.user_id === localStorage.id ? (mail.receiver.first_name + ' ' + mail.receiver.last_name) : (mail.sender.first_name + ' ' + mail.sender.last_name));
     $('#detail_mail_position').html(mail.sender.user_id === localStorage.id ? mail.receiver.position : mail.sender.position);
     $('#detail_mail_body').html(mail.body);
+    // mail.attach.forEach(attach => $('#detail_mail_attach')
+    //     .append("<img src=\"temp/" + attach + "\" alt=\"attachment\" class=\"img-thumbnail img-responsive\">"));
     localStorage.active_object = JSON.stringify(mail);
     if (mail.sender.user_id !== localStorage.id && !mail.read) {
         mail.send = true;

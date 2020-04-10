@@ -1,5 +1,6 @@
 package com.spadsystem.controller;
 
+import com.spadsystem.Home;
 import com.spadsystem.model.Entity;
 import com.spadsystem.model.Mail;
 import com.spadsystem.model.User;
@@ -9,7 +10,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
@@ -474,8 +477,9 @@ public class JDBC {
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, id);
         preparedStatement.setString(2, id);
-        ResultSet resultSet = preparedStatement.executeQuery();
+        final ResultSet resultSet = preparedStatement.executeQuery();
         ArrayList<Mail> result = new ArrayList<Mail>();
+        String dir = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
         while (resultSet.next()) {
             Mail mail = new Mail();
             mail.setPk(Long.parseLong(resultSet.getString("pk")));
@@ -497,7 +501,23 @@ public class JDBC {
             mail.setStar(resultSet.getBoolean("star"));
             mail.setTrash(resultSet.getBoolean("trash"));
             mail.setDelete(resultSet.getBoolean("delete"));
-            mail.setAttach(resultSet.getString("attach"));
+            if (resultSet.getString("attach") != null && resultSet.getString("attach").length() > 0) {
+                System.out.println(resultSet.getString("attach"));
+                System.out.println(dir.substring(0, dir.indexOf("WEB-INF")) + "temp");
+                File[] matchingFiles = new File(dir.substring(0, dir.indexOf("WEB-INF")) + "temp")
+                        .listFiles(new FilenameFilter() {
+                            public boolean accept(File dir, String name) {
+                                try {
+                                    return name.startsWith(resultSet.getString("attach"));
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
+                                return false;
+                            }
+                        });
+                mail.setAttach(Arrays.toString(matchingFiles));
+                System.out.println(Arrays.toString(matchingFiles));
+            }
             result.add(mail);
         }
         return result;
