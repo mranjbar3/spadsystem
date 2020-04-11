@@ -6,17 +6,12 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FilenameFilter;
-import java.io.IOException;
+import java.io.*;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class JDBC {
     // JDBC driver name and database URL
@@ -304,11 +299,11 @@ public class JDBC {
                 Iterator<Cell> cellIterator = nextRow.cellIterator();
                 Cell nextCell = cellIterator.next();
                 User user = new User();
-//                try {
-//                    user.setUser_id(String.valueOf((int) nextCell.getNumericCellValue()));
-//                } catch (Exception ignored) {
-//                    continue;
-//                }
+                try {
+                    user.setUser_id(String.valueOf((int) nextCell.getNumericCellValue()));
+                } catch (Exception ignored) {
+                    continue;
+                }
                 nextCell = cellIterator.next();
                 user.setFirst_name(nextCell.getStringCellValue());
                 nextCell = cellIterator.next();
@@ -456,7 +451,12 @@ public class JDBC {
     }
 
     public static void main(String[] args) {
-        fromExcel();
+//        fromExcel();
+        try {
+            System.out.println(new JDBC().exportExcel());
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public Mail saveMail(Mail mail) throws SQLException {
@@ -508,8 +508,6 @@ public class JDBC {
             mail.setTrash(resultSet.getBoolean("trash"));
             mail.setDelete(resultSet.getBoolean("delete"));
             if (resultSet.getString("attach") != null && resultSet.getString("attach").length() > 0) {
-                System.out.println(resultSet.getString("attach"));
-                System.out.println(dir.substring(0, dir.indexOf("WEB-INF")) + "temp");
                 File[] matchingFiles = new File(dir.substring(0, dir.indexOf("WEB-INF")) + "temp")
                         .listFiles(new FilenameFilter() {
                             public boolean accept(File dir, String name) {
@@ -522,7 +520,6 @@ public class JDBC {
                             }
                         });
                 mail.setAttach(Arrays.toString(matchingFiles));
-                System.out.println(Arrays.toString(matchingFiles));
             }
             result.add(mail);
         }
@@ -563,6 +560,43 @@ public class JDBC {
         preparedStatement.setString(2, user.getUser_id());
         preparedStatement.executeUpdate();
         return user;
+    }
+
+    public String exportExcel() {
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFSheet sheet = workbook.createSheet("Employee Data");
+        List<User> users = searchDb(new String[]{"all"});
+        Map<String, Object[]> data = new TreeMap<String, Object[]>();
+        data.put("1", new Object[]{"کد پرسنلی", "نام", "نام خانوادگی", "سمت سازمانی", "واحد سازمانی", "محل خدمت", "میز خدمت", "جنسیت", "کدملی", "آدرس کامل", "تلفن همراه", "تلفن ثابت", "داخلی اول", "داخلی دوم", "پیش شماره", "دورنگار", "رییس"});
+        for (int i = 0; i < users.size(); i++) {
+            User user = users.get(i);
+            data.put(String.valueOf(i + 2), new Object[]{user.getUser_id(), user.getFirst_name(), user.getLast_name(), user.getPosition(), user.getAddress(), user.getService_unit(), user.getService_table(), user.getGender(), user.getNational_code(), user.getFullAddress(), user.getMobile(), user.getTelephone(), user.getInternalTel1(), user.getInternalTel2(), user.getPreIntTel(), user.getFax(), user.getType()});
+        }
+        //Iterate over data and write to sheet
+        Set<String> keySet = data.keySet();
+        int rowNum = 0;
+        for (String key : keySet) {
+            Row row = sheet.createRow(rowNum++);
+            Object[] objArr = data.get(key);
+            int cellNum = 0;
+            for (Object obj : objArr) {
+                Cell cell = row.createCell(cellNum++);
+                if (obj instanceof String)
+                    cell.setCellValue((String) obj);
+                else if (obj instanceof Integer)
+                    cell.setCellValue((Integer) obj);
+            }
+        }
+        try {
+            String dir = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+            FileOutputStream out = new FileOutputStream(new File(dir.substring(0, dir.indexOf("WEB-INF")) + "temp/export.xlsx"));
+            workbook.write(out);
+            out.close();
+            return "/spadsystem/temp/export.xlsx";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "Error";
     }
 }
 

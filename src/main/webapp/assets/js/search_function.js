@@ -71,6 +71,15 @@ if (localStorage.type === "admin")
         }
     });
 $(document).ready(function () {
+    $('#fake_search_bar').keydown(function (evt) {
+        if (evt.keyCode === 13) {
+            $('#search_bar').val($('#fake_search_bar').val());
+            checkInput();
+            $('#first-master').toggle();
+            $('#main-master').toggle();
+            $('#fake_search_bar').off();
+        }
+    });
     localStorage.id = new URLSearchParams(window.location.search).get('id');
     $('.btn-signin').click(function () {
         $(window).attr('location', 'login.html')
@@ -84,8 +93,7 @@ $(document).ready(function () {
     }
     if (localStorage.type === "user") {
         $('#search_bar').keydown(function (event) {
-            var keyCode = (event.keyCode ? event.keyCode : event.which);
-            console.log(keyCode);
+            const keyCode = (event.keyCode ? event.keyCode : event.which);
             if (keyCode === 13) checkInput();
         });
         user["user_id"] = localStorage.id;
@@ -185,7 +193,8 @@ function showSearchResult(results, start, cnt) {
             "<p class='cardtitle'><i class='fa fa-list'></i><b>سمت سازمانی: </b>" + (result.position === null ? '' : result.position) + "</p>" +
             // "<p class='cardtitle'><i class='fa fa-map'></i><b>محل خدمت(استان): </b>" + (result.state === null ? '' : result.state) + "</p>" +
             // "<p class='cardtitle'><i class='fa fa-road'></i><b>محل خدمت:(شهر): </b>" + (result.city === null ? '' : result.city) + "</p>" +
-            "<p class='cardtitle'><i class='fa fa-map-pin'></i><b>نشانی محل خدمت: </b>" + (result.address === null ? '' : result.address) + "</p>" +
+            "<p class='cardtitle'><i class='fa fa-map-pin'></i><b>واحد سازمانی: </b>" + (result.address === null ? '' : result.address) + "</p>" +
+            "<p class='cardtitle'><i class='fa fa-map-pin'></i><b>محل خدمت: </b>" + (result.service_unit === null ? '' : result.service_unit) + "</p>" +
             "<p class='cardtitle'><i class='fa fa-flag'></i><b>میز خدمت: </b>" + (result.service_table === null ? '' : result.service_table) + "</p>" +
             "<p class='cardtitle'><i class='fa fa-tty'></i><b>شماره ثابت: </b><span style='float: left;margin: 6px 10px;'>" + (result.telephone === null ? '' : (result.preTel === null ? '' : result.preTel + '-') + result.telephone) + "</span></p>" +
             "<p class='cardtitle'><i class='fa fa-phone'></i><b>شماره داخلی 1: </b>" + (result.internalTel1 === null ? '' : result.internalTel1) + "</p>" +

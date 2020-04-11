@@ -28,6 +28,18 @@ public class Home {
         return "server is GOOD!";
     }
 
+    @GET
+    @Path("/get-all-data")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String exportData() {
+        try {
+            return JDBC.getInstance().exportExcel();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+        return "Error";
+    }
+
     @Path("/login")
     @POST
     @Produces(MediaType.TEXT_PLAIN)
