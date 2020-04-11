@@ -75,6 +75,19 @@ public class Home {
         return false;
     }
 
+    @Path("/update-password")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
+    public User updateUserPassword(User user) {
+        try {
+            return JDBC.getInstance().updateUserPassword(user);
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     @Path("/delete_user")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -105,8 +118,6 @@ public class Home {
                 out.write(bytes, 0, read);
             }
             JDBC.getInstance().saveImage(id, uploadedFileLocation);
-//            Files.copy(new File(uploadedFileLocation).toPath(),
-//                    new File(url).toPath(), StandardCopyOption.REPLACE_EXISTING);
             out.flush();
             out.close();
             return new JSONObject("{\"File uploaded to\" : \"" + uploadedFileLocation + "\"}");

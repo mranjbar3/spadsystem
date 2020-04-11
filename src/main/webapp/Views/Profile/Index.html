@@ -18,61 +18,63 @@
     <div class="col-sm-12">
         <div class=" card-box">
 
-            <div class="panel-body">
-                <form method="post" action="#" role="form" class="text-center">
-                    <div class="user-thumb">
-                        <img src="assets/images/users/avatar-1.jpg" class="img-responsive img-circle img-thumbnail" alt="thumbnail">
-                    </div>
-                    <div class="form-group">
-                        <h3>مهرداد غفاری</h3>
-                        <p class="text-muted">
-                            تغییر رمز عبور
-                        </p>
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="panel-body" style="text-align: center;">
+                <div class="user-thumb">
+                    <img id="profile_img" class="img-responsive img-circle img-thumbnail"
+                         alt="thumbnail">
+                </div>
+                <div class="form-group">
+                    <h3 id="profile_name"></h3>
+                    <p class="text-muted">
+                        تغییر رمز عبور
+                    </p>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <div class="form-group">
+                                <label>رمز عبور قدیمی</label>
                                 <div class="form-group">
-                                    <label>رمز عبور قدیمی</label>
-                                    <div class="form-group">
-                                        <input class="form-control" id="password" name="password" type="password">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                                <div class="form-group">
-                                    <label>رمز عبور جدید</label>
-                                    <div class="form-group">
-                                        <input class="form-control" id="newpassword" name="newpassword" type="password">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                                <div class="form-group">
-                                    <label>تکرار رمز عبور جدید</label>
-                                    <div class="form-group">
-                                        <input class="form-control" id="reppassword" name="repnewpassword" type="password">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                                <div class="form-group">
-                                    <label class="control-label">تغییر عکس پروفایل</label>
-                                    <input type="file" class="filestyle" data-input="false">
+                                    <input class="form-control" id="password" name="password" type="password">
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="form-group text-right m-b-0">
-                                <button class="btn btn-success waves-effect waves-light" id="add_user_btn">
-                                    ذخیره
-                                </button>
-                                <button id="cancel_btn" class="btn btn-default waves-effect waves-light m-l-5">
-                                    انصراف
-                                </button>
+                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <div class="form-group">
+                                <label>رمز عبور جدید</label>
+                                <div class="form-group">
+                                    <input class="form-control" id="newpassword" name="newpassword" type="password">
+                                </div>
                             </div>
                         </div>
-                        <!-- end row -->
+                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <div class="form-group">
+                                <label>تکرار رمز عبور جدید</label>
+                                <div class="form-group">
+                                    <input class="form-control" id="reppassword" name="repnewpassword"
+                                           type="password">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <div class="form-group">
+                                <label class="control-label">تغییر عکس پروفایل</label>
+                                <input id="profile_new_img" type="file" class="filestyle" data-input="false">
+                            </div>
+                        </div>
                     </div>
-                </form>
+                    <div class="row">
+                        <div class="form-group text-right m-b-0">
+                            <button onclick="saveUserProfileData()" class="btn btn-success waves-effect waves-light"
+                                    id="add_user_btn">
+                                ذخیره
+                            </button>
+                            <button onclick="showInboxMailView()"
+                                    class="btn btn-default waves-effect waves-light m-l-5">
+                                انصراف
+                            </button>
+                        </div>
+                    </div>
+                    <!-- end row -->
+                </div>
             </div>
         </div>
     </div>

@@ -103,6 +103,7 @@ function showMailDetailView() {
 //when completely load page, this part of code is running.
 $(document).ready(function () {
     localStorage.id = new URLSearchParams(window.location.search).get('id');
+    getUser();
     getEmails(localStorage.id);
 });
 
@@ -114,6 +115,13 @@ function ajaxMasterFunction(type) {
         data: ajax_data,
         success: function (response) {
             switch (type) {
+                case "G_User":
+                    setProfile(response);
+                    break;
+                case "U_Password":
+                    showToast('تغییرات با موفقیت ثبت شد.', 'green rounded');
+                    showInboxMailView();
+                    break;
                 case "G_Mail":
                     all_mails = response;
                     showAllMail(response);
@@ -139,11 +147,51 @@ function ajaxMasterFunction(type) {
     });
 }
 
-function getEmails(id) {
+function getUser() {
+    ajax_url = "/spadsystem/rest/get_user";
+    ajax_method = "POST";
+    ajax_content_type = "application/json";
+    ajax_data = JSON.stringify({"user_id": localStorage.id});
+    ajaxMasterFunction("G_User");
+}
+
+function setProfile(data) {
+    localStorage.user = JSON.stringify(data);
+    $('#profile_img')[0].src = (data.image === null ? (data.gender === 'مرد' ? "/spadsystem/assets/image/man.png" : "/spadsystem/assets/image/woman.png") : data.image.substring(data.image.indexOf('temp')));
+    $('#profile_name').html(data.first_name + " " + data.last_name);
+}
+
+function saveUserProfileData() {
+    const file = $('#profile_new_img')[0].files[0], pass = $('#newpassword').eq(0).val(),
+        rep = $('#reppassword').eq(0).val();
+    if (file) {
+        let formData = new FormData();
+        formData.append("id", localStorage.id);
+        formData.append("file", file);
+        sendFile('image', formData);
+    }
+    if (pass.length > 0) {
+        if (pass.length >= 5) {
+            if (pass === rep) {
+                ajax_url = "/spadsystem/rest/update-password";
+                ajax_method = "POST";
+                ajax_content_type = "application/json";
+                ajax_data = {"user_id": localStorage.id, "password": pass};
+                ajaxMasterFunction("U_Password");
+            } else {
+                showToast('رمز جدید و تکرارش با هم برابر نیستند.', 'red rounded');
+            }
+        } else {
+            showToast('طول رمز وارد شده کوتاه تر از پنج عبارت نباید باشد.', 'red rounded')
+        }
+    }
+}
+
+function getEmails() {
     ajax_url = "/spadsystem/rest/get_mail";
     ajax_method = "POST";
     ajax_content_type = "application/json";
-    ajax_data = JSON.stringify({"receiver": {user_id: id}});
+    ajax_data = JSON.stringify({"receiver": {user_id: localStorage.id}});
     ajaxMasterFunction("G_Mail");
 }
 
@@ -240,6 +288,11 @@ function showMailDetail(id) {
     $('#detail_mail_name').html(mail.sender.user_id === localStorage.id ? (mail.receiver.first_name + ' ' + mail.receiver.last_name) : (mail.sender.first_name + ' ' + mail.sender.last_name));
     $('#detail_mail_position').html(mail.sender.user_id === localStorage.id ? mail.receiver.position : mail.sender.position);
     $('#detail_mail_body').html(mail.body);
+    const btn = $('#detail_mail_btn_response');
+    btn.off();
+    btn.click(function () {
+        sendNewMail(mail);
+    });
     // mail.attach.forEach(attach => $('#detail_mail_attach')
     //     .append("<img src=\"temp/" + attach + "\" alt=\"attachment\" class=\"img-thumbnail img-responsive\">"));
     localStorage.active_object = JSON.stringify(mail);
@@ -291,6 +344,17 @@ function toPersian(text) {
     return res;
 }
 
+function sendFile(uri, formData) {
+    $.ajax({
+        url: "/spadsystem/rest/" + uri,
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        method: 'POST'
+    });
+}
+
 function sendNewMail(responseMail) {
     const files = $('#new_mail_attach')[0].files,
         time = new Date().toLocaleString("fa").replace("‏ ", ""),
@@ -301,17 +365,16 @@ function sendNewMail(responseMail) {
             let name = files[i].name.split('.');
             formData.append('file', files[i], file_name + "-" + i + "." + name[name.length - 1]);
         }
-        $.ajax({
-            url: "/spadsystem/rest/send_file",
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false,
-            method: 'POST'
-        });
+        sendFile('send_file', formData);
     }
-
-    const receiver = responseMail ? $('#detail_mail_name').html() : $('#new_mail_receiver').val();
+    let id;
+    if (responseMail) {
+        if (responseMail.sender === localStorage.id)
+            id = responseMail.receiver.user_id;
+        else
+            id = responseMail.sender.user_id;
+    }
+    const receiver = responseMail ? id : $('#new_mail_receiver').val();
     if (receiver.length > 1) {
         ajax_url = "/spadsystem/rest/send_mail";
         ajax_method = "POST";
@@ -319,7 +382,7 @@ function sendNewMail(responseMail) {
         if (responseMail) {
             ajax_data = JSON.stringify({
                 "sender": {user_id: localStorage.id},
-                "receiver": {first_name: receiver},
+                "receiver": {user_id: receiver},
                 "title": $('#detail_mail_title').html(),
                 "time": time,
                 "body": $('#textarea').val()

@@ -103,7 +103,9 @@
                                     حساب کاربری</a>
                                 </li>
                                 <li class="divider"></li>
-                                <li><a href="javascript:void(0)"><i class="ti-power-off m-r-10 text-danger"></i>
+                                <li><a href="#"
+                                       onclick='window.location.replace("http://localhost:8080/spadsystem/login.html");'><i
+                                        class="ti-power-off m-r-10 text-danger"></i>
                                     خروج</a></li>
                             </ul>
                         </li>

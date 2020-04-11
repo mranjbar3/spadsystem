@@ -15,7 +15,7 @@ $.ajax({
                     // city[item.split(',')[0]] = null;
                     // all['شهر ' + item.split(',')[0]] = null;
                 } else {
-                    all['سمت ' + item.replace('pos:', '')] = null;
+                    all[item.replace('pos:', '')] = null;
                 }
             }
         });

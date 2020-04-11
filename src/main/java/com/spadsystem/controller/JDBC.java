@@ -1,7 +1,5 @@
 package com.spadsystem.controller;
 
-import com.spadsystem.Home;
-import com.spadsystem.model.Entity;
 import com.spadsystem.model.Mail;
 import com.spadsystem.model.User;
 import org.apache.poi.ss.usermodel.Cell;
@@ -306,11 +304,11 @@ public class JDBC {
                 Iterator<Cell> cellIterator = nextRow.cellIterator();
                 Cell nextCell = cellIterator.next();
                 User user = new User();
-                try {
-                    user.setUser_id(String.valueOf((int) nextCell.getNumericCellValue()));
-                } catch (Exception ignored) {
-                    continue;
-                }
+//                try {
+//                    user.setUser_id(String.valueOf((int) nextCell.getNumericCellValue()));
+//                } catch (Exception ignored) {
+//                    continue;
+//                }
                 nextCell = cellIterator.next();
                 user.setFirst_name(nextCell.getStringCellValue());
                 nextCell = cellIterator.next();
@@ -556,6 +554,15 @@ public class JDBC {
         preparedStatement.setLong(8, mail.getPk());
         preparedStatement.executeUpdate();
         return mail;
+    }
+
+    public User updateUserPassword(User user) throws SQLException {
+        String sql = "UPDATE user SET password=? WHERE id=?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, user.getPassword());
+        preparedStatement.setString(2, user.getUser_id());
+        preparedStatement.executeUpdate();
+        return user;
     }
 }
 
