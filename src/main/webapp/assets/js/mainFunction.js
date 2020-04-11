@@ -307,10 +307,7 @@ function sendNewMail(responseMail) {
             cache: false,
             contentType: false,
             processData: false,
-            method: 'POST',
-            success: function (data) {
-                alert(data);
-            }
+            method: 'POST'
         });
     }
 

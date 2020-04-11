@@ -296,7 +296,7 @@ public class JDBC {
     }
 
     public static void fromExcel() {
-        String excelFilePath = JDBC.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "westPersons.xlsx";
+        String excelFilePath = JDBC.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "990117.xlsx";
         try {
             long start = System.currentTimeMillis();
             FileInputStream inputStream = new FileInputStream(excelFilePath);
@@ -318,11 +318,19 @@ public class JDBC {
                 nextCell = cellIterator.next();
                 user.setAddress(nextCell.getStringCellValue());
                 nextCell = cellIterator.next();
+                user.setService_unit(nextCell.getStringCellValue());
+                nextCell = cellIterator.next();
                 user.setPosition(nextCell.getStringCellValue());
+                nextCell = cellIterator.next();
+                user.setService_table(nextCell.getStringCellValue());
 //                nextCell = cellIterator.next();
 //                user.setTelephone(String.valueOf((int) nextCell.getNumericCellValue()));
-//                nextCell = cellIterator.next();
-//                user.setInternalTel1(String.valueOf((int) nextCell.getNumericCellValue()));
+                nextCell = cellIterator.next();
+                try {
+                    user.setInternalTel1(String.valueOf((int) nextCell.getNumericCellValue()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 //                nextCell = cellIterator.next();
 //                user.setInternalTel2(String.valueOf((int) nextCell.getNumericCellValue()));
 //                nextCell = cellIterator.next();

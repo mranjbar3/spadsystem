@@ -5,15 +5,15 @@ $.ajax({
     success: function (response) {
         $.each(response, function (i, item) {
             if (i < 31) {
-                master_state.push(item);
-                state[item] = null;
-                all['استان ' + item] = null;
-                master_city[i + 1] = [];
+                // master_state.push(item);
+                // state[item] = null;
+                // all['استان ' + item] = null;
+                // master_city[i + 1] = [];
             } else {
                 if (item.indexOf('pos:') === -1) {
-                    master_city[item.split(',')[1]].push(item.split(',')[0]);
-                    city[item.split(',')[0]] = null;
-                    all['شهر ' + item.split(',')[0]] = null;
+                    // master_city[item.split(',')[1]].push(item.split(',')[0]);
+                    // city[item.split(',')[0]] = null;
+                    // all['شهر ' + item.split(',')[0]] = null;
                 } else {
                     all['سمت ' + item.replace('pos:', '')] = null;
                 }
@@ -183,8 +183,8 @@ function showSearchResult(results, start, cnt) {
             "<span class='card-title grey-text text-darken-4'><i class='material-icons right' style='color:#ffffff'>close</i></span>" +
             "<h4>" + result.first_name + " " + result.last_name + "</h4>" +
             "<p class='cardtitle'><i class='fa fa-list'></i><b>سمت سازمانی: </b>" + (result.position === null ? '' : result.position) + "</p>" +
-            "<p class='cardtitle'><i class='fa fa-map'></i><b>محل خدمت(استان): </b>" + (result.state === null ? '' : result.state) + "</p>" +
-            "<p class='cardtitle'><i class='fa fa-road'></i><b>محل خدمت:(شهر): </b>" + (result.city === null ? '' : result.city) + "</p>" +
+            // "<p class='cardtitle'><i class='fa fa-map'></i><b>محل خدمت(استان): </b>" + (result.state === null ? '' : result.state) + "</p>" +
+            // "<p class='cardtitle'><i class='fa fa-road'></i><b>محل خدمت:(شهر): </b>" + (result.city === null ? '' : result.city) + "</p>" +
             "<p class='cardtitle'><i class='fa fa-map-pin'></i><b>نشانی محل خدمت: </b>" + (result.address === null ? '' : result.address) + "</p>" +
             "<p class='cardtitle'><i class='fa fa-flag'></i><b>میز خدمت: </b>" + (result.service_table === null ? '' : result.service_table) + "</p>" +
             "<p class='cardtitle'><i class='fa fa-tty'></i><b>شماره ثابت: </b><span style='float: left;margin: 6px 10px;'>" + (result.telephone === null ? '' : (result.preTel === null ? '' : result.preTel + '-') + result.telephone) + "</span></p>" +
