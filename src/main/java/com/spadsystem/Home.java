@@ -53,7 +53,7 @@ public class Home {
                 if (user.getType() != null && user.getType().equals("true"))
                     return Response.seeOther(URI.create("/spadsystem/admin.html")).build();
                 else
-                    return Response.seeOther(URI.create("/spadsystem/index.jsp?id=" + id)).build();
+                    return Response.seeOther(URI.create("/spadsystem/index.jsp?id=" + id + "&type=" + user.getType())).build();
             } else
                 return Response.seeOther(URI.create("/spadsystem/login.html?text=auth")).build();
         } catch (ClassNotFoundException | SQLException e) {

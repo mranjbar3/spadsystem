@@ -75,7 +75,7 @@
                                                                 class="badge badge-xs badge-danger"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-lg">
-                                <li class="notifi-title"><span class="label label-default pull-right">جدید 3</span>پیام
+                                <li class="notifi-title"><span class="label label-default pull-right"></span>پیام
                                     های خوانده نشده
                                 </li>
                                 <li class="list-group slimscroll-noti notification-list">
@@ -96,8 +96,8 @@
                         </li>
                         <li class="dropdown top-menu-item-xs">
                             <a href="" class="dropdown-toggle profile waves-effect waves-light" data-toggle="dropdown"
-                               aria-expanded="true"><img src="assets/images/users/avatar-1.jpg" alt="user-img"
-                                                         class="img-circle"> </a>
+                               aria-expanded="true"><img id="user-img" src="" alt="user-img"
+                                                         style="background-color: gainsboro;" class="img-circle"> </a>
                             <ul class="dropdown-menu">
                                 <li><a href="#" onclick="showProfileView()"><i class="ti-user m-r-10 text-custom"></i>
                                     حساب کاربری</a>
@@ -123,12 +123,12 @@
             <!--- Divider -->
             <div id="sidebar-menu">
                 <ul>
-                    <li class="has_sub">
+                    <li id="dashboard-panel-menu" class="has_sub">
                         <a href="#" onclick="showDashboardView()" class="waves-effect"><i class="ti-dashboard"></i>
                             <span> پیش خوان </span></a>
                     </li>
 
-                    <li class="has_sub">
+                    <li id="employee-panel-menu" class="has_sub">
                         <a href="javascript:void(0);" class="waves-effect"><i class="ti-user"></i>
                             <span> کارمندان </span> <span class="menu-arrow"></span> </a>
                         <ul class="list-unstyled">

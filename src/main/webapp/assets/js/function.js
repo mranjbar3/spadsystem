@@ -74,6 +74,7 @@ $.ajax({
                     //     $("#city").val(user0.city).change();
                     $("#address")[0].value = user0.address;
                     $("#TableService")[0].value = user0.service_table;
+                    $("#service_unit")[0].value = user0.service_unit;
                     $("#telephone")[0].value = user0.telephone;
                     $("#internalTel1")[0].value = user0.internalTel1;
                     $("#internalTel2")[0].value = user0.internalTel2;
@@ -128,6 +129,7 @@ $(document).ready(function () {
             // 'city': $("#city")[0].value,
             'address': $("#address")[0].value,
             'service_table': $("#TableService")[0].value,
+            'service_unit': $("#service_unit")[0].value,
             'telephone': $("#telephone")[0].value === '' ? '0' : $("#telephone")[0].value,
             'internalTel1': $("#internalTel1")[0].value === '' ? '0' : $("#internalTel1")[0].value,
             'internalTel2': $("#internalTel2")[0].value === '' ? '0' : $("#internalTel2")[0].value,
@@ -234,6 +236,7 @@ function clearAddUserItems(type) {
     // }
     $("#address")[0].value = "";
     $("#TableService")[0].value = "";
+    $("#service_unit")[0].value = "";
     $("#telephone")[0].value = "";
     $("#internalTel1")[0].value = "";
     $("#internalTel2")[0].value = "";

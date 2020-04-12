@@ -507,20 +507,20 @@ public class JDBC {
             mail.setStar(resultSet.getBoolean("star"));
             mail.setTrash(resultSet.getBoolean("trash"));
             mail.setDelete(resultSet.getBoolean("delete"));
-            if (resultSet.getString("attach") != null && resultSet.getString("attach").length() > 0) {
-                File[] matchingFiles = new File(dir.substring(0, dir.indexOf("WEB-INF")) + "temp")
-                        .listFiles(new FilenameFilter() {
-                            public boolean accept(File dir, String name) {
-                                try {
-                                    return name.startsWith(resultSet.getString("attach"));
-                                } catch (SQLException e) {
-                                    e.printStackTrace();
-                                }
-                                return false;
-                            }
-                        });
-                mail.setAttach(Arrays.toString(matchingFiles));
-            }
+//            if (resultSet.getString("attach") != null && resultSet.getString("attach").length() > 0) {
+//                File[] matchingFiles = new File(dir.substring(0, dir.indexOf("WEB-INF")) + "temp")
+//                        .listFiles(new FilenameFilter() {
+//                            public boolean accept(File dir, String name) {
+//                                try {
+//                                    return name.startsWith(resultSet.getString("attach"));
+//                                } catch (SQLException e) {
+//                                    e.printStackTrace();
+//                                }
+//                                return false;
+//                            }
+//                        });
+//                mail.setAttach(Arrays.toString(matchingFiles));
+//            }
             result.add(mail);
         }
         return result;

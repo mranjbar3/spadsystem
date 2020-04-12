@@ -49,11 +49,14 @@
                     <div class="col-lg-12">
                         <div class="btn-toolbar m-t-20" role="toolbar">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-Hazheh waves-effect waves-light "><i
+                                <button onclick="selectAll()" type="button"
+                                        class="btn btn-Hazheh waves-effect waves-light "><i
                                         class="fa fa-check-square-o"></i></button>
-                                <button type="button" class="btn btn-Hazheh waves-effect waves-light "><i
+                                <button onclick="starSelectedMessages()" type="button"
+                                        class="btn btn-Hazheh waves-effect waves-light "><i
                                         class="fa fa-star"></i></button>
-                                <button onclick="deleteMail()" type="button" class="btn btn-danger waves-effect waves-light "><i
+                                <button onclick="deleteMail()" type="button"
+                                        class="btn btn-danger waves-effect waves-light "><i
                                         class="fa fa-trash-o"></i></button>
                             </div>
                             <div class="btn-group">

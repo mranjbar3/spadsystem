@@ -102,10 +102,26 @@ function showMailDetailView() {
 
 //when completely load page, this part of code is running.
 $(document).ready(function () {
-    localStorage.id = new URLSearchParams(window.location.search).get('id');
+    const uri = new URLSearchParams(window.location.search);
+    localStorage.id = uri.get('id');
+    localStorage.type = uri.get('type');
+    if (localStorage.type === true) {
+        adminUserView();
+    } else {
+        manualUserView();
+    }
     getUser();
     getEmails(localStorage.id);
 });
+
+function adminUserView() {
+
+}
+
+function manualUserView() {
+    $('#employee-panel-menu').hide();
+    $('#admin-dashboard-view').hide();
+}
 
 function ajaxMasterFunction(type) {
     $.ajax({
@@ -159,6 +175,7 @@ function setProfile(data) {
     localStorage.user = JSON.stringify(data);
     $('#profile_img')[0].src = (data.image === null ? (data.gender === 'مرد' ? "/spadsystem/assets/image/man.png" : "/spadsystem/assets/image/woman.png") : data.image.substring(data.image.indexOf('temp')));
     $('#profile_name').html(data.first_name + " " + data.last_name);
+    $('#user-img')[0].src = $('#profile_img')[0].src;
 }
 
 function saveUserProfileData() {
@@ -227,6 +244,7 @@ function checkReceiveMessages(cnt) {
         topLabel.hide();
         topLabelNew.hide();
         $('#receive_btn b').eq(0).html("");
+        $('#dashboard-panel-menu').hide();
     }
 }
 
@@ -235,7 +253,7 @@ function produceMailViewString(mails, type_str) {
         let str = '<tr id="' + mail.pk + '"';
         if (!mail.read) {
             str += ' class="unread"';
-            if (mail.sender.user_id !== localStorage.id)
+            if (mail.sender.user_id !== localStorage.id) {
                 $('.slimscroll-noti').eq(0).prepend("<a href=\"#\" onclick=\"showMailDetail(" + mail.pk + ")\" class=\"list-group-item\">" +
                     " <div class=\"media\">" +
                     "  <div class=\"pull-left p-r-10 profile \">" +
@@ -249,6 +267,14 @@ function produceMailViewString(mails, type_str) {
                     "  </div>" +
                     " </div>" +
                     "</a>");
+                $('#dashboard-unread-messages').eq(0).prepend(
+                    "<tr>" +
+                    " <td>" + mail.sender.first_name + " " + mail.sender.last_name + "</td>" +
+                    " <td>" + mail.title + "</td>" +
+                    " <td>" + mail.time + "</td>" +
+                    " <td><a href=\"#\"><i class=\"fa fa-reply\"></i></a></td>" +
+                    "</tr>")
+            }
         }
         str += '><td class="mail-select"><div class="checkbox checkbox-primary m-r-15">' +
             '<input type="checkbox"><label></label>' +
@@ -458,6 +484,33 @@ function deleteMail() {
             showInboxMailView();
         }
         updateMail(mail);
+    } else {
+        let checks;
+        if ($('#mail-inbox').css('display') === 'inline') {
+            checks = $('#receive_mails .checkbox input:checked');
+        } else if ($('#mail-star').css('display') === 'block') {
+            checks = $('#star_mails .checkbox input:checked');
+        } else if ($('#mail-send').css('display') === 'block') {
+            checks = $('#sent_mails .checkbox input:checked');
+        } else if ($('#mail-trash').css('display') === 'block') {
+            checks = $('#trash_mails .checkbox input:checked');
+        }
+        for (let i = 0; i < checks.length; i++) {
+            let id = Number(checks.eq(i).parent().parent().parent().attr('id')),
+                mail = all_mails.find(mail => mail.pk === id);
+            if (mail.star) {
+                $('#' + mail.pk).detach();
+            }
+            if (mail.trash) {
+                $('#' + mail.pk).detach();
+                mail.delete = true;
+            } else {
+                $('#trash_mails').prepend($('#' + mail.pk));
+                $('#trash_mails .checkbox input:checked')[0].checked = false;
+                mail.trash = true;
+            }
+            updateMail(mail);
+        }
     }
 }
 
@@ -481,4 +534,42 @@ function showLastSendingMail() {
         }
     });
     $('.contacts-list').eq(0).html(str);
+}
+
+function selectAll() {
+    let checks = checkActivePanelItems(), cnt = 0, type;
+    for (let i = 0; i < checks.length; i++) {
+        if (checks[i].checked === true)
+            cnt++;
+        else
+            break;
+    }
+    type = cnt !== checks.length;
+    for (let i = 0; i < checks.length; i++) {
+        checks[i].checked = type;
+    }
+}
+
+function starSelectedMessages() {
+    if ($('#mail-inbox').css('display') === 'inline') {
+        $('#receive_mails .checkbox input:checked').parent().parent().find('.fa-star').click();
+    } else if ($('#mail-star').css('display') === 'block') {
+        $('#star_mails .checkbox input:checked').parent().parent().find('.fa-star').click();
+    } else if ($('#mail-send').css('display') === 'block') {
+        $('#sent_mails .checkbox input:checked').parent().parent().find('.fa-star').click();
+    } else if ($('#mail-trash').css('display') === 'block') {
+        $('#trash_mails .checkbox input:checked').parent().parent().find('.fa-star').click();
+    }
+}
+
+function checkActivePanelItems() {
+    if ($('#mail-inbox').css('display') === 'inline') {
+        return $('#receive_mails .checkbox input');
+    } else if ($('#mail-star').css('display') === 'block') {
+        return $('#star_mails .checkbox input');
+    } else if ($('#mail-send').css('display') === 'block') {
+        return $('#sent_mails .checkbox input');
+    } else if ($('#mail-trash').css('display') === 'block') {
+        return $('#trash_mails .checkbox input');
+    }
 }
