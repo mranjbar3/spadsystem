@@ -9,7 +9,10 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 
@@ -195,7 +198,6 @@ public class JDBC {
     }
 
     public List<User> searchDb(String[] data) {
-        System.out.println(Arrays.toString(data));
         List<User> list = new ArrayList<>();
         if (data.length > 0) {
             StringBuilder where = new StringBuilder();

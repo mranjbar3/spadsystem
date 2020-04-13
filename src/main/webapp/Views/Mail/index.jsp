@@ -71,7 +71,7 @@
                 </div> <!-- End row -->
 
 
-                <div id="mail-inbox" style="display: inline;">
+                <div id="mail-inbox" style="display: block;">
                     <jsp:include page="Inbox.html"/>
                 </div>
                 <div id="mail-detail" style="display: none;">

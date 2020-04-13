@@ -2,8 +2,13 @@
 let all = {}, users = [], positions = [], addresses = [], service_tables = [];
 $.ajax({
     url: "/spadsystem/rest/first_data",
+    data: {id: new URLSearchParams(window.location.search).get("id")},
     type: "GET",
     success: function (response) {
+        if (response.length === 0) {
+            window.location.replace("http://78.46.197.151/spadsystem/login.html");
+            // window.location.replace("http://localhost:8080/spadsystem/login.html");
+        }
         $.each(response, function (i, item) {
             if (i < 31) {
                 // master_state.push(item);
@@ -182,8 +187,8 @@ function removeUser(id) {
 }
 
 function pageCnt(input) {
-    $('#user_cnt').html(Object.keys(user).length);
-    let m_cnt = 1, t_cnt = 0, it_cnt = 0;
+    let all_cnt = Object.keys(user).length, m_cnt = 1, t_cnt = 0, it_cnt = 0, perfect_users_cnt = 0;
+    $('#user_cnt').html(all_cnt);
     $.each(user, function (i, user0) {
         if (user0.type === "true")
             m_cnt++;
@@ -193,10 +198,30 @@ function pageCnt(input) {
             it_cnt++;
         if (user0.internalTel2.length > 1)
             it_cnt++;
+        if (user0.first_name !== null && user0.first_name.length > 0 &&
+            user0.last_name !== null && user0.last_name.length > 0 &&
+            user0.national_code !== null && user0.national_code.length > 0 &&
+            user0.master_id !== null && user0.master_id.length > 0 &&
+            user0.position !== null && user0.position.length > 0 &&
+            user0.address !== null && user0.address.length > 0 &&
+            user0.service_unit !== null && user0.service_unit.length > 0 &&
+            user0.service_table !== null && user0.service_table.length > 0 &&
+            user0.telephone.length > 0 &&
+            user0.internalTel1.length > 0 &&
+            user0.internalTel2.length > 0 &&
+            user0.preIntTel !== null && user0.preIntTel.length > 0 &&
+            user0.fax !== null && user0.fax.length > 0 &&
+            user0.mobile !== null && user0.mobile.length > 0 &&
+            user0.fullAddress !== null && user0.fullAddress.length > 0)
+            perfect_users_cnt++;
     });
     $('#master_cnt').html(m_cnt);
+    $('#dashboard-user-cnt').html(all_cnt);
     $('#tel_cnt').html(t_cnt);
     $('#int_tel_cnt').html(it_cnt);
+    $('#dashboard-tels').html(t_cnt + it_cnt);
+    $('#dashboard-unset-tels').html(all_cnt * 3 - t_cnt - it_cnt);
+    $('#dashboard-perfect-users').html(all_cnt - perfect_users_cnt);
     updateAutoCompletes(input);
 }
 

@@ -164,7 +164,7 @@
         <!-- Start content -->
         <div class="content" style="overflow-y: scroll; height: 92%;">
             <div class="container">
-                <div id="admin" style="display: none;">
+                <div id="admin" style="display: block;">
                     <jsp:include page="Views/Dashboard/Index.html"/>
                 </div>
                 <div id="employee" style="display: none;">
@@ -173,7 +173,7 @@
                 <div id="profile" style="display: none;">
                     <jsp:include page="Views/Profile/Index.html"/>
                 </div>
-                <div id="mail-part" style="display: inline;">
+                <div id="mail-part" style="display: none;">
                     <jsp:include page="Views/Mail/index.jsp"/>
                 </div>
             </div> <!-- container -->
@@ -224,6 +224,7 @@
 <script src="assets/js/jquery.app.js"></script>
 
 <script src="assets/js/mainFunction.js"></script>
+<script src="assets/js/function.js"></script>
 
 </body>
 </html>

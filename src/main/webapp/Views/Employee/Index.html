@@ -1,28 +1,46 @@
 ﻿<div class="row">
-    
+    <div class="col-lg-3 col-sm-6">
+        <div class="widget-panel widget-style-2 bg-white">
+            <i class="md md-account-box text-primary"></i>
+            <h2 id="user_cnt" class="m-0 text-dark counter font-600"></h2>
+            <div class="text-muted m-t-5">تعداد کارمندان</div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-sm-6">
+        <div class="widget-panel widget-style-2 bg-white">
+            <i class="md md-account-box text-pink"></i>
+            <h2 id="master_cnt" class="m-0 text-dark counter font-600"></h2>
+            <div class="text-muted m-t-5">تعداد مدیران</div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-sm-6">
+        <div class="widget-panel widget-style-2 bg-white">
+            <i class="md md-phone text-info"></i>
+            <h2 id="tel_cnt" class="m-0 text-dark counter font-600"></h2>
+            <div class="text-muted m-t-5">تعداد شماره تلفن ثابت</div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-sm-6">
+        <div class="widget-panel widget-style-2 bg-white">
+            <i class="md md-phone text-custom"></i>
+            <h2 id="int_tel_cnt" class="m-0 text-dark counter font-600"></h2>
+            <div class="text-muted m-t-5">تعداد شماره داخلی</div>
+        </div>
+    </div>
+</div>
+<!--<a class="btn btn-success waves-effect waves-light" href="javascript:;" onclick="$.Notification.notify('success','bottom left','Sample Notification', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vitae orci ut dolor scelerisque aliquam.')">Success</a>-->
+<div class="row">
     <div class="col-sm-12">
         <div class="btn-group pull-right m-t-15">
-            <button type="button" class="btn btn-default dropdown-toggle waves-effect" data-toggle="dropdown" aria-expanded="false">عملیات <span class="m-l-5"><i class="fa fa-cog"></i></span></button>
-            <ul class="dropdown-menu drop-menu-right" role="menu">
-                <li>
-                    <button onclick="clearAddUserItems()" class="btn btn-default dropdown-toggle waves-effect" style="width: 96%;  margin: 2px 2px;">
-                        جدید <span class="m-l-5"><i class="fa fa-user-plus"></i></span>
-                    </button>
-                </li>
-                <li><button id="remove_btn" class="btn btn-danger dropdown-toggle waves-effect"  style="width: 96%;  margin: 2px 2px;">
-                    حذف <span class="m-l-5"><i class="fa fa-remove"></i></span>
-                </button></li>
-            </ul>
+            <button onclick="clearAddUserItems()" class="btn btn-default dropdown-toggle waves-effect">
+                جدید <span
+                    class="m-l-5"><i class="fa fa-user-plus"></i></span></button>
         </div>
-        <h4 class="page-title">مدیریت کارمندان</h4>
-        <ol class="breadcrumb">
-            <li>
-                <a href="#">پیشخوان</a>
-            </li>
-            <li class="active">
-                مدیریت کارمندان
-            </li>
-        </ol>
+        <div class="btn-group pull-right m-t-15">
+            <button id="remove_btn" class="btn btn-danger dropdown-toggle waves-effect">
+                حذف <span class="m-l-5"><i class="fa fa-remove"></i></span></button>
+        </div>
+        <h4 class="page-title">ثبت تلفن کارمند جدید</h4>
     </div>
 </div>
 <div class="row">
@@ -44,6 +62,15 @@
                                 <input type="radio" id="radio_female" value="female" name="radioInline">
                                 <label for="radio_female">خانم</label>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" style="height: 78px;">
+                    <div class="form-group">
+                        <label>تصویر</label>
+                        <div class="form-group">
+                            <input class="form-control" required id="image_view" name="image_view"
+                                   type="file">
                         </div>
                     </div>
                 </div>
@@ -100,36 +127,36 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" style="height: 85px;">
+                <!--                                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">-->
+                <!--                                    <div class="form-group">-->
+                <!--                                        <label>محل خدمت: استان</label>-->
+                <!--                                        <select class="form-control select2" name="state" id="state">-->
+                <!--                                            <option>انتخاب</option>-->
+                <!--                                        </select>-->
+                <!--                                    </div>-->
+                <!--                                </div>-->
+                <!--                                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">-->
+                <!--                                    <div class="form-group">-->
+                <!--                                        <label>محل خدمت: شهر</label>-->
+                <!--                                        <select class="form-control select2" name="city" id="city">-->
+                <!--                                            <option>انتخاب</option>-->
+                <!--                                        </select>-->
+                <!--                                    </div>-->
+                <!--                                </div>-->
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                     <div class="form-group">
-                        <label>تصویر</label>
+                        <label>واحد سازمانی</label>
                         <div class="form-group">
-                            <input class="form-control" required id="image_view" name="image_view"
-                                   type="file">
+                            <input class="form-control" required id="address" name="address"
+                                   type="text">
                         </div>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                     <div class="form-group">
-                        <label>محل خدمت: استان</label>
-                        <select class="form-control select2" name="state" id="state">
-                            <option>انتخاب</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                    <div class="form-group">
-                        <label>محل خدمت: شهر</label>
-                        <select class="form-control select2" name="city" id="city">
-                            <option>انتخاب</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                    <div class="form-group">
-                        <label> محل خدمت</label>
+                        <label>محل خدمت</label>
                         <div class="form-group">
-                            <input class="form-control" required id="address" name="address"
+                            <input class="form-control" required id="service_unit" name="address"
                                    type="text">
                         </div>
                     </div>
@@ -199,7 +226,8 @@
                     <div class="form-group">
                         <label>آدرس کامل</label>
                         <div class="form-group">
-                            <input class="form-control" required id="fullAddress" name="fullAddress" type="text">
+                            <input class="form-control" required id="fullAddress" name="fullAddress"
+                                   type="text">
                         </div>
                     </div>
                 </div>
@@ -229,4 +257,3 @@
 
 
 </div>
-<!-- end row -->

@@ -105,17 +105,19 @@ $(document).ready(function () {
     const uri = new URLSearchParams(window.location.search);
     localStorage.id = uri.get('id');
     localStorage.type = uri.get('type');
-    if (localStorage.type === true) {
+    if (localStorage.type === "true") {
         adminUserView();
     } else {
         manualUserView();
     }
     getUser();
     getEmails(localStorage.id);
-});
+})
+;
 
 function adminUserView() {
-
+    $('#employee-panel-menu').show();
+    $('#admin-dashboard-view').show();
 }
 
 function manualUserView() {
@@ -167,7 +169,7 @@ function getUser() {
     ajax_url = "/spadsystem/rest/get_user";
     ajax_method = "POST";
     ajax_content_type = "application/json";
-    ajax_data = JSON.stringify({"user_id": localStorage.id});
+    ajax_data = "";
     ajaxMasterFunction("G_User");
 }
 
